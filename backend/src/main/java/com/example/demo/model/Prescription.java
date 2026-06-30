@@ -21,6 +21,7 @@ public class Prescription {
     private String notes;
     @ManyToOne
     @JoinColumn(name = "user_id")
+    private User user;
     
 
 
