@@ -20,5 +20,10 @@ public class Pharmacy{
     private String city;
     @Column(nullable = false)
     private String pincode;
+    private String phone;
+    private Double latitude;
+    private Double longitude;
+    private String openingHours;
+
 
 }
