@@ -16,6 +16,9 @@ public class Interaction{
    @ManyToOne
    @JoinColumn(name = "medicine_two_id")
    private Medicine medicineTwo;
-   
+
+   @
+   @Column(length = 1000)
+   private String warningMessage;
 
 }
