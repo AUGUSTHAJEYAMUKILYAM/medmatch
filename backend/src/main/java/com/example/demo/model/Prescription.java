@@ -8,7 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 public class Prescription {
 
-    @ID
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    
+    private Long id;
+    @Column(nullable = )
+
 }
