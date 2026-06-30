@@ -6,4 +6,12 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class
+public class Interaction{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+   @ManyToOne
+   @JoinColumn(name = "medicine_one_id")
+   private  user;
+
+}
