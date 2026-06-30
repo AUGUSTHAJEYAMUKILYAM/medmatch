@@ -2,12 +2,12 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
-@Table(name="medicine")
+@Table(name="medicines")
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class medicine{
+public class Medicine{
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
@@ -23,6 +23,6 @@ private String strength;
 @Column(length = 1000)
 private String description;
 private String category;
-private boolean
+private boolean inStock;
 
 }
