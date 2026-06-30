@@ -4,4 +4,9 @@ import lombok.*;
 @Entity@Table(name="users")
 @Data
 @Builder
-@NoArgs
+@NoArgsConstructor
+@AllArgsConstructor
+public class User{
+    @Id
+    @GeneratedValue)()
+}
