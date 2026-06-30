@@ -12,6 +12,10 @@ public class Interaction{
     private Long id;
    @ManyToOne
    @JoinColumn(name = "medicine_one_id")
-   private  user;
+   private Medicine medicineOne;
+   @ManyToOne
+   @JoinColumn(name = "medicine_two_id")
+   private Medicine medicineTwo;
+   
 
 }
