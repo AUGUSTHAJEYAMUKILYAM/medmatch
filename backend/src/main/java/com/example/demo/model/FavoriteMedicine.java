@@ -1,12 +1,12 @@
 package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
-@Entity@Table(name="users")
+@Entity@Table(name="favorite_medicines")
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class User{
+public class FavoriteMedicine{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
