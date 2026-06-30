@@ -16,6 +16,6 @@ public class FavoriteMedicine{
 
    @ManyToOne
    @JoinColumn(name = "medicine_id")
-   private Medicine 
+   private Medicine medicine;
 
 }
