@@ -12,5 +12,12 @@ public class medicine{
 @GeneratedValue(strategy = GenerationType.IDENTITY)
 private Long id;
 
-@Column(nu)
+@Column(nullable = false)
+private String name;
+@Column(nullable = false)
+private String genericName;
+@Column(nullable = false)
+private String manufacturer;
+@Column
+private String name;
 }
