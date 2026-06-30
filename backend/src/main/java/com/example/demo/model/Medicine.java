@@ -3,4 +3,10 @@ import jakarta.persistence.*;
 import lombok.*;
 @Entity
 @Table(name="medicine")
-@DA
+@Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class medicine{
+@
+}
