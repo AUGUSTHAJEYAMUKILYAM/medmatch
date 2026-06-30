@@ -6,4 +6,11 @@ import lombok.*;
 @Data
 @Builder
 @NoArgsConstructor
-@
+@AllArgsConstructor
+public class Pharmacy{
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    @Column(nullable = false)
+    
+}
