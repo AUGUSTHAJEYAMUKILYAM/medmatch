@@ -17,6 +17,10 @@ public class Prescription {
     private String fileUrl;
     @Column(nullable = false)
     private LocalDateTime uploadData;
+
+    private String notes;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     
 
 
