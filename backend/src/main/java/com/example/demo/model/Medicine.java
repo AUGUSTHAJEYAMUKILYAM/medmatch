@@ -18,8 +18,11 @@ private String name;
 private String genericName;
 @Column(nullable = false)
 private String manufacturer;
-private String dosage
+private String dosageForm;
+private String strength;
 @Column(length = 1000)
+private String description;
 private String category;
+private boolean
 
 }
