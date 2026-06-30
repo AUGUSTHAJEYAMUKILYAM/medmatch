@@ -18,7 +18,7 @@ public class Interaction{
    private Medicine medicineTwo;
 
    @Column(nullable = false)
-   private String 
+   private String severity;
    @Column(length = 1000)
    private String warningMessage;
 
