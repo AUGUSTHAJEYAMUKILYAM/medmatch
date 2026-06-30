@@ -1,3 +1,7 @@
 package com.example.demo.entity;
 import jakarta.persistence.*;
-importy lombok
+import lombok.*;
+@Entity@Table(name="users")
+@Data
+@Builder
+@NoArgs
