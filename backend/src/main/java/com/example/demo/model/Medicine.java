@@ -8,5 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class medicine{
-@
+@Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+private Long id;
+
+@Column(nu)
 }
