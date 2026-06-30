@@ -2,7 +2,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 @Entity
-@Table(name="phar")
+@Table(name="pharmacies")
 @Data
 @Builder
 @NoArgsConstructor
@@ -20,6 +20,7 @@ public class Pharmacy{
     private String city;
     @Column(nullable = false)
     private String pincode;
+    
     private String phone;
     private Double latitude;
     private Double longitude;
