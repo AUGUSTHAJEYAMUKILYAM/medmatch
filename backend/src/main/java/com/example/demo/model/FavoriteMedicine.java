@@ -12,6 +12,10 @@ public class FavoriteMedicine{
     private Long id;
    @ManyToOne
    @JoinColumn(name = "user_id")
-   
+   private User user;
+
+   @ManyToOne
+   @JoinColumn(name = "medicine_id")
+   private Medicine 
 
 }
