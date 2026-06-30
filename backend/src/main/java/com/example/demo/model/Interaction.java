@@ -17,7 +17,8 @@ public class Interaction{
    @JoinColumn(name = "medicine_two_id")
    private Medicine medicineTwo;
 
-   @
+   @Column(nullable = false)
+   private String 
    @Column(length = 1000)
    private String warningMessage;
 
