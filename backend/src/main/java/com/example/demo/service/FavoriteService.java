@@ -34,10 +34,9 @@ public class FavoriteService {
             throw new RuntimeException("Already in favorites");
         }
 
-        FavoriteMedicine favorite = FavoriteMedicine.builder()
-                .user(user)
-                .medicine(medicine)
-                .build();
+        FavoriteMedicine favorite = new FavoriteMedicine();
+        favorite.setUser(user);
+        favorite.setMedicine(medicine);
 
         return repository.save(favorite);
     }
