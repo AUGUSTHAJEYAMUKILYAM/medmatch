@@ -2,7 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Medicine;
 import com.example.demo.service.MedicineService;
-import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -11,10 +11,13 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/medicines")
-@RequiredArgsConstructor
 public class MedicineController {
 
     private final MedicineService service;
+
+    public MedicineController(MedicineService service) {
+        this.service = service;
+    }
 
     @GetMapping
     public ResponseEntity<List<Medicine>> getAllMedicines() {
@@ -27,34 +30,26 @@ public class MedicineController {
     }
 
     @GetMapping("/search/{keyword}")
-    public ResponseEntity<List<Medicine>> searchMedicines(
-            @PathVariable String keyword) {
-
+    public ResponseEntity<List<Medicine>> searchMedicines(@PathVariable String keyword) {
         return ResponseEntity.ok(service.searchMedicines(keyword));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Medicine> saveMedicine(
-            @RequestBody Medicine medicine) {
-
-        return ResponseEntity.ok(service.saveMedicine(medicine));
+    public ResponseEntity<Medicine> saveMedicine(@RequestBody Medicine medicine) {
+        return new ResponseEntity<>(service.saveMedicine(medicine), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Medicine> updateMedicine(
-            @PathVariable Long id,
-            @RequestBody Medicine medicine) {
-
+    public ResponseEntity<Medicine> updateMedicine(@PathVariable Long id,
+                                                   @RequestBody Medicine medicine) {
         return ResponseEntity.ok(service.updateMedicine(id, medicine));
     }
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Void> deleteMedicine(
-            @PathVariable Long id) {
-
+    public ResponseEntity<Void> deleteMedicine(@PathVariable Long id) {
         service.deleteMedicine(id);
         return ResponseEntity.noContent().build();
     }

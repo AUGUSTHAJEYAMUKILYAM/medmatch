@@ -25,12 +25,12 @@ public class PrescriptionService {
                                          String notes,
                                          User user) {
 
-        Prescription prescription = Prescription.builder()
-                .fileUrl(fileUrl)
-                .notes(notes)
-                .uploadDate(LocalDateTime.now())
-                .user(user)
-                .build();
+        Prescription prescription = new Prescription();
+
+        prescription.setFileUrl(fileUrl);
+        prescription.setNotes(notes);
+        prescription.setUploadDate(LocalDateTime.now());
+        prescription.setUser(user);
 
         return repository.save(prescription);
     }
