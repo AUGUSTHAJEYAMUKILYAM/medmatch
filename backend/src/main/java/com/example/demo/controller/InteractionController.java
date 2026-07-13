@@ -1,8 +1,11 @@
-package com.example.demo.controller;
+=package com.example.demo.controller;
 
 import com.example.demo.dto.InteractionCheckRequest;
+import com.example.demo.model.Interaction;
 import com.example.demo.service.InteractionService;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/interactions")
@@ -15,7 +18,9 @@ public class InteractionController {
     }
 
     @PostMapping("/check")
-    public String checkInteractions(@RequestBody InteractionCheckRequest request) {
+    public List<Interaction> checkInteractions(
+            @RequestBody InteractionCheckRequest request) {
+
         return service.checkInteractions(request.getMedicineIds());
     }
 }
