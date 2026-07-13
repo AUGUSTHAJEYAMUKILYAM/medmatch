@@ -2,16 +2,18 @@ package com.example.demo.service;
 
 import com.example.demo.model.Medicine;
 import com.example.demo.repository.MedicineRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class MedicineService {
 
     private final MedicineRepository repository;
+
+    public MedicineService(MedicineRepository repository) {
+        this.repository = repository;
+    }
 
     public List<Medicine> getAllMedicines() {
         return repository.findAll();
@@ -23,10 +25,7 @@ public class MedicineService {
     }
 
     public List<Medicine> searchMedicines(String keyword) {
-        return repository
-                .findByNameContainingIgnoreCaseOrGenericNameContainingIgnoreCase(
-                        keyword,
-                        keyword);
+        return repository.findByNameContainingIgnoreCaseOrGenericNameContainingIgnoreCase(keyword, keyword);
     }
 
     public Medicine saveMedicine(Medicine medicine) {
