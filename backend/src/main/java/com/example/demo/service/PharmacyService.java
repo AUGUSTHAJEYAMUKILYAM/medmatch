@@ -18,6 +18,10 @@ public class PharmacyService {
     public List<Pharmacy> getAllPharmacies() {
         return repository.findAll();
     }
+    public Pharmacy getPharmacyById(Long id) {
+    return repository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Pharmacy not found"));
+}
 
     public List<Pharmacy> searchPharmacies(String keyword) {
         return repository.findByCityContainingIgnoreCaseOrPincode(keyword, keyword);
