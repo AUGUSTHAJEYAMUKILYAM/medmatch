@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.model.Pharmacy;
 import com.example.demo.service.PharmacyService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,13 +33,18 @@ public class PharmacyController {
     }
 
     @PutMapping("/{id}")
-    public Pharmacy updatePharmacy(@PathVariable Long id,
-                                   @RequestBody Pharmacy pharmacy) {
+    public Pharmacy updatePharmacy(
+            @PathVariable Long id,
+            @RequestBody Pharmacy pharmacy) {
+
         return service.updatePharmacy(id, pharmacy);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePharmacy(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePharmacy(@PathVariable Long id) {
+
         service.deletePharmacy(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

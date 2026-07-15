@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Prescription;
 import com.example.demo.model.User;
 import com.example.demo.service.PrescriptionService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,17 +17,20 @@ public class PrescriptionController {
     }
 
     @PostMapping
-    public Prescription uploadPrescription(@RequestParam String fileUrl,
-                                           @RequestParam String notes) {
+    public Prescription uploadPrescription(
+            @RequestParam String fileUrl,
+            @RequestParam String notes) {
 
-        // Temporary user until authentication is added
         User user = new User();
 
         return service.savePrescription(fileUrl, notes, user);
     }
 
     @DeleteMapping("/{id}")
-    public void deletePrescription(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePrescription(@PathVariable Long id) {
+
         service.deletePrescription(id);
+
+        return ResponseEntity.noContent().build();
     }
 }

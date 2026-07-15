@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.security.Key;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +42,9 @@ public class JwtService {
 
         Map<String, Object> claims = new HashMap<>();
 
-        if (!userDetails.getAuthorities().isEmpty()) {
+        Collection<?> authorities = userDetails.getAuthorities();
+
+        if (authorities != null && !authorities.isEmpty()) {
             claims.put(
                     "role",
                     userDetails.getAuthorities()
@@ -61,13 +64,12 @@ public class JwtService {
         return Jwts.builder()
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }
 
-    // Hidden tests may expect this exact method name
     public boolean validateToken(String token, UserDetails userDetails) {
         return isTokenValid(token, userDetails);
     }
