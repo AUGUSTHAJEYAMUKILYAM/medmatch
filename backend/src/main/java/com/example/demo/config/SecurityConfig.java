@@ -3,16 +3,12 @@ package com.example.demo.config;
 import com.example.demo.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.Customizer;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -38,8 +34,6 @@ public class SecurityConfig {
     }
 
 
-   
-
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
 
@@ -49,12 +43,23 @@ public class SecurityConfig {
                 List.of("http://localhost:3000"));
 
         configuration.setAllowedMethods(
-                List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                List.of(
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE",
+                        "OPTIONS"
+                ));
 
         configuration.setAllowedHeaders(
-                List.of("Authorization", "Content-Type"));
+                List.of(
+                        "Authorization",
+                        "Content-Type",
+                        "Accept"
+                ));
 
         configuration.setAllowCredentials(true);
+
 
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
@@ -64,38 +69,68 @@ public class SecurityConfig {
         return source;
     }
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http)
             throws Exception {
 
         http
+
+                // Disable CSRF for REST API
                 .csrf(csrf -> csrf.disable())
 
+                // Enable CORS
                 .cors(Customizer.withDefaults())
 
+                // JWT uses stateless sessions
                 .sessionManagement(session ->
                         session.sessionCreationPolicy(
-                                SessionCreationPolicy.STATELESS))
+                                SessionCreationPolicy.STATELESS
+                        ))
 
                 .authorizeHttpRequests(auth -> auth
 
-                        .requestMatchers("/api/auth/**").permitAll()
 
-                        .requestMatchers("/api/medicines/**").permitAll()
+                        // Authentication APIs
+                        .requestMatchers(
+                                "/api/auth/**"
+                        ).permitAll()
 
+
+                        // Swagger APIs
+                        .requestMatchers(
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/v3/api-docs/**"
+                        ).permitAll()
+
+
+                        // Medicine APIs
+                        .requestMatchers(
+                                "/api/medicines/**"
+                        ).permitAll()
+
+
+                        // Pharmacy APIs
                         .requestMatchers(
                                 "/api/pharmacies/search/**",
                                 "/api/pharmacies/nearby"
                         ).permitAll()
 
+
+                        // Everything else requires JWT
                         .anyRequest().authenticated()
                 )
 
+
                 .authenticationProvider(authenticationProvider)
+
 
                 .addFilterBefore(
                         jwtAuthenticationFilter,
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class
+                );
+
 
         return http.build();
     }
