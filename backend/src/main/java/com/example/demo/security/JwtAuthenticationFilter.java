@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                                    UserRepository userRepository) {
         this.jwtService = jwtService;
         this.userRepository = userRepository;
-    }
+    }   
 
     @Override
     protected void doFilterInternal(
