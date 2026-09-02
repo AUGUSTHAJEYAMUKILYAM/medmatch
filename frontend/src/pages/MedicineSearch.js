@@ -5,16 +5,17 @@ import {
   Row,
   Col,
   Tag,
-  Spin,
   Empty,
+  Spin,
   Typography,
 } from "antd";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 import {
   fetchMedicines,
   searchMedicines,
 } from "../store/medicineSlice";
-import { useNavigate } from "react-router-dom";
 
 const { Title } = Typography;
 
@@ -22,10 +23,9 @@ function MedicineSearch() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {
-    list,
-    loading,
-  } = useSelector((state) => state.medicines);
+  const { list, loading } = useSelector(
+    (state) => state.medicines
+  );
 
   useEffect(() => {
     dispatch(fetchMedicines());
@@ -39,25 +39,33 @@ function MedicineSearch() {
     }
   };
 
+  const handleClear = () => {
+    dispatch(fetchMedicines());
+  };
+
   return (
     <div>
-      <Title level={2}>
-        Medicine Search
-      </Title>
+      <Title level={2}>Medicine Search</Title>
 
       <Input.Search
         placeholder="Search by name or generic name..."
         size="large"
         allowClear
         onSearch={handleSearch}
+        onClear={handleClear}
         style={{
-          maxWidth: "700px",
+          maxWidth: "600px",
           marginBottom: "30px",
         }}
       />
 
       {loading ? (
-        <div style={{ textAlign: "center" }}>
+        <div
+          style={{
+            textAlign: "center",
+            padding: "50px",
+          }}
+        >
           <Spin size="large" />
         </div>
       ) : list.length === 0 ? (
@@ -68,7 +76,8 @@ function MedicineSearch() {
             <Col
               xs={24}
               sm={12}
-              lg={8}
+              md={8}
+              lg={6}
               key={medicine.id}
             >
               <Card
@@ -79,7 +88,7 @@ function MedicineSearch() {
                 }
               >
                 <p>
-                  <strong>Generic:</strong>{" "}
+                  <strong>Generic Name:</strong>{" "}
                   {medicine.genericName}
                 </p>
 
