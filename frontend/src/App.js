@@ -1,9 +1,7 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "antd";
-
-import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+import { useSelector } from "react-redux";
 
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
@@ -12,11 +10,9 @@ import MedicineSearch from "./pages/MedicineSearch";
 import MedicineDetails from "./pages/MedicineDetails";
 import InteractionChecker from "./pages/InteractionChecker";
 import PharmacyLocator from "./pages/PharmacyLocator";
-import Prescriptions from "./pages/Prescriptions";
+import Prescription from "./pages/Prescription";
 import Favorites from "./pages/Favorites";
 import AdminDashboard from "./pages/AdminDashboard";
-
-import { useSelector } from "react-redux";
 
 const { Content } = Layout;
 
@@ -48,18 +44,17 @@ function App() {
   return (
     <BrowserRouter>
       <Layout style={{ minHeight: "100vh" }}>
-        <Navbar />
-
         <Content style={{ padding: "24px 40px" }}>
           <Routes>
 
-            {/* Public */}
+            {/* Dashboard */}
             <Route path="/" element={<Dashboard />} />
 
+            {/* Authentication */}
             <Route path="/login" element={<Login />} />
-
             <Route path="/register" element={<Register />} />
 
+            {/* Medicines */}
             <Route
               path="/medicines"
               element={<MedicineSearch />}
@@ -70,22 +65,24 @@ function App() {
               element={<MedicineDetails />}
             />
 
+            {/* Interactions */}
             <Route
               path="/interactions"
               element={<InteractionChecker />}
             />
 
+            {/* Pharmacies */}
             <Route
               path="/pharmacies"
               element={<PharmacyLocator />}
             />
 
-            {/* Logged-in users */}
+            {/* Protected Pages */}
             <Route
               path="/prescriptions"
               element={
                 <ProtectedRoute>
-                  <Prescriptions />
+                  <Prescription />
                 </ProtectedRoute>
               }
             />
@@ -99,7 +96,7 @@ function App() {
               }
             />
 
-            {/* Admin only */}
+            {/* Admin */}
             <Route
               path="/admin"
               element={
@@ -117,8 +114,6 @@ function App() {
 
           </Routes>
         </Content>
-
-        <Footer />
       </Layout>
     </BrowserRouter>
   );
