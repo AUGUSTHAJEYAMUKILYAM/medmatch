@@ -1,8 +1,14 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import { Layout } from "antd";
 import { useSelector } from "react-redux";
 
+// Pages
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -10,12 +16,16 @@ import MedicineSearch from "./pages/MedicineSearch";
 import MedicineDetails from "./pages/MedicineDetails";
 import InteractionChecker from "./pages/InteractionChecker";
 import PharmacyLocator from "./pages/PharmacyLocator";
-import Prescription from "./pages/Prescription";
+import Prescriptions from "./pages/Prescriptions";
 import Favorites from "./pages/Favorites";
 import AdminDashboard from "./pages/AdminDashboard";
 
 const { Content } = Layout;
 
+
+// ===============================
+// Protected Route
+// ===============================
 function ProtectedRoute({ children }) {
   const { token } = useSelector((state) => state.auth);
 
@@ -26,35 +36,73 @@ function ProtectedRoute({ children }) {
   return children;
 }
 
-function AdminRoute({ children }) {
-  const { token, user } = useSelector((state) => state.auth);
 
+// ===============================
+// Admin Route
+// ===============================
+function AdminRoute({ children }) {
+  const { token, user, role } = useSelector(
+    (state) => state.auth
+  );
+
+  // Not logged in
   if (!token) {
     return <Navigate to="/login" replace />;
   }
 
-  if (!user || user.role !== "ADMIN") {
+  // Check admin role
+  if (role !== "ADMIN" && user?.role !== "ADMIN") {
     return <Navigate to="/" replace />;
   }
 
   return children;
 }
 
+
+// ===============================
+// Main App
+// ===============================
 function App() {
   return (
     <BrowserRouter>
-      <Layout style={{ minHeight: "100vh" }}>
-        <Content style={{ padding: "24px 40px" }}>
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
+      >
+        <Content
+          style={{
+            padding: "24px 40px",
+          }}
+        >
           <Routes>
 
-            {/* Dashboard */}
-            <Route path="/" element={<Dashboard />} />
+            {/* =========================
+                Dashboard
+            ========================== */}
+            <Route
+              path="/"
+              element={<Dashboard />}
+            />
 
-            {/* Authentication */}
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
 
-            {/* Medicines */}
+            {/* =========================
+                Authentication
+            ========================== */}
+            <Route
+              path="/login"
+              element={<Login />}
+            />
+
+            <Route
+              path="/register"
+              element={<Register />}
+            />
+
+
+            {/* =========================
+                Medicines
+            ========================== */}
             <Route
               path="/medicines"
               element={<MedicineSearch />}
@@ -65,28 +113,41 @@ function App() {
               element={<MedicineDetails />}
             />
 
-            {/* Interactions */}
+
+            {/* =========================
+                Interaction Checker
+            ========================== */}
             <Route
               path="/interactions"
               element={<InteractionChecker />}
             />
 
-            {/* Pharmacies */}
+
+            {/* =========================
+                Pharmacy Locator
+            ========================== */}
             <Route
               path="/pharmacies"
               element={<PharmacyLocator />}
             />
 
-            {/* Protected Pages */}
+
+            {/* =========================
+                Prescriptions
+            ========================== */}
             <Route
               path="/prescriptions"
               element={
                 <ProtectedRoute>
-                  <Prescription />
+                  <Prescriptions />
                 </ProtectedRoute>
               }
             />
 
+
+            {/* =========================
+                Favorites
+            ========================== */}
             <Route
               path="/favorites"
               element={
@@ -96,7 +157,10 @@ function App() {
               }
             />
 
-            {/* Admin */}
+
+            {/* =========================
+                Admin Dashboard
+            ========================== */}
             <Route
               path="/admin"
               element={
@@ -106,10 +170,18 @@ function App() {
               }
             />
 
-            {/* Unknown URL */}
+
+            {/* =========================
+                Unknown URL
+            ========================== */}
             <Route
               path="*"
-              element={<Navigate to="/" replace />}
+              element={
+                <Navigate
+                  to="/"
+                  replace
+                />
+              }
             />
 
           </Routes>
