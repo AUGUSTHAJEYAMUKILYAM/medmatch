@@ -53,96 +53,111 @@ function AdminRoute({ children }) {
   return children;
 }
 
+// function App() {
+//   return (
+//     <BrowserRouter>
+//       <Layout style={{ minHeight: "100vh" }}>
+//         <Navbar />
+
+//         <Content
+//           style={{
+//             padding: "30px 40px",
+//             minHeight: "calc(100vh - 134px)",
+//           }}
+//         >
+//           <Routes>
+//             {/* Public routes */}
+//             <Route
+//               path="/"
+//               element={<Dashboard />}
+//             />
+
+//             <Route
+//               path="/login"
+//               element={<Login />}
+//             />
+
+//             <Route
+//               path="/register"
+//               element={<Register />}
+//             />
+
+//             <Route
+//               path="/medicines"
+//               element={<MedicineSearch />}
+//             />
+
+//             <Route
+//               path="/medicines/:id"
+//               element={<MedicineDetails />}
+//             />
+
+//             <Route
+//               path="/interactions"
+//               element={<InteractionChecker />}
+//             />
+
+//             <Route
+//               path="/pharmacies"
+//               element={<PharmacyLocator />}
+//             />
+
+//             {/* Protected routes */}
+//             <Route
+//               path="/prescriptions"
+//               element={
+//                 <ProtectedRoute>
+//                   <Prescriptions />
+//                 </ProtectedRoute>
+//               }
+//             />
+
+//             <Route
+//               path="/favorites"
+//               element={
+//                 <ProtectedRoute>
+//                   <Favorites />
+//                 </ProtectedRoute>
+//               }
+//             />
+
+//             {/* Admin route */}
+//             <Route
+//               path="/admin"
+//               element={
+//                 <AdminRoute>
+//                   <AdminDashboard />
+//                 </AdminRoute>
+//               }
+//             />
+
+//             {/* Unknown URL */}
+//             <Route
+//               path="*"
+//               element={<Navigate to="/" replace />}
+//             />
+//           </Routes>
+//         </Content>
+
+//         <Footer />
+//       </Layout>
+//     </BrowserRouter>
+//   );
+// }
+
+// export default App;
+
 function App() {
   return (
     <BrowserRouter>
-      <Layout style={{ minHeight: "100vh" }}>
-        <Navbar />
+      <div>
+        <h1>MedMatch Test</h1>
 
-        <Content
-          style={{
-            padding: "30px 40px",
-            minHeight: "calc(100vh - 134px)",
-          }}
-        >
-          <Routes>
-            {/* Public routes */}
-            <Route
-              path="/"
-              element={<Dashboard />}
-            />
-
-            <Route
-              path="/login"
-              element={<Login />}
-            />
-
-            <Route
-              path="/register"
-              element={<Register />}
-            />
-
-            <Route
-              path="/medicines"
-              element={<MedicineSearch />}
-            />
-
-            <Route
-              path="/medicines/:id"
-              element={<MedicineDetails />}
-            />
-
-            <Route
-              path="/interactions"
-              element={<InteractionChecker />}
-            />
-
-            <Route
-              path="/pharmacies"
-              element={<PharmacyLocator />}
-            />
-
-            {/* Protected routes */}
-            <Route
-              path="/prescriptions"
-              element={
-                <ProtectedRoute>
-                  <Prescriptions />
-                </ProtectedRoute>
-              }
-            />
-
-            <Route
-              path="/favorites"
-              element={
-                <ProtectedRoute>
-                  <Favorites />
-                </ProtectedRoute>
-              }
-            />
-
-            {/* Admin route */}
-            <Route
-              path="/admin"
-              element={
-                <AdminRoute>
-                  <AdminDashboard />
-                </AdminRoute>
-              }
-            />
-
-            {/* Unknown URL */}
-            <Route
-              path="*"
-              element={<Navigate to="/" replace />}
-            />
-          </Routes>
-        </Content>
-
-        <Footer />
-      </Layout>
+        <Routes>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/medicines" element={<MedicineSearch />} />
+        </Routes>
+      </div>
     </BrowserRouter>
   );
 }
-
-export default App;
