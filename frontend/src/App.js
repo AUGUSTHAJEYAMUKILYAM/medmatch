@@ -9,11 +9,14 @@ import Dashboard from "./pages/Dashboard";
 import MedicineSearch from "./pages/MedicineSearch";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <BrowserRouter>
       <div>
+        <Navbar />
+
         <h1>MedMatch Test</h1>
 
         <Routes>
