@@ -26,9 +26,6 @@ const { Title, Text } = Typography;
 const defaultCenter = [20.5937, 78.9629];
 const defaultZoom = 5;
 
-/*
- * Updates the map whenever the selected pharmacy changes.
- */
 function MapUpdater({ center, zoom }) {
   const map = useMap();
 
@@ -46,16 +43,10 @@ function PharmacyLocator() {
   const [zoom, setZoom] = useState(defaultZoom);
   const [loading, setLoading] = useState(false);
 
-  /*
-   * Load all pharmacies when the page opens.
-   */
   useEffect(() => {
     loadPharmacies();
   }, []);
 
-  /*
-   * Load all pharmacies.
-   */
   const loadPharmacies = async () => {
     try {
       setLoading(true);
@@ -65,10 +56,6 @@ function PharmacyLocator() {
 
       setPharmacies(data);
 
-      /*
-       * If pharmacies exist, center the map
-       * on the first valid pharmacy.
-       */
       const firstValidPharmacy = data.find(
         (pharmacy) =>
           typeof pharmacy.latitude === "number" &&
@@ -93,18 +80,11 @@ function PharmacyLocator() {
     }
   };
 
-  /*
-   * Search pharmacies by city or pincode.
-   */
   const searchPharmacies = async (value) => {
     const query = value.trim();
 
     setSearchQuery(value);
 
-    /*
-     * If search box is empty,
-     * load all pharmacies again.
-     */
     if (!query) {
       loadPharmacies();
       return;
@@ -128,9 +108,6 @@ function PharmacyLocator() {
         return;
       }
 
-      /*
-       * Move map to the first pharmacy found.
-       */
       const firstValidPharmacy = data.find(
         (pharmacy) =>
           typeof pharmacy.latitude === "number" &&
@@ -155,9 +132,6 @@ function PharmacyLocator() {
     }
   };
 
-  /*
-   * Move the map to a particular pharmacy.
-   */
   const showOnMap = (pharmacy) => {
     if (
       typeof pharmacy.latitude !== "number" ||
@@ -165,7 +139,9 @@ function PharmacyLocator() {
       pharmacy.latitude === 0 ||
       pharmacy.longitude === 0
     ) {
-      message.warning("Location is not available for this pharmacy");
+      message.warning(
+        "Location is not available for this pharmacy"
+      );
       return;
     }
 
@@ -228,9 +204,6 @@ function PharmacyLocator() {
         />
 
         {pharmacies.map((pharmacy) => {
-          /*
-           * Ignore pharmacies with invalid coordinates.
-           */
           if (
             typeof pharmacy.latitude !== "number" ||
             typeof pharmacy.longitude !== "number" ||
@@ -250,9 +223,7 @@ function PharmacyLocator() {
             >
               <Popup>
                 <div>
-                  <strong>
-                    {pharmacy.name}
-                  </strong>
+                  <strong>{pharmacy.name}</strong>
 
                   <br />
 
@@ -265,17 +236,19 @@ function PharmacyLocator() {
                   <br />
 
                   <strong>Phone:</strong>{" "}
-                  {pharmacy.phone}
+                  {pharmacy.phone || "Not available"}
 
                   <br />
 
                   <strong>Hours:</strong>{" "}
-                  {pharmacy.hours || "Not available"}
+                  {pharmacy.openingHours ||
+                    "Not available"}
 
                   <br />
 
                   <strong>Pincode:</strong>{" "}
-                  {pharmacy.pincode || "Not available"}
+                  {pharmacy.pincode ||
+                    "Not available"}
                 </div>
               </Popup>
             </Marker>
@@ -312,7 +285,8 @@ function PharmacyLocator() {
 
                   <Text>
                     <strong>Phone:</strong>{" "}
-                    {pharmacy.phone}
+                    {pharmacy.phone ||
+                      "Not available"}
                   </Text>
 
                   <Text>
@@ -322,7 +296,7 @@ function PharmacyLocator() {
 
                   <Text>
                     <strong>Hours:</strong>{" "}
-                    {pharmacy.hours ||
+                    {pharmacy.openingHours ||
                       "Not available"}
                   </Text>
 
