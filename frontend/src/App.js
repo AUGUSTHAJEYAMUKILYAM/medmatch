@@ -25,6 +25,11 @@ import AdminDashboard from "./pages/AdminDashboard";
 
 const { Content } = Layout;
 
+
+/* =========================
+   PROTECTED ROUTE
+========================= */
+
 function ProtectedRoute({ children }) {
   const { token } = useSelector((state) => state.auth);
 
@@ -34,6 +39,11 @@ function ProtectedRoute({ children }) {
 
   return children;
 }
+
+
+/* =========================
+   ADMIN ROUTE
+========================= */
 
 function AdminRoute({ children }) {
   const { token, role, user } = useSelector(
@@ -54,18 +64,33 @@ function AdminRoute({ children }) {
   return children;
 }
 
+
+/* =========================
+   APP
+========================= */
+
 function App() {
   return (
     <BrowserRouter>
-      <Layout style={{ minHeight: "100vh" }}>
+
+      <Layout
+        style={{
+          minHeight: "100vh",
+        }}
+      >
+
+        {/* NAVBAR */}
         <Navbar />
 
+
+        {/* PAGE CONTENT */}
         <Content
           style={{
             padding: "30px 40px",
             minHeight: "calc(100vh - 134px)",
           }}
         >
+
           <Routes>
 
             {/* ================= PUBLIC ROUTES ================= */}
@@ -105,6 +130,7 @@ function App() {
               element={<PharmacyLocator />}
             />
 
+
             {/* ================= PROTECTED ROUTES ================= */}
 
             <Route
@@ -125,6 +151,7 @@ function App() {
               }
             />
 
+
             {/* ================= ADMIN ROUTE ================= */}
 
             <Route
@@ -136,18 +163,29 @@ function App() {
               }
             />
 
+
             {/* ================= UNKNOWN URL ================= */}
 
             <Route
               path="*"
-              element={<Navigate to="/" replace />}
+              element={
+                <Navigate
+                  to="/"
+                  replace
+                />
+              }
             />
 
           </Routes>
+
         </Content>
 
+
+        {/* FOOTER */}
         <Footer />
+
       </Layout>
+
     </BrowserRouter>
   );
 }
