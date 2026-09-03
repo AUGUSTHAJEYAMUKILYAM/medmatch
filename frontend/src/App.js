@@ -5,6 +5,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
+
 import { Layout } from "antd";
 import { useSelector } from "react-redux";
 
@@ -57,7 +58,6 @@ function App() {
   return (
     <BrowserRouter>
       <Layout style={{ minHeight: "100vh" }}>
-        
         <Navbar />
 
         <Content
@@ -68,7 +68,7 @@ function App() {
         >
           <Routes>
 
-            {/* Public routes */}
+            {/* ================= PUBLIC ROUTES ================= */}
 
             <Route
               path="/"
@@ -105,7 +105,7 @@ function App() {
               element={<PharmacyLocator />}
             />
 
-            {/* Protected routes */}
+            {/* ================= PROTECTED ROUTES ================= */}
 
             <Route
               path="/prescriptions"
@@ -125,7 +125,7 @@ function App() {
               }
             />
 
-            {/* Admin route */}
+            {/* ================= ADMIN ROUTE ================= */}
 
             <Route
               path="/admin"
@@ -136,7 +136,7 @@ function App() {
               }
             />
 
-            {/* Unknown URL */}
+            {/* ================= UNKNOWN URL ================= */}
 
             <Route
               path="*"
@@ -147,7 +147,6 @@ function App() {
         </Content>
 
         <Footer />
-
       </Layout>
     </BrowserRouter>
   );
