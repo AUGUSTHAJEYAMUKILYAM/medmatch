@@ -25,6 +25,8 @@
 //     }
 // }package com.example.demo.controller;
 
+package com.example.demo.controller;
+
 import com.example.demo.dto.InteractionCheckRequest;
 import com.example.demo.model.Interaction;
 import com.example.demo.service.InteractionService;
