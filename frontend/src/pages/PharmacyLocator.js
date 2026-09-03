@@ -7,6 +7,8 @@ import {
   Empty,
   Typography,
   message,
+  Button,
+  Space,
 } from "antd";
 import {
   MapContainer,
@@ -15,95 +17,164 @@ import {
   Popup,
   useMap,
 } from "react-leaflet";
+import { EnvironmentOutlined } from "@ant-design/icons";
 import "leaflet/dist/leaflet.css";
 import api from "../services/api";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
-const defaultCenter = [
-  20.5937,
-  78.9629,
-];
+const defaultCenter = [20.5937, 78.9629];
+const defaultZoom = 5;
 
-function MapUpdater({ center }) {
+/*
+ * Updates the map whenever the selected pharmacy changes.
+ */
+function MapUpdater({ center, zoom }) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, 12);
-  }, [center, map]);
+    map.setView(center, zoom);
+  }, [center, zoom, map]);
 
   return null;
 }
 
 function PharmacyLocator() {
-  const [pharmacies, setPharmacies] =
-    useState([]);
+  const [pharmacies, setPharmacies] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [center, setCenter] = useState(defaultCenter);
+  const [zoom, setZoom] = useState(defaultZoom);
+  const [loading, setLoading] = useState(false);
 
-  const [searchQuery, setSearchQuery] =
-    useState("");
-
-  const [center, setCenter] =
-    useState(defaultCenter);
-
+  /*
+   * Load all pharmacies when the page opens.
+   */
   useEffect(() => {
     loadPharmacies();
   }, []);
 
+  /*
+   * Load all pharmacies.
+   */
   const loadPharmacies = async () => {
     try {
-      const response =
-        await api.get("/pharmacies");
+      setLoading(true);
 
-      const data = response.data;
+      const response = await api.get("/pharmacies");
+      const data = response.data || [];
 
       setPharmacies(data);
 
-      if (data.length > 0) {
+      /*
+       * If pharmacies exist, center the map
+       * on the first valid pharmacy.
+       */
+      const firstValidPharmacy = data.find(
+        (pharmacy) =>
+          typeof pharmacy.latitude === "number" &&
+          typeof pharmacy.longitude === "number" &&
+          pharmacy.latitude !== 0 &&
+          pharmacy.longitude !== 0
+      );
+
+      if (firstValidPharmacy) {
         setCenter([
-          data[0].latitude,
-          data[0].longitude,
+          firstValidPharmacy.latitude,
+          firstValidPharmacy.longitude,
         ]);
+
+        setZoom(13);
       }
     } catch (error) {
-      message.error(
-        "Failed to load pharmacies"
-      );
+      console.error("Failed to load pharmacies:", error);
+      message.error("Failed to load pharmacies");
+    } finally {
+      setLoading(false);
     }
   };
 
+  /*
+   * Search pharmacies by city or pincode.
+   */
   const searchPharmacies = async (value) => {
+    const query = value.trim();
+
     setSearchQuery(value);
 
-    if (!value.trim()) {
+    /*
+     * If search box is empty,
+     * load all pharmacies again.
+     */
+    if (!query) {
       loadPharmacies();
       return;
     }
 
     try {
-      const response =
-        await api.get(
-          `/pharmacies/search/${encodeURIComponent(
-            value
-          )}`
-        );
+      setLoading(true);
 
-      const data = response.data;
+      const response = await api.get(
+        `/pharmacies/search/${encodeURIComponent(query)}`
+      );
+
+      const data = response.data || [];
 
       setPharmacies(data);
 
       if (data.length === 0) {
-        message.info(
-          "No pharmacies found in this area"
-        );
-      } else {
+        message.info("No pharmacies found");
+        setCenter(defaultCenter);
+        setZoom(defaultZoom);
+        return;
+      }
+
+      /*
+       * Move map to the first pharmacy found.
+       */
+      const firstValidPharmacy = data.find(
+        (pharmacy) =>
+          typeof pharmacy.latitude === "number" &&
+          typeof pharmacy.longitude === "number" &&
+          pharmacy.latitude !== 0 &&
+          pharmacy.longitude !== 0
+      );
+
+      if (firstValidPharmacy) {
         setCenter([
-          data[0].latitude,
-          data[0].longitude,
+          firstValidPharmacy.latitude,
+          firstValidPharmacy.longitude,
         ]);
+
+        setZoom(13);
       }
     } catch (error) {
+      console.error("Search failed:", error);
       message.error("Search failed");
+    } finally {
+      setLoading(false);
     }
+  };
+
+  /*
+   * Move the map to a particular pharmacy.
+   */
+  const showOnMap = (pharmacy) => {
+    if (
+      typeof pharmacy.latitude !== "number" ||
+      typeof pharmacy.longitude !== "number" ||
+      pharmacy.latitude === 0 ||
+      pharmacy.longitude === 0
+    ) {
+      message.warning("Location is not available for this pharmacy");
+      return;
+    }
+
+    setCenter([
+      pharmacy.latitude,
+      pharmacy.longitude,
+    ]);
+
+    setZoom(15);
   };
 
   return (
@@ -112,10 +183,19 @@ function PharmacyLocator() {
         Pharmacy Locator
       </Title>
 
+      <Text type="secondary">
+        Search pharmacies by city or pincode and view
+        their locations on the map.
+      </Text>
+
+      <br />
+      <br />
+
       <Input.Search
         placeholder="Search by City or Pincode..."
         size="large"
         allowClear
+        loading={loading}
         value={searchQuery}
         onChange={(e) =>
           setSearchQuery(e.target.value)
@@ -129,47 +209,78 @@ function PharmacyLocator() {
 
       <MapContainer
         center={center}
-        zoom={5}
+        zoom={zoom}
         style={{
           height: "500px",
           width: "100%",
           marginBottom: "30px",
+          borderRadius: "10px",
         }}
       >
         <TileLayer
-          attribution='&copy; OpenStreetMap contributors'
+          attribution="&copy; OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
 
-        <MapUpdater center={center} />
+        <MapUpdater
+          center={center}
+          zoom={zoom}
+        />
 
-        {pharmacies.map((pharmacy) => (
-          <Marker
-            key={pharmacy.id}
-            position={[
-              pharmacy.latitude,
-              pharmacy.longitude,
-            ]}
-          >
-            <Popup>
-              <strong>
-                {pharmacy.name}
-              </strong>
+        {pharmacies.map((pharmacy) => {
+          /*
+           * Ignore pharmacies with invalid coordinates.
+           */
+          if (
+            typeof pharmacy.latitude !== "number" ||
+            typeof pharmacy.longitude !== "number" ||
+            pharmacy.latitude === 0 ||
+            pharmacy.longitude === 0
+          ) {
+            return null;
+          }
 
-              <br />
+          return (
+            <Marker
+              key={pharmacy.id}
+              position={[
+                pharmacy.latitude,
+                pharmacy.longitude,
+              ]}
+            >
+              <Popup>
+                <div>
+                  <strong>
+                    {pharmacy.name}
+                  </strong>
 
-              {pharmacy.address}
+                  <br />
 
-              <br />
+                  {pharmacy.address}
 
-              {pharmacy.city}
+                  <br />
 
-              <br />
+                  {pharmacy.city}
 
-              Phone: {pharmacy.phone}
-            </Popup>
-          </Marker>
-        ))}
+                  <br />
+
+                  <strong>Phone:</strong>{" "}
+                  {pharmacy.phone}
+
+                  <br />
+
+                  <strong>Hours:</strong>{" "}
+                  {pharmacy.hours || "Not available"}
+
+                  <br />
+
+                  <strong>Pincode:</strong>{" "}
+                  {pharmacy.pincode || "Not available"}
+                </div>
+              </Popup>
+            </Marker>
+          );
+        })}
       </MapContainer>
 
       {pharmacies.length === 0 ? (
@@ -183,21 +294,55 @@ function PharmacyLocator() {
               lg={8}
               key={pharmacy.id}
             >
-              <Card title={pharmacy.name}>
-                <p>
-                  <strong>City:</strong>{" "}
-                  {pharmacy.city}
-                </p>
+              <Card
+                title={pharmacy.name}
+                hoverable
+              >
+                <Space
+                  direction="vertical"
+                  size="small"
+                  style={{
+                    width: "100%",
+                  }}
+                >
+                  <Text>
+                    <strong>City:</strong>{" "}
+                    {pharmacy.city}
+                  </Text>
 
-                <p>
-                  <strong>Phone:</strong>{" "}
-                  {pharmacy.phone}
-                </p>
+                  <Text>
+                    <strong>Phone:</strong>{" "}
+                    {pharmacy.phone}
+                  </Text>
 
-                <p>
-                  <strong>Address:</strong>{" "}
-                  {pharmacy.address}
-                </p>
+                  <Text>
+                    <strong>Address:</strong>{" "}
+                    {pharmacy.address}
+                  </Text>
+
+                  <Text>
+                    <strong>Hours:</strong>{" "}
+                    {pharmacy.hours ||
+                      "Not available"}
+                  </Text>
+
+                  <Text>
+                    <strong>Pincode:</strong>{" "}
+                    {pharmacy.pincode ||
+                      "Not available"}
+                  </Text>
+
+                  <Button
+                    type="primary"
+                    icon={<EnvironmentOutlined />}
+                    onClick={() =>
+                      showOnMap(pharmacy)
+                    }
+                    block
+                  >
+                    View on Map
+                  </Button>
+                </Space>
               </Card>
             </Col>
           ))}
