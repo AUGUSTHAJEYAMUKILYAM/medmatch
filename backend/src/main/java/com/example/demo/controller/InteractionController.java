@@ -1,4 +1,29 @@
-package com.example.demo.controller;
+// package com.example.demo.controller;
+
+// import com.example.demo.dto.InteractionCheckRequest;
+// import com.example.demo.model.Interaction;
+// import com.example.demo.service.InteractionService;
+// import org.springframework.web.bind.annotation.*;
+
+// import java.util.List;
+
+// @RestController
+// @RequestMapping("/api/interactions")
+// public class InteractionController {
+
+//     private final InteractionService service;
+
+//     public InteractionController(InteractionService service) {
+//         this.service = service;
+//     }
+
+//     @PostMapping("/check")
+//     public List<Interaction> checkInteractions(
+//             @RequestBody InteractionCheckRequest request) {
+
+//         return service.checkInteractions(request.getMedicineIds());
+//     }
+// }package com.example.demo.controller;
 
 import com.example.demo.dto.InteractionCheckRequest;
 import com.example.demo.model.Interaction;
@@ -20,6 +45,11 @@ public class InteractionController {
     @PostMapping("/check")
     public List<Interaction> checkInteractions(
             @RequestBody InteractionCheckRequest request) {
+
+        System.out.println("================================");
+        System.out.println("INTERACTION CONTROLLER CALLED");
+        System.out.println("Medicine IDs: " + request.getMedicineIds());
+        System.out.println("================================");
 
         return service.checkInteractions(request.getMedicineIds());
     }
