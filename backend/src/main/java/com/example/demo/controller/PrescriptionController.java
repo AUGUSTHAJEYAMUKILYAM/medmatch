@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/prescriptions")
 public class PrescriptionController {
@@ -16,22 +18,41 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    @PostMapping
-    public Prescription uploadPrescription(
-            @RequestParam String fileUrl,
-            @RequestParam(required = false, defaultValue = "") String notes,
+    // GET all prescriptions belonging to logged-in user
+    @GetMapping
+    public List<Prescription> getPrescriptions(
             Authentication authentication) {
 
         String username = authentication.getName();
 
-        return service.savePrescription(fileUrl, notes, username);
+        return service.getPrescriptions(username);
     }
 
+    // UPLOAD prescription
+    @PostMapping
+    public Prescription uploadPrescription(
+            @RequestParam("fileUrl") String fileUrl,
+            @RequestParam(value = "notes", required = false, defaultValue = "") String notes,
+            Authentication authentication) {
+
+        String username = authentication.getName();
+
+        return service.savePrescription(
+                fileUrl,
+                notes,
+                username
+        );
+    }
+
+    // DELETE prescription
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePrescription(
-            @PathVariable Long id) {
+            @PathVariable Long id,
+            Authentication authentication) {
 
-        service.deletePrescription(id);
+        String username = authentication.getName();
+
+        service.deletePrescription(id, username);
 
         return ResponseEntity.noContent().build();
     }

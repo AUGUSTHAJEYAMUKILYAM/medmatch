@@ -6,6 +6,8 @@ import com.example.demo.repository.PrescriptionRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PrescriptionService {
 
@@ -20,6 +22,17 @@ public class PrescriptionService {
         this.userRepository = userRepository;
     }
 
+    // Get prescriptions for logged-in user
+    public List<Prescription> getPrescriptions(String username) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        return prescriptionRepository.findByUser(user);
+    }
+
+    // Save prescription
     public Prescription savePrescription(
             String fileUrl,
             String notes,
@@ -38,7 +51,30 @@ public class PrescriptionService {
         return prescriptionRepository.save(prescription);
     }
 
-    public void deletePrescription(Long id) {
-        prescriptionRepository.deleteById(id);
+    // Delete only the logged-in user's prescription
+    public void deletePrescription(
+            Long id,
+            String username) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        Prescription prescription =
+                prescriptionRepository.findById(id)
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                        "Prescription not found"
+                                ));
+
+        if (!prescription.getUser().getId()
+                .equals(user.getId())) {
+
+            throw new RuntimeException(
+                    "You are not allowed to delete this prescription"
+            );
+        }
+
+        prescriptionRepository.delete(prescription);
     }
 }
