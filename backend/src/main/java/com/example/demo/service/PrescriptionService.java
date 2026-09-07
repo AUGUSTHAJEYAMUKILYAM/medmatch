@@ -23,17 +23,17 @@ public class PrescriptionService {
         this.userRepository = userRepository;
     }
 
-    // Get prescriptions for logged-in user
+    // Get prescriptions belonging to the logged-in user
     public List<Prescription> getPrescriptions(String username) {
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new RuntimeException("User not found: " + username));
 
         return prescriptionRepository.findByUser(user);
     }
 
-    // Save prescription
+    // Save prescription for the logged-in user
     public Prescription savePrescription(
             String fileUrl,
             String notes,
@@ -41,44 +41,40 @@ public class PrescriptionService {
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new RuntimeException("User not found: " + username));
+
+        // Make sure we are using the existing database user
+        if (user.getId() == null) {
+            throw new RuntimeException(
+                    "User has no database ID: " + username);
+        }
 
         Prescription prescription = new Prescription();
 
         prescription.setFileUrl(fileUrl);
         prescription.setNotes(notes);
-
-        // IMPORTANT: uploadDate cannot be null
         prescription.setUploadDate(LocalDateTime.now());
 
-        // Associate prescription with logged-in user
+        // Attach the existing persisted user
         prescription.setUser(user);
 
         return prescriptionRepository.save(prescription);
     }
 
-    // Delete prescription belonging to logged-in user
-    public void deletePrescription(
-            Long id,
-            String username) {
+    // Delete only the prescription belonging to the logged-in user
+    public void deletePrescription(Long id, String username) {
 
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
-                        new RuntimeException("User not found"));
+                        new RuntimeException("User not found: " + username));
 
-        Prescription prescription =
-                prescriptionRepository.findById(id)
-                        .orElseThrow(() ->
-                                new RuntimeException(
-                                        "Prescription not found"
-                                ));
+        Prescription prescription = prescriptionRepository.findById(id)
+                .orElseThrow(() ->
+                        new RuntimeException("Prescription not found"));
 
-        if (!prescription.getUser().getId()
-                .equals(user.getId())) {
-
+        if (!prescription.getUser().getId().equals(user.getId())) {
             throw new RuntimeException(
-                    "You are not allowed to delete this prescription"
-            );
+                    "You are not allowed to delete this prescription");
         }
 
         prescriptionRepository.delete(prescription);
