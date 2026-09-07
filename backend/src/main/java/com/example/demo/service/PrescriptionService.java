@@ -3,39 +3,42 @@ package com.example.demo.service;
 import com.example.demo.model.Prescription;
 import com.example.demo.model.User;
 import com.example.demo.repository.PrescriptionRepository;
+import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
 
 @Service
 public class PrescriptionService {
 
-    private final PrescriptionRepository repository;
+    private final PrescriptionRepository prescriptionRepository;
+    private final UserRepository userRepository;
 
-    public PrescriptionService(PrescriptionRepository repository) {
-        this.repository = repository;
+    public PrescriptionService(
+            PrescriptionRepository prescriptionRepository,
+            UserRepository userRepository) {
+
+        this.prescriptionRepository = prescriptionRepository;
+        this.userRepository = userRepository;
     }
 
-    public List<Prescription> getPrescriptionsByUser(User user) {
-        return repository.findByUser(user);
-    }
+    public Prescription savePrescription(
+            String fileUrl,
+            String notes,
+            String username) {
 
-    public Prescription savePrescription(String fileUrl,
-                                         String notes,
-                                         User user) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
 
         Prescription prescription = new Prescription();
 
         prescription.setFileUrl(fileUrl);
         prescription.setNotes(notes);
-        prescription.setUploadDate(LocalDateTime.now());
         prescription.setUser(user);
 
-        return repository.save(prescription);
+        return prescriptionRepository.save(prescription);
     }
 
     public void deletePrescription(Long id) {
-        repository.deleteById(id);
+        prescriptionRepository.deleteById(id);
     }
 }
