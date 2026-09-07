@@ -6,6 +6,7 @@ import com.example.demo.repository.PrescriptionRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -46,12 +47,17 @@ public class PrescriptionService {
 
         prescription.setFileUrl(fileUrl);
         prescription.setNotes(notes);
+
+        // IMPORTANT: uploadDate cannot be null
+        prescription.setUploadDate(LocalDateTime.now());
+
+        // Associate prescription with logged-in user
         prescription.setUser(user);
 
         return prescriptionRepository.save(prescription);
     }
 
-    // Delete only the logged-in user's prescription
+    // Delete prescription belonging to logged-in user
     public void deletePrescription(
             Long id,
             String username) {

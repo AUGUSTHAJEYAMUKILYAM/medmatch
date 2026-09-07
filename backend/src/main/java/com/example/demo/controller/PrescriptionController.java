@@ -18,7 +18,6 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    // GET all prescriptions belonging to logged-in user
     @GetMapping
     public List<Prescription> getPrescriptions(
             Authentication authentication) {
@@ -28,7 +27,6 @@ public class PrescriptionController {
         return service.getPrescriptions(username);
     }
 
-    // UPLOAD prescription
     @PostMapping
     public Prescription uploadPrescription(
             @RequestParam("fileUrl") String fileUrl,
@@ -44,7 +42,6 @@ public class PrescriptionController {
         );
     }
 
-    // DELETE prescription
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePrescription(
             @PathVariable Long id,
