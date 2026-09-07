@@ -1,9 +1,9 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.Prescription;
-import com.example.demo.model.User;
 import com.example.demo.service.PrescriptionService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,15 +19,17 @@ public class PrescriptionController {
     @PostMapping
     public Prescription uploadPrescription(
             @RequestParam String fileUrl,
-            @RequestParam String notes) {
+            @RequestParam(required = false, defaultValue = "") String notes,
+            Authentication authentication) {
 
-        User user = new User();
+        String username = authentication.getName();
 
-        return service.savePrescription(fileUrl, notes, user);
+        return service.savePrescription(fileUrl, notes, username);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePrescription(@PathVariable Long id) {
+    public ResponseEntity<Void> deletePrescription(
+            @PathVariable Long id) {
 
         service.deletePrescription(id);
 
