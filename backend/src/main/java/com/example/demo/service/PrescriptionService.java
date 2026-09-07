@@ -5,6 +5,7 @@ import com.example.demo.model.User;
 import com.example.demo.repository.PrescriptionRepository;
 import com.example.demo.repository.UserRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +24,7 @@ public class PrescriptionService {
         this.userRepository = userRepository;
     }
 
-    // Get prescriptions belonging to the logged-in user
+    @Transactional(readOnly = true)
     public List<Prescription> getPrescriptions(String username) {
 
         User user = userRepository.findByUsername(username)
@@ -33,21 +34,23 @@ public class PrescriptionService {
         return prescriptionRepository.findByUser(user);
     }
 
-    // Save prescription for the logged-in user
+    @Transactional
     public Prescription savePrescription(
             String fileUrl,
             String notes,
             String username) {
 
+        // Get the EXISTING user from the database
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() ->
                         new RuntimeException("User not found: " + username));
 
-        // Make sure we are using the existing database user
-        if (user.getId() == null) {
-            throw new RuntimeException(
-                    "User has no database ID: " + username);
-        }
+        System.out.println(
+                "Saving prescription for user: "
+                        + user.getUsername()
+                        + " | ID: "
+                        + user.getId()
+        );
 
         Prescription prescription = new Prescription();
 
@@ -55,13 +58,13 @@ public class PrescriptionService {
         prescription.setNotes(notes);
         prescription.setUploadDate(LocalDateTime.now());
 
-        // Attach the existing persisted user
+        // Attach the existing managed user
         prescription.setUser(user);
 
         return prescriptionRepository.save(prescription);
     }
 
-    // Delete only the prescription belonging to the logged-in user
+    @Transactional
     public void deletePrescription(Long id, String username) {
 
         User user = userRepository.findByUsername(username)
@@ -72,9 +75,12 @@ public class PrescriptionService {
                 .orElseThrow(() ->
                         new RuntimeException("Prescription not found"));
 
-        if (!prescription.getUser().getId().equals(user.getId())) {
+        if (prescription.getUser() == null ||
+                !prescription.getUser().getId().equals(user.getId())) {
+
             throw new RuntimeException(
-                    "You are not allowed to delete this prescription");
+                    "You are not allowed to delete this prescription"
+            );
         }
 
         prescriptionRepository.delete(prescription);
