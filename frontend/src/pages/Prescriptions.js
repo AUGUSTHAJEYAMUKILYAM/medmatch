@@ -18,28 +18,33 @@ import api from "../services/api";
 const { Title } = Typography;
 
 function Prescriptions() {
-  const [prescriptions, setPrescriptions] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(false);
-
-  const [modalOpen, setModalOpen] =
-    useState(false);
+  const [prescriptions, setPrescriptions] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const [form] = Form.useForm();
+
+  // --------------------------------------------------
+  // LOAD PRESCRIPTIONS
+  // --------------------------------------------------
 
   const loadPrescriptions = async () => {
     setLoading(true);
 
     try {
-      const response =
-        await api.get("/prescriptions");
+      const response = await api.get("/prescriptions");
 
-      setPrescriptions(response.data);
+      console.log("Prescriptions loaded:", response.data);
+
+      setPrescriptions(response.data || []);
     } catch (error) {
+      console.error("Failed to load prescriptions:", error);
+      console.error("Status:", error.response?.status);
+      console.error("Response:", error.response?.data);
+
       message.error(
-        "Failed to load prescriptions"
+        error.response?.data?.message ||
+          "Failed to load prescriptions"
       );
     } finally {
       setLoading(false);
@@ -50,28 +55,70 @@ function Prescriptions() {
     loadPrescriptions();
   }, []);
 
+  // --------------------------------------------------
+  // SUBMIT PRESCRIPTION
+  // --------------------------------------------------
+
   const handleSubmit = async (values) => {
+    console.log("Prescription form submitted:", values);
+
     try {
-      await api.post(
+      const response = await api.post(
         "/prescriptions",
         null,
         {
-          params: values,
+          params: {
+            fileUrl: values.fileUrl,
+            notes: values.notes || "",
+          },
         }
+      );
+
+      console.log(
+        "Prescription upload response:",
+        response.data
       );
 
       message.success(
         "Prescription uploaded successfully"
       );
 
+      // Close modal
       setModalOpen(false);
+
+      // Clear form
       form.resetFields();
 
-      loadPrescriptions();
+      // Reload prescriptions
+      await loadPrescriptions();
+
     } catch (error) {
-      message.error("Upload failed");
+      console.error(
+        "Prescription upload error:",
+        error
+      );
+
+      console.error(
+        "Status:",
+        error.response?.status
+      );
+
+      console.error(
+        "Response:",
+        error.response?.data
+      );
+
+      message.error(
+        error.response?.data?.message ||
+          error.response?.data ||
+          "Upload failed"
+      );
     }
   };
+
+  // --------------------------------------------------
+  // DELETE PRESCRIPTION
+  // --------------------------------------------------
 
   const handleDelete = async (id) => {
     try {
@@ -79,13 +126,28 @@ function Prescriptions() {
         `/prescriptions/${id}`
       );
 
-      message.success("Deleted successfully");
+      message.success(
+        "Prescription deleted successfully"
+      );
 
-      loadPrescriptions();
+      await loadPrescriptions();
+
     } catch (error) {
-      message.error("Delete failed");
+      console.error(
+        "Delete prescription error:",
+        error
+      );
+
+      message.error(
+        error.response?.data?.message ||
+          "Delete failed"
+      );
     }
   };
+
+  // --------------------------------------------------
+  // TABLE COLUMNS
+  // --------------------------------------------------
 
   const columns = [
     {
@@ -97,11 +159,15 @@ function Prescriptions() {
           ? new Date(date).toLocaleDateString()
           : "-",
     },
+
     {
       title: "Notes",
       dataIndex: "notes",
       key: "notes",
+      render: (notes) =>
+        notes || "-",
     },
+
     {
       title: "File",
       dataIndex: "fileUrl",
@@ -119,12 +185,16 @@ function Prescriptions() {
           "-"
         ),
     },
+
     {
       title: "Action",
       key: "action",
       render: (_, record) => (
         <Popconfirm
           title="Delete prescription?"
+          description="Are you sure you want to delete this prescription?"
+          okText="Yes"
+          cancelText="No"
           onConfirm={() =>
             handleDelete(record.id)
           }
@@ -140,8 +210,14 @@ function Prescriptions() {
     },
   ];
 
+  // --------------------------------------------------
+  // UI
+  // --------------------------------------------------
+
   return (
     <div>
+      {/* HEADER */}
+
       <div
         style={{
           display: "flex",
@@ -150,25 +226,39 @@ function Prescriptions() {
           marginBottom: "20px",
         }}
       >
-        <Title level={2}>
+        <Title
+          level={2}
+          style={{ margin: 0 }}
+        >
           Prescriptions
         </Title>
 
         <Button
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => setModalOpen(true)}
+          onClick={() => {
+            form.resetFields();
+            setModalOpen(true);
+          }}
         >
           Upload Prescription
         </Button>
       </div>
+
+      {/* PRESCRIPTION TABLE */}
 
       <Table
         loading={loading}
         columns={columns}
         dataSource={prescriptions}
         rowKey="id"
+        locale={{
+          emptyText:
+            "No prescriptions uploaded yet",
+        }}
       />
+
+      {/* UPLOAD MODAL */}
 
       <Modal
         title="Upload Prescription"
@@ -177,13 +267,20 @@ function Prescriptions() {
           setModalOpen(false);
           form.resetFields();
         }}
-        onOk={() => form.submit()}
+        onOk={() => {
+          console.log("OK button clicked");
+          form.submit();
+        }}
+        okText="Upload"
+        cancelText="Cancel"
       >
         <Form
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
         >
+          {/* FILE URL */}
+
           <Form.Item
             label="File URL"
             name="fileUrl"
@@ -193,17 +290,26 @@ function Prescriptions() {
                 message:
                   "Please input the file URL!",
               },
+              {
+                type: "url",
+                message:
+                  "Please enter a valid URL!",
+              },
             ]}
           >
-            <Input placeholder="https://example.com/prescription.pdf" />
+            <Input
+              placeholder="https://example.com/prescription.pdf"
+            />
           </Form.Item>
 
+          {/* NOTES */}
+
           <Form.Item
-            label="Notes"
+            label="Description / Notes"
             name="notes"
           >
             <Input.TextArea
-              placeholder="Add notes..."
+              placeholder="Add prescription details or notes..."
               rows={4}
             />
           </Form.Item>
