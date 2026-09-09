@@ -1,12 +1,12 @@
 /* =========================================
-   MEDMATCH DASHBOARD
+   DASHBOARD / HOME
 ========================================= */
 
 .dashboard {
   width: 100%;
-  max-width: 1400px;
-  margin: 0 auto;
-  color: #102a2b;
+  min-height: 100vh;
+  background: #f7faf8;
+  color: #102a2a;
 }
 
 
@@ -15,86 +15,136 @@
 ========================================= */
 
 .hero-section {
+  position: relative;
+  overflow: hidden;
+
+  margin: 0 2%;
+
   min-height: 500px;
-  margin: -30px -40px 0;
-  padding: 70px 8%;
+  padding: 75px 7%;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
+
+  border-radius: 0 0 40px 40px;
 
   background:
     radial-gradient(
-      circle at 85% 40%,
-      rgba(35, 106, 91, 0.18),
-      transparent 30%
+      circle at 82% 35%,
+      rgba(52, 157, 123, 0.30),
+      transparent 34%
     ),
     linear-gradient(
       135deg,
-      #061f2b 0%,
-      #083b3b 55%,
-      #0b5145 100%
+      #071f2a 0%,
+      #0b3440 55%,
+      #075b4b 100%
     );
 
   color: white;
-  position: relative;
+
+  box-shadow:
+    0 18px 45px rgba(7, 31, 42, 0.10);
 }
 
+
+/* Decorative glow */
+
+.hero-section::before {
+  content: "";
+
+  position: absolute;
+
+  width: 380px;
+  height: 380px;
+
+  right: -120px;
+  top: -160px;
+
+  border-radius: 50%;
+
+  background: rgba(119, 214, 178, 0.08);
+
+  pointer-events: none;
+}
+
+.hero-section::after {
+  content: "";
+
+  position: absolute;
+
+  width: 220px;
+  height: 220px;
+
+  left: 42%;
+  bottom: -150px;
+
+  border-radius: 50%;
+
+  background: rgba(119, 214, 178, 0.06);
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   HERO CONTENT
+========================================= */
 
 .hero-content {
-  max-width: 680px;
   position: relative;
   z-index: 2;
-}
 
+  max-width: 690px;
+}
 
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 9px;
 
-  padding: 8px 14px;
+  margin-bottom: 20px;
 
-  border: 1px solid rgba(255,255,255,0.2);
-  border-radius: 30px;
-
-  background: rgba(255,255,255,0.08);
+  color: #8ee0bf;
 
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
+  font-weight: 800;
+  letter-spacing: 1.7px;
 }
-
 
 .hero-badge .anticon {
-  color: #6ee7b7;
+  font-size: 17px;
 }
 
 
-.hero-section h1 {
-  margin: 22px 0 18px;
+.hero-content h1 {
+  margin: 0 0 22px;
 
-  font-size: clamp(44px, 5vw, 72px);
-  line-height: 1.04;
-  letter-spacing: -2px;
-  font-weight: 800;
+  color: white;
+
+  font-size: clamp(42px, 5.5vw, 70px);
+  line-height: 1.02;
+
+  font-weight: 700;
+
+  letter-spacing: -2.5px;
 }
 
-
-.hero-section h1 span {
-  color: #68d7b3;
+.hero-content h1 span {
+  color: #77d6b2;
 }
 
 
 .hero-description {
   max-width: 610px;
 
-  font-size: 17px;
-  line-height: 1.8;
+  margin-bottom: 30px;
 
-  color: rgba(255,255,255,0.72);
+  color: rgba(255,255,255,0.70);
 
-  margin-bottom: 28px;
+  font-size: 16px;
+  line-height: 1.75;
 }
 
 
@@ -103,75 +153,96 @@
 ========================================= */
 
 .hero-search {
-  width: min(620px, 100%);
+  width: min(670px, 100%);
 
   display: flex;
   align-items: center;
 
+  padding: 7px;
+
   background: white;
 
-  border-radius: 10px;
-
-  padding: 6px 7px 6px 16px;
+  border-radius: 16px;
 
   box-shadow:
-    0 15px 40px rgba(0,0,0,0.18);
+    0 18px 45px rgba(0,0,0,0.20);
 }
 
+.search-icon {
+  margin-left: 16px;
 
-.hero-search .search-icon {
-  color: #607477;
+  color: #16836b;
+
   font-size: 20px;
 }
 
-
 .hero-search .ant-input {
-  flex: 1;
-  height: 42px;
+  height: 48px;
 
-  font-size: 14px;
+  font-size: 15px;
 }
-
 
 .hero-search .ant-btn {
-  height: 42px;
+  height: 48px;
 
-  background: #0b6b59;
-  border-color: #0b6b59;
+  padding: 0 25px;
 
-  border-radius: 7px;
+  border: none;
+  border-radius: 11px;
 
-  font-weight: 600;
+  background: #13866d;
 }
 
+.hero-search .ant-btn:hover {
+  background: #0d705c !important;
+}
+
+
+/* =========================================
+   HERO ACTION BUTTONS
+========================================= */
 
 .hero-actions {
-  margin-top: 22px;
-
   display: flex;
   gap: 12px;
+
+  margin-top: 20px;
 }
 
-
 .hero-actions .ant-btn {
-  height: 44px;
+  height: 46px;
 
-  border-radius: 7px;
+  padding: 0 22px;
+
+  border-radius: 11px;
 
   font-weight: 600;
 }
 
-
 .hero-actions .ant-btn-primary {
-  background: #36a88a;
-  border-color: #36a88a;
+  border: none;
+
+  background: #16836b;
 }
 
+.hero-actions .ant-btn-primary:hover {
+  background: #0d705c !important;
+}
 
 .hero-actions .ant-btn:not(.ant-btn-primary) {
+  border: 1px solid rgba(255,255,255,0.20);
+
   background: rgba(255,255,255,0.08);
+
   color: white;
-  border-color: rgba(255,255,255,0.25);
+}
+
+.hero-actions .ant-btn:not(.ant-btn-primary):hover {
+  border-color: rgba(255,255,255,0.40);
+
+  background: rgba(255,255,255,0.14);
+
+  color: white;
 }
 
 
@@ -180,46 +251,51 @@
 ========================================= */
 
 .hero-visual {
-  width: 380px;
-  height: 380px;
-
   position: relative;
+  z-index: 2;
+
+  width: 350px;
+  height: 340px;
 
   display: flex;
   align-items: center;
   justify-content: center;
-
-  margin-right: 40px;
 }
 
 
+/* Main medical circle */
+
 .medical-circle {
-  width: 270px;
-  height: 270px;
+  width: 230px;
+  height: 230px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 
   border-radius: 50%;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
   background:
     radial-gradient(
-      circle at 35% 30%,
-      #79e1bd,
-      #197b68 70%
+      circle,
+      rgba(119,214,178,0.22),
+      rgba(255,255,255,0.04)
     );
 
+  border: 1px solid rgba(255,255,255,0.12);
+
+  color: #8ee0bf;
+
+  font-size: 90px;
+
   box-shadow:
-    0 30px 80px rgba(0,0,0,0.25);
-
-  font-size: 105px;
-
-  color: white;
-
-  border: 12px solid rgba(255,255,255,0.08);
+    0 25px 60px rgba(0,0,0,0.20);
 }
 
+
+/* =========================================
+   FLOATING CARDS
+========================================= */
 
 .floating-card {
   position: absolute;
@@ -228,209 +304,223 @@
   align-items: center;
   gap: 11px;
 
-  padding: 13px 17px;
+  padding: 13px 16px;
 
-  background: rgba(255,255,255,0.96);
+  border-radius: 14px;
 
-  color: #123435;
+  background: rgba(255,255,255,0.10);
 
-  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.14);
+
+  backdrop-filter: blur(12px);
 
   box-shadow:
-    0 15px 40px rgba(0,0,0,0.18);
-
-  min-width: 190px;
+    0 15px 35px rgba(0,0,0,0.15);
 }
-
 
 .floating-card .anticon {
-  font-size: 25px;
-  color: #15916f;
-}
+  color: #8ee0bf;
 
+  font-size: 21px;
+}
 
 .floating-card strong {
   display: block;
-  font-size: 13px;
-}
 
+  color: white;
+
+  font-size: 12px;
+}
 
 .floating-card span {
   display: block;
-  font-size: 11px;
-  color: #728284;
-  margin-top: 3px;
-}
 
+  margin-top: 2px;
+
+  color: rgba(255,255,255,0.55);
+
+  font-size: 10px;
+}
 
 .floating-card-one {
-  top: 45px;
-  right: -15px;
+  left: -5px;
+  bottom: 35px;
 }
 
-
 .floating-card-two {
-  bottom: 40px;
-  left: -30px;
+  right: -5px;
+  top: 35px;
 }
 
 
 /* =========================================
-   SERVICES
+   SERVICES SECTION
 ========================================= */
 
 .services-section {
-  padding: 80px 5%;
+  padding: 85px 8% 70px;
 }
-
 
 .section-heading {
   display: flex;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: space-between;
 
-  margin-bottom: 38px;
+  gap: 40px;
+
+  margin-bottom: 40px;
 }
 
-
 .section-label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #16836b;
+
   font-size: 11px;
   font-weight: 800;
 
-  letter-spacing: 2px;
-
-  color: #168267;
+  letter-spacing: 1.7px;
 }
 
+.section-heading h2 {
+  margin: 0;
 
-.section-heading h2,
-.trust-heading h2 {
-  margin: 8px 0 0;
+  color: #102a2a;
 
-  font-size: 38px;
+  font-size: 36px;
   line-height: 1.15;
 
   letter-spacing: -1px;
-
-  color: #0b3032;
 }
 
-
-.section-heading > p {
-  max-width: 410px;
+.section-heading p {
+  max-width: 430px;
 
   margin: 0;
 
-  color: #708184;
+  color: #718582;
 
+  font-size: 14px;
   line-height: 1.7;
 }
 
 
 /* =========================================
-   SERVICE CARDS
+   SERVICE GRID
 ========================================= */
 
 .service-grid {
   display: grid;
 
   grid-template-columns:
-    repeat(4, 1fr);
+    repeat(4, minmax(0, 1fr));
 
   gap: 18px;
 }
 
 
+/* Service cards are intentionally softer */
+
 .service-card {
-  padding: 28px 24px;
+  position: relative;
 
-  min-height: 275px;
+  padding: 28px 25px;
 
-  background: white;
-
-  border: 1px solid #e4ebea;
-
-  border-radius: 12px;
+  min-height: 245px;
 
   cursor: pointer;
 
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease,
-    border-color 0.25s ease;
+  background: white;
 
-  position: relative;
-}
+  border: 1px solid #e5eeea;
 
-
-.service-card:hover {
-  transform: translateY(-6px);
-
-  border-color: #9bcdbf;
+  border-radius: 22px;
 
   box-shadow:
-    0 18px 45px rgba(10, 65, 58, 0.11);
+    0 5px 18px rgba(16,42,42,0.035);
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-7px);
+
+  border-color: #b9ded2;
+
+  box-shadow:
+    0 18px 40px rgba(16,42,42,0.10);
 }
 
 
+/* Service icon */
+
 .service-icon {
-  width: 55px;
-  height: 55px;
+  width: 52px;
+  height: 52px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  border-radius: 10px;
+  margin-bottom: 22px;
 
-  font-size: 25px;
+  border-radius: 15px;
 
-  margin-bottom: 23px;
+  font-size: 23px;
 }
-
 
 .service-icon.green {
-  background: #e2f4ee;
-  color: #08765f;
+  background: #e8f6f1;
+
+  color: #16836b;
 }
 
-
 .service-icon.navy {
-  background: #e7eef2;
-  color: #123d50;
+  background: #eaf0f3;
+
+  color: #123e4a;
 }
 
 
 .service-card h3 {
-  font-size: 18px;
+  margin: 0 0 10px;
 
-  color: #102f31;
+  color: #102a2a;
 
-  margin-bottom: 10px;
+  font-size: 17px;
+  font-weight: 700;
 }
 
-
 .service-card p {
-  color: #738183;
+  margin: 0 0 22px;
+
+  color: #7a8c88;
 
   font-size: 13px;
-
-  line-height: 1.7;
-
-  margin-bottom: 22px;
+  line-height: 1.65;
 }
 
 
 .service-link {
   display: flex;
   align-items: center;
-  gap: 7px;
+  gap: 8px;
 
-  color: #08765f;
+  color: #16836b;
 
   font-size: 12px;
-
   font-weight: 700;
+
+  transition: gap 0.2s ease;
+}
+
+.service-card:hover .service-link {
+  gap: 13px;
 }
 
 
@@ -439,93 +529,93 @@
 ========================================= */
 
 .prescription-banner {
-  margin: 0 5% 80px;
+  margin: 10px 8% 80px;
 
-  padding: 35px 42px;
+  padding: 34px 38px;
 
   display: flex;
   align-items: center;
 
-  gap: 28px;
+  gap: 22px;
+
+  border-radius: 25px;
 
   background:
     linear-gradient(
-      120deg,
-      #082d39,
-      #0b4c4a
+      135deg,
+      #082c38,
+      #075747
     );
 
-  border-radius: 14px;
-
-  color: white;
-
   box-shadow:
-    0 18px 45px rgba(8,45,57,0.16);
+    0 18px 40px rgba(7,44,56,0.12);
 }
 
-
 .prescription-icon {
-  width: 70px;
-  height: 70px;
+  flex-shrink: 0;
 
-  border-radius: 12px;
-
-  background: rgba(255,255,255,0.1);
+  width: 62px;
+  height: 62px;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-size: 32px;
+  border-radius: 17px;
 
-  color: #72d9b7;
+  background: rgba(255,255,255,0.10);
+
+  color: #8ee0bf;
+
+  font-size: 27px;
 }
-
 
 .prescription-content {
   flex: 1;
 }
 
-
 .banner-label {
+  display: block;
+
+  margin-bottom: 7px;
+
+  color: #8ee0bf;
+
   font-size: 10px;
-
-  letter-spacing: 1.8px;
-
-  color: #72d9b7;
-
   font-weight: 800;
-}
 
+  letter-spacing: 1.5px;
+}
 
 .prescription-content h2 {
-  margin: 7px 0;
+  margin: 0 0 8px;
 
-  font-size: 27px;
+  color: white;
 
+  font-size: 25px;
   line-height: 1.2;
 }
-
 
 .prescription-content p {
   margin: 0;
 
-  color: rgba(255,255,255,0.65);
+  color: rgba(255,255,255,0.60);
 
   font-size: 13px;
+  line-height: 1.6;
 }
 
-
 .prescription-banner .ant-btn {
-  height: 44px;
+  height: 45px;
+
+  padding: 0 21px;
 
   border: none;
+  border-radius: 10px;
 
-  border-radius: 7px;
+  color: #0a493e;
 
   font-weight: 600;
-
-  color: #0b3a3a;
 }
 
 
@@ -534,63 +624,71 @@
 ========================================= */
 
 .trust-section {
-  padding: 30px 5% 80px;
+  padding: 30px 8% 80px;
 
   display: grid;
 
-  grid-template-columns: 0.8fr 1.5fr;
+  grid-template-columns: 0.8fr 1.2fr;
 
   gap: 80px;
 }
 
+.trust-heading h2 {
+  margin: 0;
+
+  color: #102a2a;
+
+  font-size: 36px;
+  line-height: 1.15;
+
+  letter-spacing: -1px;
+}
 
 .trust-items {
   display: flex;
   flex-direction: column;
-
-  gap: 24px;
 }
-
 
 .trust-item {
   display: flex;
 
-  gap: 20px;
+  gap: 22px;
 
-  padding-bottom: 23px;
+  padding: 22px 0;
 
-  border-bottom: 1px solid #e4e9e8;
+  border-bottom: 1px solid #e3ece8;
 }
 
+.trust-item:first-child {
+  padding-top: 0;
+}
 
 .trust-number {
-  font-size: 12px;
+  color: #16836b;
 
+  font-size: 12px;
   font-weight: 800;
 
-  color: #188168;
-
-  padding-top: 3px;
+  letter-spacing: 1px;
 }
-
 
 .trust-item h3 {
-  margin: 0 0 6px;
+  margin: 0 0 5px;
 
-  color: #17383a;
+  color: #173632;
 
-  font-size: 18px;
+  font-size: 16px;
 }
 
-
 .trust-item p {
+  max-width: 500px;
+
   margin: 0;
 
-  color: #758486;
-
-  line-height: 1.7;
+  color: #7a8c88;
 
   font-size: 13px;
+  line-height: 1.6;
 }
 
 
@@ -599,54 +697,60 @@
 ========================================= */
 
 .bottom-cta {
-  margin: 0 5% 70px;
+  margin: 0 8% 60px;
 
-  padding: 42px 45px;
+  padding: 48px 50px;
 
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 
-  border-top: 1px solid #dce6e3;
+  gap: 30px;
 
-  border-bottom: 1px solid #dce6e3;
+  border-radius: 28px;
+
+  background: #edf6f2;
 }
 
+.bottom-cta > div > span {
+  display: block;
 
-.bottom-cta span {
+  margin-bottom: 9px;
+
+  color: #16836b;
+
   font-size: 10px;
-
   font-weight: 800;
 
-  letter-spacing: 1.8px;
-
-  color: #168267;
+  letter-spacing: 1.5px;
 }
-
 
 .bottom-cta h2 {
-  margin: 7px 0 0;
+  margin: 0;
 
-  font-size: 32px;
+  color: #102a2a;
 
-  line-height: 1.2;
+  font-size: 30px;
+  line-height: 1.15;
 
-  color: #0b3032;
+  letter-spacing: -0.8px;
 }
 
+.bottom-cta .ant-btn {
+  height: 48px;
 
-.bottom-cta .ant-btn-primary {
-  background: #0b5d50;
+  padding: 0 23px;
 
-  border-color: #0b5d50;
+  border: none;
+  border-radius: 11px;
 
-  height: 46px;
-
-  border-radius: 7px;
+  background: #16836b;
 
   font-weight: 600;
+}
+
+.bottom-cta .ant-btn:hover {
+  background: #0d705c !important;
 }
 
 
@@ -656,79 +760,92 @@
 
 @media (max-width: 1100px) {
 
-  .hero-section {
-    padding-left: 6%;
-    padding-right: 6%;
+  .service-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
   }
 
   .hero-visual {
-    width: 300px;
-    height: 300px;
-
-    margin-right: 0;
+    width: 290px;
   }
 
   .medical-circle {
-    width: 220px;
-    height: 220px;
+    width: 200px;
+    height: 200px;
 
-    font-size: 80px;
+    font-size: 75px;
   }
 
-  .floating-card {
-    transform: scale(0.9);
+  .trust-section {
+    gap: 45px;
   }
-
-  .service-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
 }
 
 
-@media (max-width: 800px) {
+@media (max-width: 850px) {
 
   .hero-section {
-    margin-left: -20px;
-    margin-right: -20px;
+    margin: 0;
 
-    padding: 55px 25px;
+    padding: 60px 7%;
 
-    flex-direction: column;
-
-    align-items: flex-start;
+    border-radius: 0 0 32px 32px;
   }
 
   .hero-visual {
     display: none;
   }
 
+  .hero-content {
+    max-width: 100%;
+  }
+
   .section-heading {
+    align-items: flex-start;
     flex-direction: column;
 
-    align-items: flex-start;
-
-    gap: 18px;
+    gap: 15px;
   }
 
   .trust-section {
     grid-template-columns: 1fr;
 
-    gap: 35px;
+    gap: 40px;
   }
-
-  .prescription-banner {
-    margin-left: 3%;
-    margin-right: 3%;
-  }
-
 }
 
 
 @media (max-width: 600px) {
 
-  .hero-section h1 {
+  .hero-section {
+    min-height: auto;
+
+    padding: 55px 6%;
+  }
+
+  .hero-content h1 {
     font-size: 43px;
+    letter-spacing: -1.5px;
+  }
+
+  .hero-description {
+    font-size: 14px;
+  }
+
+  .hero-search {
+    flex-wrap: wrap;
+
+    padding: 7px;
+  }
+
+  .hero-search .ant-input {
+    min-width: 160px;
+  }
+
+  .hero-search .ant-btn {
+    width: 100%;
+
+    margin-top: 5px;
   }
 
   .hero-actions {
@@ -739,49 +856,57 @@
     width: 100%;
   }
 
-  .hero-search {
-    padding-left: 10px;
+  .services-section {
+    padding: 60px 6%;
+  }
+
+  .section-heading h2 {
+    font-size: 30px;
   }
 
   .service-grid {
     grid-template-columns: 1fr;
   }
 
-  .services-section {
-    padding-left: 3%;
-    padding-right: 3%;
-  }
-
-  .section-heading h2,
-  .trust-heading h2 {
-    font-size: 30px;
+  .service-card {
+    min-height: auto;
   }
 
   .prescription-banner {
-    flex-direction: column;
-
-    align-items: flex-start;
+    margin: 0 6% 60px;
 
     padding: 28px;
+
+    align-items: flex-start;
+    flex-direction: column;
   }
 
   .prescription-banner .ant-btn {
     width: 100%;
   }
 
-  .bottom-cta {
-    margin-left: 3%;
-    margin-right: 3%;
+  .trust-section {
+    padding: 10px 6% 60px;
+  }
 
-    flex-direction: column;
+  .trust-heading h2 {
+    font-size: 30px;
+  }
+
+  .bottom-cta {
+    margin: 0 6% 40px;
+
+    padding: 35px 28px;
 
     align-items: flex-start;
+    flex-direction: column;
+  }
 
-    gap: 25px;
+  .bottom-cta h2 {
+    font-size: 27px;
   }
 
   .bottom-cta .ant-btn {
     width: 100%;
   }
-
 }
