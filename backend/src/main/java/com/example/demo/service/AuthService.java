@@ -18,26 +18,36 @@ public class AuthService {
     private final UserRepository repository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
-    private final AuthenticationManager authenticationManager;  
+    private final AuthenticationManager authenticationManager;
 
-    public AuthService(UserRepository repository,
-                       PasswordEncoder passwordEncoder,
-                       JwtService jwtService,
-                       AuthenticationManager authenticationManager) {
+    public AuthService(
+            UserRepository repository,
+            PasswordEncoder passwordEncoder,
+            JwtService jwtService,
+            AuthenticationManager authenticationManager) {
+
         this.repository = repository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;
     }
 
+    // =========================================================
+    // REGISTER
+    // =========================================================
+
     public AuthenticationResponse register(RegisterRequest request) {
 
         User user = new User();
+
         user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword()));
+        user.setPassword(
+                passwordEncoder.encode(request.getPassword())
+        );
         user.setFullName(request.getFullName());
         user.setEmail(request.getEmail());
 
+        // Restore previous registration behavior
         if (request.getRole() == null) {
             user.setRole(Role.USER);
         } else {
@@ -48,13 +58,19 @@ public class AuthService {
 
         String token = jwtService.generateToken(user);
 
-        AuthenticationResponse response = new AuthenticationResponse();
+        AuthenticationResponse response =
+                new AuthenticationResponse();
+
         response.setToken(token);
         response.setUsername(user.getUsername());
         response.setRole(user.getRole().name());
 
         return response;
     }
+
+    // =========================================================
+    // LOGIN
+    // =========================================================
 
     public AuthenticationResponse login(LoginRequest request) {
 
@@ -65,12 +81,17 @@ public class AuthService {
                 )
         );
 
-        User user = repository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+        User user = repository
+                .findByUsername(request.getUsername())
+                .orElseThrow(
+                        () -> new RuntimeException("User not found")
+                );
 
         String token = jwtService.generateToken(user);
 
-        AuthenticationResponse response = new AuthenticationResponse();
+        AuthenticationResponse response =
+                new AuthenticationResponse();
+
         response.setToken(token);
         response.setUsername(user.getUsername());
         response.setRole(user.getRole().name());
