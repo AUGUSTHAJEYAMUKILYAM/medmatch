@@ -1,593 +1,685 @@
-/* =========================================================
-   MEDMATCH HOME PAGE
-========================================================= */
+/* =========================================
+   MEDMATCH DASHBOARD
+========================================= */
 
 .dashboard {
-  max-width: 1250px;
+  width: 100%;
+  max-width: 1400px;
   margin: 0 auto;
-  padding-bottom: 50px;
+  color: #102a2b;
 }
 
 
-/* =========================================================
+/* =========================================
    HERO
-========================================================= */
+========================================= */
 
 .hero-section {
-  min-height: 470px;
+  min-height: 500px;
+  margin: -30px -40px 0;
+  padding: 70px 8%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 60px;
-  padding: 55px 50px;
-  margin: 10px 0 55px;
-  border-radius: 24px;
+  overflow: hidden;
+
   background:
+    radial-gradient(
+      circle at 85% 40%,
+      rgba(35, 106, 91, 0.18),
+      transparent 30%
+    ),
     linear-gradient(
       135deg,
-      #eef7ff 0%,
-      #f8fbff 48%,
-      #ffffff 100%
+      #061f2b 0%,
+      #083b3b 55%,
+      #0b5145 100%
     );
-  border: 1px solid #e4edf6;
-  overflow: hidden;
+
+  color: white;
   position: relative;
 }
 
 
-/* subtle medical background */
-
-.hero-section::before {
-  content: "";
-  position: absolute;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: rgba(22, 119, 255, 0.06);
-  right: -100px;
-  top: -140px;
-}
-
-.hero-section::after {
-  content: "";
-  position: absolute;
-  width: 260px;
-  height: 260px;
-  border-radius: 50%;
-  background: rgba(82, 196, 26, 0.05);
-  left: -130px;
-  bottom: -150px;
-}
-
-
-/* =========================================================
-   HERO CONTENT
-========================================================= */
-
 .hero-content {
-  flex: 1;
-  max-width: 650px;
+  max-width: 680px;
   position: relative;
   z-index: 2;
 }
+
 
 .hero-badge {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 13px;
+  gap: 9px;
+
+  padding: 8px 14px;
+
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 30px;
-  background: #ffffff;
-  border: 1px solid #dce9f5;
-  color: #1677ff;
-  font-size: 13px;
-  font-weight: 600;
-  margin-bottom: 20px;
+
+  background: rgba(255,255,255,0.08);
+
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
 }
 
-.hero-title {
-  margin: 0 !important;
-  font-size: 52px !important;
-  line-height: 1.08 !important;
-  font-weight: 750 !important;
-  letter-spacing: -1.5px;
-  color: #102a43 !important;
+
+.hero-badge .anticon {
+  color: #6ee7b7;
 }
 
-.hero-title span {
-  color: #1677ff;
+
+.hero-section h1 {
+  margin: 22px 0 18px;
+
+  font-size: clamp(44px, 5vw, 72px);
+  line-height: 1.04;
+  letter-spacing: -2px;
+  font-weight: 800;
 }
+
+
+.hero-section h1 span {
+  color: #68d7b3;
+}
+
 
 .hero-description {
+  max-width: 610px;
+
   font-size: 17px;
-  line-height: 1.7;
-  color: #61758a;
-  max-width: 600px;
-  margin: 22px 0 28px !important;
+  line-height: 1.8;
+
+  color: rgba(255,255,255,0.72);
+
+  margin-bottom: 28px;
 }
 
-.hero-buttons {
+
+/* =========================================
+   HERO SEARCH
+========================================= */
+
+.hero-search {
+  width: min(620px, 100%);
+
+  display: flex;
+  align-items: center;
+
+  background: white;
+
+  border-radius: 10px;
+
+  padding: 6px 7px 6px 16px;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.18);
+}
+
+
+.hero-search .search-icon {
+  color: #607477;
+  font-size: 20px;
+}
+
+
+.hero-search .ant-input {
+  flex: 1;
+  height: 42px;
+
+  font-size: 14px;
+}
+
+
+.hero-search .ant-btn {
+  height: 42px;
+
+  background: #0b6b59;
+  border-color: #0b6b59;
+
+  border-radius: 7px;
+
+  font-weight: 600;
+}
+
+
+.hero-actions {
+  margin-top: 22px;
+
   display: flex;
   gap: 12px;
 }
 
-.primary-hero-btn {
-  height: 48px !important;
-  padding: 0 23px !important;
-  border-radius: 9px !important;
+
+.hero-actions .ant-btn {
+  height: 44px;
+
+  border-radius: 7px;
+
   font-weight: 600;
 }
 
-.secondary-hero-btn {
-  height: 48px !important;
-  padding: 0 22px !important;
-  border-radius: 9px !important;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-weight: 600;
-}
 
-.trust-points {
-  display: flex;
-  gap: 22px;
-  margin-top: 28px;
-  flex-wrap: wrap;
-}
-
-.trust-points div {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  color: #60758a;
-}
-
-.trust-points svg {
-  color: #52c41a;
+.hero-actions .ant-btn-primary {
+  background: #36a88a;
+  border-color: #36a88a;
 }
 
 
-/* =========================================================
+.hero-actions .ant-btn:not(.ant-btn-primary) {
+  background: rgba(255,255,255,0.08);
+  color: white;
+  border-color: rgba(255,255,255,0.25);
+}
+
+
+/* =========================================
    HERO VISUAL
-========================================================= */
+========================================= */
 
 .hero-visual {
-  width: 390px;
-  height: 360px;
+  width: 380px;
+  height: 380px;
+
   position: relative;
-  flex-shrink: 0;
-  z-index: 2;
-}
 
-.medical-circle {
-  position: absolute;
-  border-radius: 50%;
-}
-
-.medical-circle.large {
-  width: 320px;
-  height: 320px;
-  right: 5px;
-  top: 20px;
-  background: #dceeff;
-}
-
-.medical-circle.small {
-  width: 180px;
-  height: 180px;
-  left: 0;
-  bottom: 0;
-  background: #e9f8e5;
-}
-
-
-/* Main medical card */
-
-.medical-card {
-  position: absolute;
-  width: 265px;
-  height: 145px;
-  top: 90px;
-  left: 60px;
-  border-radius: 18px;
-  background: #ffffff;
-  box-shadow: 0 18px 45px rgba(28, 75, 110, 0.15);
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  padding: 25px;
-}
-
-.medical-card-icon {
-  width: 65px;
-  height: 65px;
-  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #e8f3ff;
-  color: #1677ff;
-  font-size: 32px;
-}
 
-.medical-label {
-  font-size: 10px;
-  letter-spacing: 1.5px;
-  color: #8b9aaa;
-  font-weight: 700;
-}
-
-.medical-card h3 {
-  margin: 4px 0;
-  font-size: 21px;
-  color: #102a43;
-}
-
-.medical-card p {
-  margin: 0;
-  font-size: 12px;
-  color: #7c8c9c;
+  margin-right: 40px;
 }
 
 
-/* Floating cards */
+.medical-circle {
+  width: 270px;
+  height: 270px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background:
+    radial-gradient(
+      circle at 35% 30%,
+      #79e1bd,
+      #197b68 70%
+    );
+
+  box-shadow:
+    0 30px 80px rgba(0,0,0,0.25);
+
+  font-size: 105px;
+
+  color: white;
+
+  border: 12px solid rgba(255,255,255,0.08);
+}
+
 
 .floating-card {
   position: absolute;
-  background: #ffffff;
-  box-shadow: 0 12px 35px rgba(25, 67, 100, 0.14);
-  border-radius: 12px;
-  padding: 12px 15px;
+
   display: flex;
   align-items: center;
   gap: 11px;
-  z-index: 4;
+
+  padding: 13px 17px;
+
+  background: rgba(255,255,255,0.96);
+
+  color: #123435;
+
+  border-radius: 10px;
+
+  box-shadow:
+    0 15px 40px rgba(0,0,0,0.18);
+
+  min-width: 190px;
 }
 
-.floating-card svg {
-  font-size: 23px;
+
+.floating-card .anticon {
+  font-size: 25px;
+  color: #15916f;
 }
 
-.floating-card div {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
 
 .floating-card strong {
-  font-size: 12px;
-  color: #1d3448;
+  display: block;
+  font-size: 13px;
 }
+
 
 .floating-card span {
-  font-size: 10px;
-  color: #8a9aaa;
-}
-
-.interaction-card {
-  right: -5px;
-  top: 35px;
-}
-
-.interaction-card svg {
-  color: #52c41a;
-}
-
-.pharmacy-card {
-  left: -10px;
-  bottom: 25px;
-}
-
-.pharmacy-card svg {
-  color: #722ed1;
+  display: block;
+  font-size: 11px;
+  color: #728284;
+  margin-top: 3px;
 }
 
 
-/* =========================================================
-   QUICK SERVICES
-========================================================= */
-
-.quick-section {
-  margin-bottom: 55px;
+.floating-card-one {
+  top: 45px;
+  right: -15px;
 }
+
+
+.floating-card-two {
+  bottom: 40px;
+  left: -30px;
+}
+
+
+/* =========================================
+   SERVICES
+========================================= */
+
+.services-section {
+  padding: 80px 5%;
+}
+
 
 .section-heading {
   display: flex;
   justify-content: space-between;
-  align-items: end;
-  gap: 40px;
-  margin-bottom: 25px;
+  align-items: flex-end;
+
+  margin-bottom: 38px;
 }
+
 
 .section-label {
-  display: block;
   font-size: 11px;
-  letter-spacing: 1.7px;
-  font-weight: 700;
-  color: #1677ff;
-  margin-bottom: 7px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  color: #168267;
 }
 
-.section-heading h2 {
-  margin: 0 !important;
-  color: #102a43 !important;
+
+.section-heading h2,
+.trust-heading h2 {
+  margin: 8px 0 0;
+
+  font-size: 38px;
+  line-height: 1.15;
+
+  letter-spacing: -1px;
+
+  color: #0b3032;
 }
 
-.section-heading p {
-  max-width: 350px;
-  color: #7a8b9b;
+
+.section-heading > p {
+  max-width: 410px;
+
   margin: 0;
-  text-align: right;
+
+  color: #708184;
+
+  line-height: 1.7;
 }
 
 
-/* =========================================================
+/* =========================================
    SERVICE CARDS
-========================================================= */
+========================================= */
 
-.services-grid {
+.service-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
   gap: 18px;
 }
 
+
 .service-card {
-  min-height: 245px;
-  padding: 25px;
-  border-radius: 17px;
-  background: #ffffff;
-  border: 1px solid #e8eef4;
+  padding: 28px 24px;
+
+  min-height: 275px;
+
+  background: white;
+
+  border: 1px solid #e4ebea;
+
+  border-radius: 12px;
+
   cursor: pointer;
+
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
     border-color 0.25s ease;
+
   position: relative;
-  overflow: hidden;
 }
 
-.service-card::after {
-  content: "";
-  position: absolute;
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  right: -35px;
-  bottom: -35px;
-  opacity: 0.5;
-}
 
 .service-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 35px rgba(30, 70, 100, 0.12);
+
+  border-color: #9bcdbf;
+
+  box-shadow:
+    0 18px 45px rgba(10, 65, 58, 0.11);
 }
+
 
 .service-icon {
   width: 55px;
   height: 55px;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 14px;
-  font-size: 26px;
+
+  border-radius: 10px;
+
+  font-size: 25px;
+
+  margin-bottom: 23px;
+}
+
+
+.service-icon.green {
+  background: #e2f4ee;
+  color: #08765f;
+}
+
+
+.service-icon.navy {
+  background: #e7eef2;
+  color: #123d50;
+}
+
+
+.service-card h3 {
+  font-size: 18px;
+
+  color: #102f31;
+
+  margin-bottom: 10px;
+}
+
+
+.service-card p {
+  color: #738183;
+
+  font-size: 13px;
+
+  line-height: 1.7;
+
   margin-bottom: 22px;
 }
 
-.service-content h3 {
-  margin: 0 0 9px;
-  font-size: 17px;
-  color: #162f43;
-}
-
-.service-content p {
-  font-size: 13px;
-  line-height: 1.65;
-  color: #7a8b9b;
-  min-height: 63px;
-  margin-bottom: 18px;
-}
 
 .service-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-
-/* Card colors */
-
-.service-blue .service-icon {
-  background: #e8f3ff;
-  color: #1677ff;
-}
-
-.service-blue::after {
-  background: #dbeeff;
-}
-
-.service-blue .service-link {
-  color: #1677ff;
-}
-
-
-.service-green .service-icon {
-  background: #eaf8e6;
-  color: #389e0d;
-}
-
-.service-green::after {
-  background: #e1f5d8;
-}
-
-.service-green .service-link {
-  color: #389e0d;
-}
-
-
-.service-purple .service-icon {
-  background: #f1e9ff;
-  color: #722ed1;
-}
-
-.service-purple::after {
-  background: #eee2ff;
-}
-
-.service-purple .service-link {
-  color: #722ed1;
-}
-
-
-.service-orange .service-icon {
-  background: #fff1e6;
-  color: #d46b08;
-}
-
-.service-orange::after {
-  background: #ffead6;
-}
-
-.service-orange .service-link {
-  color: #d46b08;
-}
-
-
-/* =========================================================
-   HEALTH BANNER
-========================================================= */
-
-.health-banner {
-  min-height: 170px;
-  padding: 30px 35px;
-  border-radius: 18px;
-  background: #102a43;
   display: flex;
   align-items: center;
-  gap: 25px;
-  margin-bottom: 45px;
-  position: relative;
-  overflow: hidden;
+  gap: 7px;
+
+  color: #08765f;
+
+  font-size: 12px;
+
+  font-weight: 700;
 }
 
-.health-banner::after {
-  content: "";
-  position: absolute;
-  width: 300px;
-  height: 300px;
-  border-radius: 50%;
-  right: -100px;
-  top: -130px;
-  background: rgba(255, 255, 255, 0.05);
+
+/* =========================================
+   PRESCRIPTION BANNER
+========================================= */
+
+.prescription-banner {
+  margin: 0 5% 80px;
+
+  padding: 35px 42px;
+
+  display: flex;
+  align-items: center;
+
+  gap: 28px;
+
+  background:
+    linear-gradient(
+      120deg,
+      #082d39,
+      #0b4c4a
+    );
+
+  border-radius: 14px;
+
+  color: white;
+
+  box-shadow:
+    0 18px 45px rgba(8,45,57,0.16);
 }
 
-.health-icon {
-  width: 65px;
-  height: 65px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+
+.prescription-icon {
+  width: 70px;
+  height: 70px;
+
+  border-radius: 12px;
+
+  background: rgba(255,255,255,0.1);
+
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 29px;
-  flex-shrink: 0;
+
+  font-size: 32px;
+
+  color: #72d9b7;
 }
 
-.health-content {
+
+.prescription-content {
   flex: 1;
-  position: relative;
-  z-index: 2;
 }
 
-.health-content span {
+
+.banner-label {
   font-size: 10px;
-  letter-spacing: 1.7px;
-  font-weight: 700;
-  color: #8cc8ff;
+
+  letter-spacing: 1.8px;
+
+  color: #72d9b7;
+
+  font-weight: 800;
 }
 
-.health-content h2 {
-  color: #ffffff;
-  margin: 5px 0 7px;
-  font-size: 23px;
+
+.prescription-content h2 {
+  margin: 7px 0;
+
+  font-size: 27px;
+
+  line-height: 1.2;
 }
 
-.health-content p {
-  color: #b7c7d6;
+
+.prescription-content p {
   margin: 0;
+
+  color: rgba(255,255,255,0.65);
+
   font-size: 13px;
-  max-width: 650px;
-  line-height: 1.5;
 }
 
-.banner-button {
-  position: relative;
-  z-index: 2;
-  border: none !important;
-  border-radius: 8px !important;
+
+.prescription-banner .ant-btn {
+  height: 44px;
+
+  border: none;
+
+  border-radius: 7px;
+
   font-weight: 600;
-  display: flex;
-  align-items: center;
-  gap: 8px;
+
+  color: #0b3a3a;
 }
 
 
-/* =========================================================
+/* =========================================
    TRUST SECTION
-========================================================= */
+========================================= */
 
 .trust-section {
+  padding: 30px 5% 80px;
+
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  padding: 10px 0;
+
+  grid-template-columns: 0.8fr 1.5fr;
+
+  gap: 80px;
 }
 
-.trust-section div {
+
+.trust-items {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 5px;
-  border-right: 1px solid #e5ebf0;
+
+  gap: 24px;
 }
 
-.trust-section div:last-child {
-  border-right: none;
+
+.trust-item {
+  display: flex;
+
+  gap: 20px;
+
+  padding-bottom: 23px;
+
+  border-bottom: 1px solid #e4e9e8;
 }
 
-.trust-section strong {
-  font-size: 22px;
-  color: #1677ff;
-}
 
-.trust-section span {
+.trust-number {
   font-size: 12px;
-  color: #8292a1;
+
+  font-weight: 800;
+
+  color: #188168;
+
+  padding-top: 3px;
 }
 
 
-/* =========================================================
-   RESPONSIVE
-========================================================= */
+.trust-item h3 {
+  margin: 0 0 6px;
 
-@media (max-width: 1050px) {
+  color: #17383a;
+
+  font-size: 18px;
+}
+
+
+.trust-item p {
+  margin: 0;
+
+  color: #758486;
+
+  line-height: 1.7;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   BOTTOM CTA
+========================================= */
+
+.bottom-cta {
+  margin: 0 5% 70px;
+
+  padding: 42px 45px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  border-top: 1px solid #dce6e3;
+
+  border-bottom: 1px solid #dce6e3;
+}
+
+
+.bottom-cta span {
+  font-size: 10px;
+
+  font-weight: 800;
+
+  letter-spacing: 1.8px;
+
+  color: #168267;
+}
+
+
+.bottom-cta h2 {
+  margin: 7px 0 0;
+
+  font-size: 32px;
+
+  line-height: 1.2;
+
+  color: #0b3032;
+}
+
+
+.bottom-cta .ant-btn-primary {
+  background: #0b5d50;
+
+  border-color: #0b5d50;
+
+  height: 46px;
+
+  border-radius: 7px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
 
   .hero-section {
-    padding: 45px 35px;
-  }
-
-  .hero-title {
-    font-size: 43px !important;
+    padding-left: 6%;
+    padding-right: 6%;
   }
 
   .hero-visual {
-    width: 330px;
+    width: 300px;
+    height: 300px;
+
+    margin-right: 0;
+  }
+
+  .medical-circle {
+    width: 220px;
+    height: 220px;
+
+    font-size: 80px;
+  }
+
+  .floating-card {
     transform: scale(0.9);
   }
 
-  .services-grid {
+  .service-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -597,25 +689,37 @@
 @media (max-width: 800px) {
 
   .hero-section {
+    margin-left: -20px;
+    margin-right: -20px;
+
+    padding: 55px 25px;
+
     flex-direction: column;
+
     align-items: flex-start;
   }
 
   .hero-visual {
-    align-self: center;
+    display: none;
   }
 
   .section-heading {
     flex-direction: column;
+
     align-items: flex-start;
+
+    gap: 18px;
   }
 
-  .section-heading p {
-    text-align: left;
+  .trust-section {
+    grid-template-columns: 1fr;
+
+    gap: 35px;
   }
 
-  .health-banner {
-    flex-wrap: wrap;
+  .prescription-banner {
+    margin-left: 3%;
+    margin-right: 3%;
   }
 
 }
@@ -623,47 +727,61 @@
 
 @media (max-width: 600px) {
 
-  .dashboard {
-    padding: 0 5px 30px;
+  .hero-section h1 {
+    font-size: 43px;
   }
 
-  .hero-section {
-    padding: 35px 25px;
-    margin-top: 0;
-  }
-
-  .hero-title {
-    font-size: 37px !important;
-  }
-
-  .hero-description {
-    font-size: 15px;
-  }
-
-  .hero-buttons {
+  .hero-actions {
     flex-direction: column;
   }
 
-  .hero-buttons button {
+  .hero-actions .ant-btn {
     width: 100%;
   }
 
-  .hero-visual {
-    transform: scale(0.75);
-    margin: -35px auto -50px;
+  .hero-search {
+    padding-left: 10px;
   }
 
-  .services-grid {
+  .service-grid {
     grid-template-columns: 1fr;
   }
 
-  .trust-section {
-    grid-template-columns: repeat(2, 1fr);
+  .services-section {
+    padding-left: 3%;
+    padding-right: 3%;
+  }
+
+  .section-heading h2,
+  .trust-heading h2 {
+    font-size: 30px;
+  }
+
+  .prescription-banner {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    padding: 28px;
+  }
+
+  .prescription-banner .ant-btn {
+    width: 100%;
+  }
+
+  .bottom-cta {
+    margin-left: 3%;
+    margin-right: 3%;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
     gap: 25px;
   }
 
-  .trust-section div {
-    border-right: none;
+  .bottom-cta .ant-btn {
+    width: 100%;
   }
 
 }
