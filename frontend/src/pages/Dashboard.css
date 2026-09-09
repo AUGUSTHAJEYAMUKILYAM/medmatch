@@ -1,97 +1,97 @@
-/* =========================================
-   MEDMATCH DASHBOARD
-========================================= */
+/* =========================================================
+   MEDMATCH HOME PAGE
+========================================================= */
 
 .dashboard {
-  max-width: 1280px;
+  max-width: 1250px;
   margin: 0 auto;
-  padding: 0 10px 60px;
+  padding-bottom: 50px;
 }
 
 
-/* =========================================
+/* =========================================================
    HERO
-========================================= */
+========================================================= */
 
 .hero-section {
-  position: relative;
-  min-height: 510px;
-  margin: 10px 0 70px;
-  padding: 70px 65px;
-  border-radius: 28px;
-  overflow: hidden;
-
-  background:
-    linear-gradient(
-      135deg,
-      #eaf4ff 0%,
-      #f6faff 48%,
-      #eef8ff 100%
-    );
-
+  min-height: 470px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
-  box-shadow:
-    0 20px 50px rgba(15, 77, 120, 0.08);
+  gap: 60px;
+  padding: 55px 50px;
+  margin: 10px 0 55px;
+  border-radius: 24px;
+  background:
+    linear-gradient(
+      135deg,
+      #eef7ff 0%,
+      #f8fbff 48%,
+      #ffffff 100%
+    );
+  border: 1px solid #e4edf6;
+  overflow: hidden;
+  position: relative;
 }
 
 
-/* Decorative circles */
+/* subtle medical background */
 
-.hero-background-circle {
+.hero-section::before {
+  content: "";
   position: absolute;
+  width: 380px;
+  height: 380px;
   border-radius: 50%;
-  pointer-events: none;
-}
-
-.circle-one {
-  width: 280px;
-  height: 280px;
+  background: rgba(22, 119, 255, 0.06);
   right: -100px;
-  top: -100px;
-  background: rgba(22, 119, 255, 0.08);
+  top: -140px;
 }
 
-.circle-two {
-  width: 180px;
-  height: 180px;
-  left: -70px;
-  bottom: -70px;
-  background: rgba(82, 196, 26, 0.07);
+.hero-section::after {
+  content: "";
+  position: absolute;
+  width: 260px;
+  height: 260px;
+  border-radius: 50%;
+  background: rgba(82, 196, 26, 0.05);
+  left: -130px;
+  bottom: -150px;
 }
 
 
-/* =========================================
+/* =========================================================
    HERO CONTENT
-========================================= */
+========================================================= */
 
 .hero-content {
+  flex: 1;
+  max-width: 650px;
   position: relative;
   z-index: 2;
-  max-width: 620px;
 }
 
-.hero-tag {
-  border: none !important;
-  background: rgba(22, 119, 255, 0.1) !important;
-  color: #1677ff !important;
-  padding: 7px 14px !important;
-  border-radius: 30px !important;
-  font-weight: 600;
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 13px;
+  border-radius: 30px;
+  background: #ffffff;
+  border: 1px solid #dce9f5;
+  color: #1677ff;
   font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
 }
 
 .hero-title {
-  margin-top: 22px !important;
-  margin-bottom: 18px !important;
-
+  margin: 0 !important;
   font-size: 52px !important;
-  line-height: 1.1 !important;
-  font-weight: 800 !important;
-
-  color: #092b4c !important;
+  line-height: 1.08 !important;
+  font-weight: 750 !important;
+  letter-spacing: -1.5px;
+  color: #102a43 !important;
 }
 
 .hero-title span {
@@ -99,493 +99,483 @@
 }
 
 .hero-description {
-  max-width: 580px;
-
-  font-size: 17px !important;
-  line-height: 1.8 !important;
-
-  color: #60758a !important;
+  font-size: 17px;
+  line-height: 1.7;
+  color: #61758a;
+  max-width: 600px;
+  margin: 22px 0 28px !important;
 }
-
-
-/* =========================================
-   HERO BUTTONS
-========================================= */
 
 .hero-buttons {
   display: flex;
-  gap: 14px;
-  margin-top: 30px;
+  gap: 12px;
 }
 
-.primary-hero-button {
+.primary-hero-btn {
   height: 48px !important;
-  padding: 0 24px !important;
-
-  border-radius: 10px !important;
-
-  font-weight: 600 !important;
-
-  box-shadow:
-    0 8px 20px rgba(22, 119, 255, 0.22);
+  padding: 0 23px !important;
+  border-radius: 9px !important;
+  font-weight: 600;
 }
 
-.secondary-hero-button {
+.secondary-hero-btn {
   height: 48px !important;
   padding: 0 22px !important;
-
-  border-radius: 10px !important;
-
-  font-weight: 600 !important;
-
+  border-radius: 9px !important;
   display: flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
+  font-weight: 600;
 }
 
-
-/* =========================================
-   TRUST ITEMS
-========================================= */
-
-.hero-trust {
+.trust-points {
   display: flex;
-  gap: 25px;
-  margin-top: 30px;
+  gap: 22px;
+  margin-top: 28px;
+  flex-wrap: wrap;
 }
 
-.trust-item {
+.trust-points div {
   display: flex;
   align-items: center;
   gap: 7px;
-
-  color: #6b7f91;
   font-size: 13px;
+  color: #60758a;
 }
 
-.trust-item svg {
+.trust-points svg {
   color: #52c41a;
 }
 
 
-/* =========================================
+/* =========================================================
    HERO VISUAL
-========================================= */
+========================================================= */
 
 .hero-visual {
-  position: relative;
   width: 390px;
-  height: 350px;
+  height: 360px;
+  position: relative;
+  flex-shrink: 0;
+  z-index: 2;
+}
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.medical-circle {
+  position: absolute;
+  border-radius: 50%;
+}
+
+.medical-circle.large {
+  width: 320px;
+  height: 320px;
+  right: 5px;
+  top: 20px;
+  background: #dceeff;
+}
+
+.medical-circle.small {
+  width: 180px;
+  height: 180px;
+  left: 0;
+  bottom: 0;
+  background: #e9f8e5;
 }
 
 
 /* Main medical card */
 
 .medical-card {
-  width: 280px;
-  min-height: 170px;
-
-  border-radius: 22px;
-
-  background: rgba(255, 255, 255, 0.92);
-
-  box-shadow:
-    0 25px 50px rgba(31, 78, 121, 0.15);
-
+  position: absolute;
+  width: 265px;
+  height: 145px;
+  top: 90px;
+  left: 60px;
+  border-radius: 18px;
+  background: #ffffff;
+  box-shadow: 0 18px 45px rgba(28, 75, 110, 0.15);
   display: flex;
-  flex-direction: column;
   align-items: center;
-  justify-content: center;
-
   gap: 18px;
-
-  position: relative;
-  z-index: 2;
+  padding: 25px;
 }
 
-.medical-icon {
-  width: 72px;
-  height: 72px;
-
-  border-radius: 20px;
-
-  background: #e8f3ff;
-
-  color: #1677ff;
-
+.medical-card-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 38px;
+  background: #e8f3ff;
+  color: #1677ff;
+  font-size: 32px;
 }
 
-.medical-card-label {
-  display: block;
-  text-align: center;
-
-  color: #7a8c9c;
-  font-size: 12px;
-}
-
-.medical-card-title {
-  margin-top: 4px;
-
-  font-size: 18px;
+.medical-label {
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: #8b9aaa;
   font-weight: 700;
+}
 
-  color: #12344d;
+.medical-card h3 {
+  margin: 4px 0;
+  font-size: 21px;
+  color: #102a43;
+}
+
+.medical-card p {
+  margin: 0;
+  font-size: 12px;
+  color: #7c8c9c;
 }
 
 
-/* =========================================
-   FLOATING CARDS
-========================================= */
+/* Floating cards */
 
 .floating-card {
   position: absolute;
-
-  background: white;
-
-  border-radius: 14px;
-
-  padding: 13px 16px;
-
+  background: #ffffff;
+  box-shadow: 0 12px 35px rgba(25, 67, 100, 0.14);
+  border-radius: 12px;
+  padding: 12px 15px;
   display: flex;
   align-items: center;
+  gap: 11px;
+  z-index: 4;
+}
 
-  gap: 10px;
+.floating-card svg {
+  font-size: 23px;
+}
 
-  box-shadow:
-    0 12px 30px rgba(31, 78, 121, 0.13);
-
-  z-index: 3;
-
-  min-width: 190px;
+.floating-card div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .floating-card strong {
-  display: block;
-  font-size: 13px;
-  color: #173b56;
+  font-size: 12px;
+  color: #1d3448;
 }
 
 .floating-card span {
-  display: block;
-  font-size: 11px;
-  color: #8a9baa;
-  margin-top: 2px;
+  font-size: 10px;
+  color: #8a9aaa;
 }
 
-.interaction-floating {
+.interaction-card {
+  right: -5px;
   top: 35px;
-  right: 0;
 }
 
-.pharmacy-floating {
-  bottom: 30px;
-  left: 0;
-}
-
-.floating-icon {
-  width: 40px;
-  height: 40px;
-
-  border-radius: 12px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 19px;
-}
-
-.purple-icon {
-  background: #f1edff;
-  color: #7257d9;
-}
-
-.green-icon {
-  background: #edfae8;
-  color: #52a83c;
-}
-
-.success-icon {
-  margin-left: auto;
+.interaction-card svg {
   color: #52c41a;
 }
 
+.pharmacy-card {
+  left: -10px;
+  bottom: 25px;
+}
 
-/* =========================================
-   FEATURES SECTION
-========================================= */
+.pharmacy-card svg {
+  color: #722ed1;
+}
 
-.features-section {
-  padding: 0 5px;
+
+/* =========================================================
+   QUICK SERVICES
+========================================================= */
+
+.quick-section {
+  margin-bottom: 55px;
 }
 
 .section-heading {
-  text-align: center;
-  max-width: 650px;
-  margin: 0 auto 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 40px;
+  margin-bottom: 25px;
 }
 
-.section-tag {
-  border: none !important;
-  background: #f0f6ff !important;
-  color: #1677ff !important;
-
-  padding: 6px 13px !important;
-
-  border-radius: 20px !important;
-
-  font-weight: 600;
+.section-label {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 1.7px;
+  font-weight: 700;
+  color: #1677ff;
+  margin-bottom: 7px;
 }
 
 .section-heading h2 {
-  margin-top: 15px !important;
-  margin-bottom: 10px !important;
-
-  font-size: 34px !important;
-  font-weight: 750 !important;
-
-  color: #102f49 !important;
+  margin: 0 !important;
+  color: #102a43 !important;
 }
 
 .section-heading p {
-  color: #7a8b9b !important;
-  font-size: 15px !important;
+  max-width: 350px;
+  color: #7a8b9b;
+  margin: 0;
+  text-align: right;
 }
 
 
-/* =========================================
-   FEATURE CARDS
-========================================= */
+/* =========================================================
+   SERVICE CARDS
+========================================================= */
 
-.feature-card {
-  height: 100%;
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
 
-  border: 1px solid #edf1f5 !important;
-
-  border-radius: 18px !important;
-
-  overflow: hidden;
-
+.service-card {
+  min-height: 245px;
+  padding: 25px;
+  border-radius: 17px;
+  background: #ffffff;
+  border: 1px solid #e8eef4;
+  cursor: pointer;
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
     border-color 0.25s ease;
-
-  cursor: pointer;
+  position: relative;
+  overflow: hidden;
 }
 
-.feature-card:hover {
-  transform: translateY(-8px);
-
-  box-shadow:
-    0 18px 40px rgba(25, 70, 110, 0.12);
-
-  border-color: #dcecff !important;
-}
-
-
-/* Colored top line */
-
-.feature-card::before {
+.service-card::after {
   content: "";
-
-  display: block;
-
   position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-  height: 4px;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  right: -35px;
+  bottom: -35px;
+  opacity: 0.5;
 }
 
-.feature-blue::before {
-  background: #1677ff;
+.service-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 35px rgba(30, 70, 100, 0.12);
 }
 
-.feature-purple::before {
-  background: #7257d9;
-}
-
-.feature-green::before {
-  background: #52c41a;
-}
-
-.feature-orange::before {
-  background: #fa8c16;
-}
-
-
-/* Icon */
-
-.feature-icon-wrapper {
-  width: 58px;
-  height: 58px;
-
-  border-radius: 16px;
-
+.service-icon {
+  width: 55px;
+  height: 55px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  font-size: 27px;
-
-  margin-bottom: 20px;
+  border-radius: 14px;
+  font-size: 26px;
+  margin-bottom: 22px;
 }
 
-.feature-blue .feature-icon-wrapper {
-  background: #eaf3ff;
-  color: #1677ff;
+.service-content h3 {
+  margin: 0 0 9px;
+  font-size: 17px;
+  color: #162f43;
 }
 
-.feature-purple .feature-icon-wrapper {
-  background: #f1edff;
-  color: #7257d9;
+.service-content p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #7a8b9b;
+  min-height: 63px;
+  margin-bottom: 18px;
 }
 
-.feature-green .feature-icon-wrapper {
-  background: #edfae8;
-  color: #52c41a;
-}
-
-.feature-orange .feature-icon-wrapper {
-  background: #fff4e6;
-  color: #fa8c16;
-}
-
-
-/* Text */
-
-.feature-title {
-  margin-bottom: 9px !important;
-
-  color: #173b56 !important;
-
-  font-size: 17px !important;
-  font-weight: 700 !important;
-}
-
-.feature-description {
-  min-height: 70px;
-
-  color: #7b8b99 !important;
-
-  font-size: 13px !important;
-  line-height: 1.7 !important;
-}
-
-
-/* Feature button */
-
-.feature-button {
-  padding: 0 !important;
-
-  font-weight: 600 !important;
-
-  display: flex !important;
+.service-link {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-
-  margin-top: 10px;
-}
-
-
-/* =========================================
-   BOTTOM CTA
-========================================= */
-
-.bottom-cta {
-  margin-top: 65px;
-
-  padding: 30px 38px;
-
-  border-radius: 20px;
-
-  background:
-    linear-gradient(
-      100deg,
-      #f0f7ff,
-      #f7fbff
-    );
-
-  border: 1px solid #e1edfa;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  gap: 25px;
-}
-
-.bottom-cta > div {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-}
-
-.cta-icon {
-  width: 58px;
-  height: 58px;
-
-  flex-shrink: 0;
-
-  border-radius: 16px;
-
-  background: #1677ff;
-
-  color: white;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  font-size: 27px;
-
-  box-shadow:
-    0 10px 25px rgba(22, 119, 255, 0.2);
-}
-
-.bottom-cta h3 {
-  margin: 0 0 5px !important;
-
-  color: #153952 !important;
-}
-
-.bottom-cta p {
-  margin: 0 !important;
-
-  color: #788b9b !important;
-}
-
-.bottom-cta button {
-  border-radius: 10px;
-
-  height: 46px;
-
-  padding: 0 22px;
-
+  gap: 7px;
+  font-size: 12px;
   font-weight: 600;
 }
 
 
-/* =========================================
-   RESPONSIVE
-========================================= */
+/* Card colors */
 
-@media (max-width: 1000px) {
+.service-blue .service-icon {
+  background: #e8f3ff;
+  color: #1677ff;
+}
+
+.service-blue::after {
+  background: #dbeeff;
+}
+
+.service-blue .service-link {
+  color: #1677ff;
+}
+
+
+.service-green .service-icon {
+  background: #eaf8e6;
+  color: #389e0d;
+}
+
+.service-green::after {
+  background: #e1f5d8;
+}
+
+.service-green .service-link {
+  color: #389e0d;
+}
+
+
+.service-purple .service-icon {
+  background: #f1e9ff;
+  color: #722ed1;
+}
+
+.service-purple::after {
+  background: #eee2ff;
+}
+
+.service-purple .service-link {
+  color: #722ed1;
+}
+
+
+.service-orange .service-icon {
+  background: #fff1e6;
+  color: #d46b08;
+}
+
+.service-orange::after {
+  background: #ffead6;
+}
+
+.service-orange .service-link {
+  color: #d46b08;
+}
+
+
+/* =========================================================
+   HEALTH BANNER
+========================================================= */
+
+.health-banner {
+  min-height: 170px;
+  padding: 30px 35px;
+  border-radius: 18px;
+  background: #102a43;
+  display: flex;
+  align-items: center;
+  gap: 25px;
+  margin-bottom: 45px;
+  position: relative;
+  overflow: hidden;
+}
+
+.health-banner::after {
+  content: "";
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  right: -100px;
+  top: -130px;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.health-icon {
+  width: 65px;
+  height: 65px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 29px;
+  flex-shrink: 0;
+}
+
+.health-content {
+  flex: 1;
+  position: relative;
+  z-index: 2;
+}
+
+.health-content span {
+  font-size: 10px;
+  letter-spacing: 1.7px;
+  font-weight: 700;
+  color: #8cc8ff;
+}
+
+.health-content h2 {
+  color: #ffffff;
+  margin: 5px 0 7px;
+  font-size: 23px;
+}
+
+.health-content p {
+  color: #b7c7d6;
+  margin: 0;
+  font-size: 13px;
+  max-width: 650px;
+  line-height: 1.5;
+}
+
+.banner-button {
+  position: relative;
+  z-index: 2;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* =========================================================
+   TRUST SECTION
+========================================================= */
+
+.trust-section {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  padding: 10px 0;
+}
+
+.trust-section div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  border-right: 1px solid #e5ebf0;
+}
+
+.trust-section div:last-child {
+  border-right: none;
+}
+
+.trust-section strong {
+  font-size: 22px;
+  color: #1677ff;
+}
+
+.trust-section span {
+  font-size: 12px;
+  color: #8292a1;
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 1050px) {
 
   .hero-section {
-    padding: 55px 40px;
+    padding: 45px 35px;
   }
 
   .hero-title {
@@ -597,6 +587,10 @@
     transform: scale(0.9);
   }
 
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
 }
 
 
@@ -604,90 +598,72 @@
 
   .hero-section {
     flex-direction: column;
-
-    text-align: center;
-
-    padding: 50px 25px;
-
-    min-height: auto;
-  }
-
-  .hero-content {
-    max-width: 100%;
-  }
-
-  .hero-description {
-    margin-left: auto !important;
-    margin-right: auto !important;
-  }
-
-  .hero-buttons {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero-trust {
-    justify-content: center;
-    flex-wrap: wrap;
+    align-items: flex-start;
   }
 
   .hero-visual {
-    margin-top: 40px;
+    align-self: center;
   }
 
-  .bottom-cta {
+  .section-heading {
     flex-direction: column;
-    text-align: center;
+    align-items: flex-start;
   }
 
-  .bottom-cta > div {
-    flex-direction: column;
+  .section-heading p {
+    text-align: left;
+  }
+
+  .health-banner {
+    flex-wrap: wrap;
   }
 
 }
 
 
-@media (max-width: 500px) {
+@media (max-width: 600px) {
 
   .dashboard {
-    padding: 0 0 40px;
+    padding: 0 5px 30px;
   }
 
   .hero-section {
-    border-radius: 20px;
+    padding: 35px 25px;
     margin-top: 0;
   }
 
   .hero-title {
-    font-size: 36px !important;
+    font-size: 37px !important;
   }
 
   .hero-description {
-    font-size: 15px !important;
+    font-size: 15px;
   }
 
   .hero-buttons {
     flex-direction: column;
   }
 
-  .primary-hero-button,
-  .secondary-hero-button {
+  .hero-buttons button {
     width: 100%;
-    justify-content: center;
   }
 
   .hero-visual {
-    transform: scale(0.78);
-    margin-top: 20px;
-    margin-bottom: -30px;
+    transform: scale(0.75);
+    margin: -35px auto -50px;
   }
 
-  .section-heading h2 {
-    font-size: 28px !important;
+  .services-grid {
+    grid-template-columns: 1fr;
   }
 
-  .bottom-cta {
-    padding: 25px 20px;
+  .trust-section {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 25px;
+  }
+
+  .trust-section div {
+    border-right: none;
   }
 
 }
