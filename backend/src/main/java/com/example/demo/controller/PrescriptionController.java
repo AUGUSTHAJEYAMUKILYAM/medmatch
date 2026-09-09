@@ -18,19 +18,10 @@ public class PrescriptionController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Prescription> getPrescriptions(
-            Authentication authentication) {
-
-        String username = authentication.getName();
-
-        return service.getPrescriptions(username);
-    }
-
     @PostMapping
     public Prescription uploadPrescription(
-            @RequestParam("fileUrl") String fileUrl,
-            @RequestParam(value = "notes", required = false, defaultValue = "") String notes,
+            @RequestParam String fileUrl,
+            @RequestParam(required = false, defaultValue = "") String notes,
             Authentication authentication) {
 
         String username = authentication.getName();
@@ -42,14 +33,20 @@ public class PrescriptionController {
         );
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletePrescription(
-            @PathVariable Long id,
+    @GetMapping
+    public List<Prescription> getPrescriptions(
             Authentication authentication) {
 
         String username = authentication.getName();
 
-        service.deletePrescription(id, username);
+        return service.getPrescriptions(username);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletePrescription(
+            @PathVariable Long id) {
+
+        service.deletePrescription(id);
 
         return ResponseEntity.noContent().build();
     }
