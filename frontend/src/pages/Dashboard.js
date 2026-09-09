@@ -4,170 +4,111 @@ import {
   SafetyOutlined,
   EnvironmentOutlined,
   FileTextOutlined,
-  HeartOutlined,
   MedicineBoxOutlined,
-  ArrowRightOutlined,
+  HeartOutlined,
   CheckCircleOutlined,
+  ArrowRightOutlined,
 } from "@ant-design/icons";
-import { Button, Typography } from "antd";
+import { Button, Input } from "antd";
 import { useNavigate } from "react-router-dom";
 import "./Dashboard.css";
 
-const { Title, Paragraph, Text } = Typography;
-
 function Dashboard() {
   const navigate = useNavigate();
-
-  const services = [
-    {
-      icon: <MedicineBoxOutlined />,
-      title: "Find Medicines",
-      description:
-        "Search medicines, check dosage information and explore generic alternatives.",
-      action: "Browse Medicines",
-      path: "/medicines",
-      className: "service-blue",
-    },
-    {
-      icon: <SafetyOutlined />,
-      title: "Drug Interaction Check",
-      description:
-        "Check whether your medicines may interact before taking them together.",
-      action: "Check Interactions",
-      path: "/interactions",
-      className: "service-green",
-    },
-    {
-      icon: <EnvironmentOutlined />,
-      title: "Find a Pharmacy",
-      description:
-        "Locate nearby pharmacies and view their address, hours and contact details.",
-      action: "Find Pharmacy",
-      path: "/pharmacies",
-      className: "service-purple",
-    },
-    {
-      icon: <FileTextOutlined />,
-      title: "Manage Prescriptions",
-      description:
-        "Keep your digital prescriptions organized and accessible in one place.",
-      action: "My Prescriptions",
-      path: "/prescriptions",
-      className: "service-orange",
-    },
-  ];
 
   return (
     <div className="dashboard">
 
       {/* ================= HERO ================= */}
+
       <section className="hero-section">
 
         <div className="hero-content">
 
           <div className="hero-badge">
-            <CheckCircleOutlined />
-            <span>Trusted Digital Healthcare Companion</span>
+            <MedicineBoxOutlined />
+            <span>SMART HEALTHCARE, SIMPLIFIED</span>
           </div>
 
-          <Title className="hero-title">
-            Your health.
+          <h1>
+            Your Health.
             <br />
-            <span>Our priority.</span>
-          </Title>
+            <span>Our Priority.</span>
+          </h1>
 
-          <Paragraph className="hero-description">
-            MedMatch helps you find medicines, check drug interactions,
-            discover pharmacies and securely manage your prescriptions —
-            all from one place.
-          </Paragraph>
+          <p className="hero-description">
+            Find medicines, check drug interactions, locate nearby
+            pharmacies and securely manage your prescriptions — all
+            in one place.
+          </p>
 
-          <div className="hero-buttons">
+          {/* Search */}
+
+          <div className="hero-search">
+
+            <SearchOutlined className="search-icon" />
+
+            <Input
+              placeholder="Search for medicines, generic names..."
+              bordered={false}
+              onPressEnter={() => navigate("/medicines")}
+            />
+
+            <Button
+              type="primary"
+              onClick={() => navigate("/medicines")}
+            >
+              Search
+            </Button>
+
+          </div>
+
+          <div className="hero-actions">
 
             <Button
               type="primary"
               size="large"
               icon={<SearchOutlined />}
-              className="primary-hero-btn"
               onClick={() => navigate("/medicines")}
             >
-              Find a Medicine
+              Browse Medicines
             </Button>
 
             <Button
               size="large"
-              className="secondary-hero-btn"
-              onClick={() => navigate("/pharmacies")}
+              icon={<FileTextOutlined />}
+              onClick={() => navigate("/prescriptions")}
             >
-              Find a Pharmacy
-              <ArrowRightOutlined />
+              Upload Prescription
             </Button>
 
           </div>
 
-          {/* Trust points */}
-          <div className="trust-points">
-
-            <div>
-              <CheckCircleOutlined />
-              <span>Easy to use</span>
-            </div>
-
-            <div>
-              <CheckCircleOutlined />
-              <span>Secure prescriptions</span>
-            </div>
-
-            <div>
-              <CheckCircleOutlined />
-              <span>Medicine information</span>
-            </div>
-
-          </div>
-
         </div>
 
-        {/* Hero medical visual */}
+        {/* Hero visual */}
+
         <div className="hero-visual">
 
-          <div className="medical-circle large"></div>
-          <div className="medical-circle small"></div>
+          <div className="medical-circle">
 
-          <div className="medical-card">
-
-            <div className="medical-card-icon">
-              <MedicineBoxOutlined />
-            </div>
-
-            <div>
-              <span className="medical-label">
-                HEALTHCARE
-              </span>
-
-              <h3>
-                MedMatch
-              </h3>
-
-              <p>
-                Smarter medicine management
-              </p>
-            </div>
+            <MedicineBoxOutlined />
 
           </div>
 
-          <div className="floating-card interaction-card">
-            <SafetyOutlined />
+          <div className="floating-card floating-card-one">
+            <CheckCircleOutlined />
             <div>
-              <strong>Interaction Check</strong>
-              <span>Stay medication safe</span>
+              <strong>Safe & Secure</strong>
+              <span>Your health data matters</span>
             </div>
           </div>
 
-          <div className="floating-card pharmacy-card">
-            <EnvironmentOutlined />
+          <div className="floating-card floating-card-two">
+            <HeartOutlined />
             <div>
-              <strong>Pharmacies</strong>
-              <span>Find one near you</span>
+              <strong>Healthcare</strong>
+              <span>Made simple</span>
             </div>
           </div>
 
@@ -176,118 +117,285 @@ function Dashboard() {
       </section>
 
 
-      {/* ================= QUICK ACCESS ================= */}
-      <section className="quick-section">
+      {/* ================= QUICK SERVICES ================= */}
+
+      <section className="services-section">
 
         <div className="section-heading">
-          <div>
-            <Text className="section-label">
-              MEDMATCH SERVICES
-            </Text>
 
-            <Title level={2}>
-              Everything you need for your medicines
-            </Title>
+          <div>
+            <span className="section-label">
+              WHAT WE OFFER
+            </span>
+
+            <h2>
+              Everything you need,
+              <br />
+              in one place.
+            </h2>
           </div>
 
-          <Paragraph>
-            Simple tools designed to make managing your healthcare easier.
-          </Paragraph>
+          <p>
+            From finding the right medicine to locating a pharmacy,
+            MedMatch makes everyday healthcare easier.
+          </p>
+
         </div>
 
 
-        <div className="services-grid">
+        <div className="service-grid">
 
-          {services.map((service) => (
-            <div
-              key={service.title}
-              className={`service-card ${service.className}`}
-              onClick={() => navigate(service.path)}
-            >
+          {/* Medicine */}
 
-              <div className="service-icon">
-                {service.icon}
-              </div>
+          <div
+            className="service-card"
+            onClick={() => navigate("/medicines")}
+          >
 
-              <div className="service-content">
-
-                <h3>{service.title}</h3>
-
-                <p>
-                  {service.description}
-                </p>
-
-                <span className="service-link">
-                  {service.action}
-                  <ArrowRightOutlined />
-                </span>
-
-              </div>
-
+            <div className="service-icon green">
+              <SearchOutlined />
             </div>
-          ))}
+
+            <h3>Medicine Search</h3>
+
+            <p>
+              Search medicines by brand or generic name and
+              view detailed information.
+            </p>
+
+            <span className="service-link">
+              Explore Medicines
+              <ArrowRightOutlined />
+            </span>
+
+          </div>
+
+
+          {/* Interactions */}
+
+          <div
+            className="service-card"
+            onClick={() => navigate("/interactions")}
+          >
+
+            <div className="service-icon navy">
+              <SafetyOutlined />
+            </div>
+
+            <h3>Drug Interaction Checker</h3>
+
+            <p>
+              Check whether two or more medicines may interact
+              before taking them together.
+            </p>
+
+            <span className="service-link">
+              Check Interactions
+              <ArrowRightOutlined />
+            </span>
+
+          </div>
+
+
+          {/* Pharmacy */}
+
+          <div
+            className="service-card"
+            onClick={() => navigate("/pharmacies")}
+          >
+
+            <div className="service-icon green">
+              <EnvironmentOutlined />
+            </div>
+
+            <h3>Find a Pharmacy</h3>
+
+            <p>
+              Locate nearby pharmacies and view their
+              address, contact and opening hours.
+            </p>
+
+            <span className="service-link">
+              Find Pharmacies
+              <ArrowRightOutlined />
+            </span>
+
+          </div>
+
+
+          {/* Prescription */}
+
+          <div
+            className="service-card"
+            onClick={() => navigate("/prescriptions")}
+          >
+
+            <div className="service-icon navy">
+              <FileTextOutlined />
+            </div>
+
+            <h3>Prescription Manager</h3>
+
+            <p>
+              Upload and securely manage your digital
+              prescriptions from your account.
+            </p>
+
+            <span className="service-link">
+              Manage Prescriptions
+              <ArrowRightOutlined />
+            </span>
+
+          </div>
 
         </div>
 
       </section>
 
 
-      {/* ================= HEALTHCARE BANNER ================= */}
-      <section className="health-banner">
+      {/* ================= PRESCRIPTION BANNER ================= */}
 
-        <div className="health-icon">
-          <HeartOutlined />
+      <section className="prescription-banner">
+
+        <div className="prescription-icon">
+          <FileTextOutlined />
         </div>
 
-        <div className="health-content">
-          <Text>
-            YOUR HEALTH, SIMPLIFIED
-          </Text>
+        <div className="prescription-content">
+
+          <span className="banner-label">
+            PRESCRIPTION MANAGEMENT
+          </span>
 
           <h2>
-            Take control of your medication journey.
+            Keep your prescriptions
+            <br />
+            safe and accessible.
           </h2>
 
           <p>
-            Search medicines, identify potential interactions,
-            locate pharmacies and keep your prescriptions organized.
+            Upload your prescription documents and access them
+            whenever you need them.
           </p>
+
         </div>
 
         <Button
           size="large"
-          onClick={() => navigate("/medicines")}
-          className="banner-button"
+          onClick={() => navigate("/prescriptions")}
         >
-          Explore Medicines
+          Upload Prescription
           <ArrowRightOutlined />
         </Button>
 
       </section>
 
 
-      {/* ================= TRUST SECTION ================= */}
+      {/* ================= WHY MEDMATCH ================= */}
+
       <section className="trust-section">
 
-        <div>
-          <strong>15+</strong>
-          <span>Medicines Available</span>
+        <div className="trust-heading">
+
+          <span className="section-label">
+            WHY MEDMATCH
+          </span>
+
+          <h2>
+            Healthcare you can
+            <br />
+            rely on.
+          </h2>
+
         </div>
 
-        <div>
-          <strong>24/7</strong>
-          <span>Access to Your Data</span>
+
+        <div className="trust-items">
+
+          <div className="trust-item">
+
+            <div className="trust-number">
+              01
+            </div>
+
+            <div>
+              <h3>Simple</h3>
+
+              <p>
+                Find medicines and healthcare services
+                without unnecessary complexity.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="trust-item">
+
+            <div className="trust-number">
+              02
+            </div>
+
+            <div>
+              <h3>Secure</h3>
+
+              <p>
+                Your prescriptions and personal information
+                stay protected within your account.
+              </p>
+            </div>
+
+          </div>
+
+
+          <div className="trust-item">
+
+            <div className="trust-number">
+              03
+            </div>
+
+            <div>
+              <h3>Connected</h3>
+
+              <p>
+                Medicines, interactions, pharmacies and
+                prescriptions work together in one platform.
+              </p>
+            </div>
+
+          </div>
+
         </div>
 
-        <div>
-          <strong>100%</strong>
-          <span>User-focused Experience</span>
-        </div>
+      </section>
+
+
+      {/* ================= CTA ================= */}
+
+      <section className="bottom-cta">
 
         <div>
-          <strong>Secure</strong>
-          <span>Prescription Management</span>
+
+          <span>
+            YOUR HEALTH JOURNEY STARTS HERE
+          </span>
+
+          <h2>
+            Smarter healthcare.
+            <br />
+            Better decisions.
+          </h2>
+
         </div>
+
+        <Button
+          type="primary"
+          size="large"
+          onClick={() => navigate("/medicines")}
+        >
+          Explore MedMatch
+          <ArrowRightOutlined />
+        </Button>
 
       </section>
 
