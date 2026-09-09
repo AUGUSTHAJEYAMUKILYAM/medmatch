@@ -8,7 +8,13 @@ import {
   Empty,
   Spin,
   Typography,
+  Button,
 } from "antd";
+import {
+  SearchOutlined,
+  MedicineBoxOutlined,
+  ArrowRightOutlined,
+} from "@ant-design/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -17,7 +23,9 @@ import {
   searchMedicines,
 } from "../store/medicineSlice";
 
-const { Title } = Typography;
+import "./MedicineSearch.css";
+
+const { Title, Paragraph, Text } = Typography;
 
 function MedicineSearch() {
   const dispatch = useDispatch();
@@ -44,67 +52,273 @@ function MedicineSearch() {
   };
 
   return (
-    <div>
-      <Title level={2}>Medicine Search</Title>
+    <div className="medicine-page">
 
-      <Input.Search
-        placeholder="Search by name or generic name..."
-        size="large"
-        allowClear
-        onSearch={handleSearch}
-        onClear={handleClear}
-        style={{
-          maxWidth: "600px",
-          marginBottom: "30px",
-        }}
-      />
+      {/* ================= HEADER ================= */}
 
-      {loading ? (
-        <div
-          style={{
-            textAlign: "center",
-            padding: "50px",
-          }}
-        >
-          <Spin size="large" />
-        </div>
-      ) : list.length === 0 ? (
-        <Empty description="No medicines found" />
-      ) : (
-        <Row gutter={[20, 20]}>
-          {list.map((medicine) => (
-            <Col
-              xs={24}
-              sm={12}
-              md={8}
-              lg={6}
-              key={medicine.id}
-            >
-              <Card
-                hoverable
-                title={medicine.name}
-                onClick={() =>
-                  navigate(`/medicines/${medicine.id}`)
+      <section className="medicine-header">
+
+        <div className="medicine-header-content">
+
+          <div className="medicine-label">
+            <MedicineBoxOutlined />
+            MEDICINE STORE
+          </div>
+
+          <Title>
+            Find the right medicine
+            <br />
+            <span>for your needs.</span>
+          </Title>
+
+          <Paragraph>
+            Search our medicine database by brand name or
+            generic name and find detailed information about
+            your medication.
+          </Paragraph>
+
+          {/* Search */}
+
+          <div className="medicine-search-box">
+
+            <SearchOutlined className="big-search-icon" />
+
+            <Input
+              placeholder="Search medicines by name or generic name..."
+              bordered={false}
+              onPressEnter={(e) =>
+                handleSearch(e.target.value)
+              }
+              onChange={(e) => {
+                if (!e.target.value) {
+                  handleClear();
                 }
+              }}
+            />
+
+            <Button
+              type="primary"
+              onClick={() => {
+                const input =
+                  document.querySelector(
+                    ".medicine-search-box input"
+                  );
+
+                handleSearch(input?.value || "");
+              }}
+            >
+              Search
+            </Button>
+
+          </div>
+
+          <div className="search-hint">
+            <CheckIcon />
+            Search by medicine name, generic name or active ingredient
+          </div>
+
+        </div>
+
+        {/* Decorative medicine visual */}
+
+        <div className="medicine-header-visual">
+
+          <div className="medicine-pill">
+
+            <div className="pill-half"></div>
+
+          </div>
+
+          <div className="medicine-cross">
+            +
+          </div>
+
+        </div>
+
+      </section>
+
+
+      {/* ================= MEDICINE LIST ================= */}
+
+      <section className="medicine-results">
+
+        <div className="results-heading">
+
+          <div>
+            <span className="results-label">
+              MEDICINE CATALOG
+            </span>
+
+            <h2>
+              Available Medicines
+            </h2>
+          </div>
+
+          {!loading && list.length > 0 && (
+            <span className="medicine-count">
+              {list.length} medicines
+            </span>
+          )}
+
+        </div>
+
+
+        {loading ? (
+
+          <div className="medicine-loading">
+            <Spin size="large" />
+            <p>Finding medicines...</p>
+          </div>
+
+        ) : list.length === 0 ? (
+
+          <div className="medicine-empty">
+            <Empty
+              description="No medicines found"
+            />
+          </div>
+
+        ) : (
+
+          <Row gutter={[20, 20]}>
+
+            {list.map((medicine) => (
+
+              <Col
+                xs={24}
+                sm={12}
+                md={12}
+                lg={8}
+                xl={6}
+                key={medicine.id}
               >
-                <p>
-                  <strong>Generic Name:</strong>{" "}
-                  {medicine.genericName}
-                </p>
 
-                <Tag>
-                  {medicine.dosageForm}
-                </Tag>
+                <Card
+                  className="medicine-card"
+                  hoverable
+                  onClick={() =>
+                    navigate(
+                      `/medicines/${medicine.id}`
+                    )
+                  }
+                >
 
-                <Tag>
-                  {medicine.strength}
-                </Tag>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      )}
+                  {/* Medicine icon */}
+
+                  <div className="medicine-card-top">
+
+                    <div className="medicine-icon">
+                      <MedicineBoxOutlined />
+                    </div>
+
+                    <span className="medicine-available">
+                      Available
+                    </span>
+
+                  </div>
+
+
+                  {/* Medicine name */}
+
+                  <h3 className="medicine-name">
+                    {medicine.name}
+                  </h3>
+
+
+                  {/* Generic */}
+
+                  <div className="generic-info">
+
+                    <span>
+                      Generic name
+                    </span>
+
+                    <strong>
+                      {medicine.genericName || "Not specified"}
+                    </strong>
+
+                  </div>
+
+
+                  {/* Tags */}
+
+                  <div className="medicine-tags">
+
+                    {medicine.dosageForm && (
+                      <Tag>
+                        {medicine.dosageForm}
+                      </Tag>
+                    )}
+
+                    {medicine.strength && (
+                      <Tag>
+                        {medicine.strength}
+                      </Tag>
+                    )}
+
+                  </div>
+
+
+                  {/* Details */}
+
+                  <div className="medicine-card-footer">
+
+                    <span>
+                      View medicine details
+                    </span>
+
+                    <ArrowRightOutlined />
+
+                  </div>
+
+                </Card>
+
+              </Col>
+
+            ))}
+
+          </Row>
+
+        )}
+
+      </section>
+
+
+      {/* ================= INFORMATION BANNER ================= */}
+
+      <section className="medicine-info-banner">
+
+        <div className="info-icon">
+          <MedicineBoxOutlined />
+        </div>
+
+        <div>
+
+          <h3>
+            Looking for a specific medicine?
+          </h3>
+
+          <p>
+            Search by brand or generic name to quickly
+            find the information you're looking for.
+          </p>
+
+        </div>
+
+      </section>
+
     </div>
+  );
+}
+
+
+/* Small helper icon */
+
+function CheckIcon() {
+  return (
+    <span className="check-icon">
+      ✓
+    </span>
   );
 }
 
