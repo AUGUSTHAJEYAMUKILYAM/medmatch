@@ -1,0 +1,388 @@
+.favorites-page {
+  min-height: calc(100vh - 70px);
+  background: #f7faf8;
+  padding-bottom: 50px;
+}
+
+
+/* =========================
+   HEADER
+========================= */
+
+.favorites-header {
+  background: #071f2a;
+  border-radius: 22px;
+
+  padding: 32px 36px;
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.favorites-header::after {
+  content: "";
+  position: absolute;
+
+  width: 230px;
+  height: 230px;
+
+  border-radius: 50%;
+
+  background: rgba(22, 131, 107, 0.13);
+
+  right: -80px;
+  top: -90px;
+}
+
+.favorites-eyebrow {
+  color: #55c7a8 !important;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+}
+
+.favorites-header h1 {
+  color: white !important;
+  margin: 5px 0 !important;
+  font-size: 30px !important;
+}
+
+.favorites-subtitle {
+  color: rgba(255, 255, 255, 0.67) !important;
+  font-size: 14px;
+}
+
+.favorites-count {
+  width: 70px;
+  height: 70px;
+
+  border-radius: 20px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  color: #55c7a8;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 20px;
+
+  position: relative;
+  z-index: 1;
+}
+
+.favorites-count span {
+  font-size: 16px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+
+/* =========================
+   GRID
+========================= */
+
+.favorites-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 20px;
+}
+
+
+/* =========================
+   CARD
+========================= */
+
+.favorite-medicine-card {
+  background: white;
+
+  border: 1px solid #e1ebe7;
+  border-radius: 20px;
+
+  overflow: hidden;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.favorite-medicine-card:hover {
+  transform: translateY(-4px);
+
+  border-color: #c7ded7;
+
+  box-shadow:
+    0 14px 35px rgba(7, 31, 42, 0.09);
+}
+
+
+/* =========================
+   IMAGE / ICON AREA
+========================= */
+
+.favorite-card-image {
+  height: 155px;
+
+  background: #edf7f4;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #16836b;
+
+  font-size: 54px;
+
+  position: relative;
+}
+
+.favorite-heart {
+  position: absolute;
+
+  top: 14px;
+  right: 14px;
+
+  width: 36px;
+  height: 36px;
+
+  border-radius: 50%;
+
+  background: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #16836b;
+
+  font-size: 17px;
+
+  box-shadow: 0 4px 12px rgba(7, 31, 42, 0.08);
+}
+
+
+/* =========================
+   BODY
+========================= */
+
+.favorite-card-body {
+  padding: 20px;
+}
+
+.favorite-card-body h4 {
+  color: #102a34 !important;
+
+  margin: 0 0 5px !important;
+
+  font-size: 17px !important;
+}
+
+.generic-name {
+  display: block;
+
+  color: #71818a !important;
+
+  font-size: 13px;
+
+  min-height: 20px;
+}
+
+
+/* =========================
+   STRENGTH
+========================= */
+
+.medicine-strength {
+  margin-top: 18px;
+
+  padding: 11px 13px;
+
+  background: #f5f9f7;
+
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.medicine-strength span {
+  color: #7b898f;
+  font-size: 12px;
+}
+
+.medicine-strength strong {
+  color: #16836b;
+  font-size: 13px;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.favorite-actions {
+  display: flex;
+
+  gap: 9px;
+
+  margin-top: 18px;
+}
+
+.favorite-actions .ant-btn {
+  height: 38px;
+
+  border-radius: 9px;
+
+  font-size: 12px;
+}
+
+.favorite-actions .ant-btn-primary {
+  flex: 1;
+
+  background: #16836b;
+  border-color: #16836b;
+}
+
+.favorite-actions .ant-btn-primary:hover {
+  background: #116d59 !important;
+  border-color: #116d59 !important;
+}
+
+
+/* =========================
+   EMPTY
+========================= */
+
+.favorites-empty {
+  min-height: 390px;
+
+  background: white;
+
+  border: 1px dashed #d2e1dc;
+
+  border-radius: 20px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  padding: 30px;
+}
+
+.favorites-empty-icon {
+  width: 78px;
+  height: 78px;
+
+  border-radius: 22px;
+
+  background: #eaf6f2;
+
+  color: #16836b;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 34px;
+
+  margin-bottom: 12px;
+}
+
+.favorites-empty h3 {
+  margin: 5px 0 !important;
+  color: #102a34 !important;
+}
+
+.favorites-empty > span {
+  color: #71818a;
+  margin-bottom: 20px;
+}
+
+.favorites-empty .ant-btn {
+  background: #16836b;
+  border-color: #16836b;
+  border-radius: 9px;
+}
+
+
+/* =========================
+   LOADING
+========================= */
+
+.favorites-loading {
+  min-height: 400px;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+
+  color: #71818a;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1000px) {
+  .favorites-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .favorites-header {
+    padding: 26px;
+  }
+
+  .favorites-header h1 {
+    font-size: 25px !important;
+  }
+
+  .favorites-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .favorites-header {
+    align-items: flex-start;
+  }
+
+  .favorites-count {
+    width: 55px;
+    height: 55px;
+  }
+
+  .favorites-subtitle {
+    display: block;
+    max-width: 240px;
+  }
+
+  .favorite-actions {
+    flex-direction: column;
+  }
+
+  .favorite-actions .ant-btn {
+    width: 100%;
+  }
+}
