@@ -51,12 +51,13 @@ function Prescriptions() {
     }
   };
 
+  // Load prescriptions when page opens
   useEffect(() => {
     loadPrescriptions();
   }, []);
 
   // --------------------------------------------------
-  // SUBMIT PRESCRIPTION
+  // UPLOAD PRESCRIPTION
   // --------------------------------------------------
 
   const handleSubmit = async (values) => {
@@ -83,13 +84,11 @@ function Prescriptions() {
         "Prescription uploaded successfully"
       );
 
-      // Close modal
       setModalOpen(false);
 
-      // Clear form
       form.resetFields();
 
-      // Reload prescriptions
+      // Reload table
       await loadPrescriptions();
 
     } catch (error) {
@@ -122,9 +121,7 @@ function Prescriptions() {
 
   const handleDelete = async (id) => {
     try {
-      await api.delete(
-        `/prescriptions/${id}`
-      );
+      await api.delete(`/prescriptions/${id}`);
 
       message.success(
         "Prescription deleted successfully"
@@ -152,8 +149,9 @@ function Prescriptions() {
   const columns = [
     {
       title: "Upload Date",
-      dataIndex: "date",
-      key: "date",
+      dataIndex: "uploadDate",
+      key: "uploadDate",
+
       render: (date) =>
         date
           ? new Date(date).toLocaleDateString()
@@ -164,6 +162,7 @@ function Prescriptions() {
       title: "Notes",
       dataIndex: "notes",
       key: "notes",
+
       render: (notes) =>
         notes || "-",
     },
@@ -172,6 +171,7 @@ function Prescriptions() {
       title: "File",
       dataIndex: "fileUrl",
       key: "fileUrl",
+
       render: (url) =>
         url ? (
           <a
@@ -189,6 +189,7 @@ function Prescriptions() {
     {
       title: "Action",
       key: "action",
+
       render: (_, record) => (
         <Popconfirm
           title="Delete prescription?"
@@ -216,7 +217,7 @@ function Prescriptions() {
 
   return (
     <div>
-      {/* HEADER */}
+      {/* PAGE HEADER */}
 
       <div
         style={{
@@ -268,7 +269,6 @@ function Prescriptions() {
           form.resetFields();
         }}
         onOk={() => {
-          console.log("OK button clicked");
           form.submit();
         }}
         okText="Upload"
