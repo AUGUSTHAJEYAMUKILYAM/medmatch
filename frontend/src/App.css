@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -34,5 +34,240 @@
   }
   to {
     transform: rotate(360deg);
+  }
+} */
+ /* =========================================
+   GLOBAL APP STYLES
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif;
+  background: #f5f7fb;
+  color: #172033;
+}
+
+.App {
+  text-align: center;
+}
+
+/* =========================================
+   DASHBOARD
+========================================= */
+
+.dashboard {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   HERO SECTION
+========================================= */
+
+.dashboard-hero {
+  position: relative;
+  text-align: center;
+  padding: 70px 20px 55px;
+  overflow: hidden;
+}
+
+/* Decorative background circles */
+
+.dashboard-hero::before {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  background: rgba(22, 119, 255, 0.06);
+  top: -120px;
+  left: -100px;
+  z-index: 0;
+}
+
+.dashboard-hero::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(82, 196, 26, 0.06);
+  bottom: -100px;
+  right: -70px;
+  z-index: 0;
+}
+
+.dashboard-hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.dashboard-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  background: #eaf3ff;
+  color: #1677ff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 18px;
+}
+
+.dashboard-title {
+  margin: 0 !important;
+  font-size: 48px !important;
+  font-weight: 700 !important;
+  letter-spacing: -1px;
+  color: #132238 !important;
+}
+
+.dashboard-title-highlight {
+  color: #1677ff;
+}
+
+.dashboard-description {
+  max-width: 720px;
+  margin: 18px auto 0 !important;
+  font-size: 18px;
+  line-height: 1.7;
+  color: #667085;
+}
+
+/* =========================================
+   HERO BUTTONS
+========================================= */
+
+.dashboard-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 32px;
+}
+
+.dashboard-primary-button {
+  height: 48px !important;
+  padding: 0 24px !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+}
+
+.dashboard-secondary-button {
+  height: 48px !important;
+  padding: 0 24px !important;
+  border-radius: 8px !important;
+  font-weight: 600;
+}
+
+/* =========================================
+   FEATURE SECTION
+========================================= */
+
+.features-section {
+  padding: 10px 0 50px;
+}
+
+.feature-card {
+  height: 100%;
+  border: 1px solid #e8edf5 !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+  background: #ffffff;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(20, 40, 80, 0.1) !important;
+}
+
+.feature-icon-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  margin: 28px auto 8px;
+  border-radius: 16px;
+  background: #edf5ff;
+  color: #1677ff;
+  font-size: 34px;
+}
+
+.feature-card .ant-card-body {
+  padding: 22px 22px 26px;
+}
+
+.feature-card .ant-card-meta-title {
+  font-size: 17px;
+  font-weight: 650;
+  color: #172033;
+}
+
+.feature-card .ant-card-meta-description {
+  color: #7a8496;
+  line-height: 1.6;
+  font-size: 14px;
+}
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 768px) {
+  .dashboard-hero {
+    padding: 45px 16px 40px;
+  }
+
+  .dashboard-title {
+    font-size: 36px !important;
+  }
+
+  .dashboard-description {
+    font-size: 16px;
+  }
+
+  .dashboard-actions {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .dashboard-primary-button,
+  .dashboard-secondary-button {
+    width: 100%;
+    max-width: 280px;
+  }
+
+  .features-section {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .dashboard-title {
+    font-size: 30px !important;
+  }
+
+  .dashboard-description {
+    font-size: 15px;
+  }
+
+  .dashboard-badge {
+    font-size: 13px;
   }
 }
