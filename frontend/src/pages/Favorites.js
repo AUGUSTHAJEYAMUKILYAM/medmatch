@@ -1,8 +1,5 @@
 import React, { useEffect, useState } from "react";
 import {
-  Card,
-  Row,
-  Col,
   Button,
   Empty,
   Spin,
@@ -12,33 +9,30 @@ import {
 import {
   DeleteOutlined,
   EyeOutlined,
+  HeartFilled,
+  MedicineBoxOutlined,
 } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import api from "../services/api";
+import "./Favorites.css";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 function Favorites() {
   const navigate = useNavigate();
 
-  const [favorites, setFavorites] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
+  const [favorites, setFavorites] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const loadFavorites = async () => {
     setLoading(true);
 
     try {
-      const response =
-        await api.get("/favorites");
-
-      setFavorites(response.data);
+      const response = await api.get("/favorites");
+      setFavorites(response.data || []);
     } catch (error) {
-      message.error(
-        "Failed to load favorites"
-      );
+      console.error("Failed to load favorites:", error);
+      message.error("Failed to load favorites");
     } finally {
       setLoading(false);
     }
@@ -50,100 +44,167 @@ function Favorites() {
 
   const removeFavorite = async (id) => {
     try {
-      await api.delete(
-        `/favorites/${id}`
-      );
+      await api.delete(`/favorites/${id}`);
 
-      message.success(
-        "Removed from favorites"
-      );
+      message.success("Removed from favorites");
 
-      loadFavorites();
+      await loadFavorites();
     } catch (error) {
-      message.error(
-        "Failed to remove favorite"
-      );
+      console.error("Failed to remove favorite:", error);
+      message.error("Failed to remove favorite");
     }
   };
 
   if (loading) {
     return (
-      <div style={{ textAlign: "center" }}>
+      <div className="favorites-loading">
         <Spin size="large" />
+        <Text>Loading your favorite medicines...</Text>
       </div>
     );
   }
 
   return (
-    <div>
-      <Title level={2}>
-        My Favorites
-      </Title>
+    <div className="favorites-page">
 
+      {/* HEADER */}
+      <section className="favorites-header">
+
+        <div>
+          <Text className="favorites-eyebrow">
+            YOUR MEDICINE COLLECTION
+          </Text>
+
+          <Title>
+            My Favorites
+          </Title>
+
+          <Text className="favorites-subtitle">
+            Quickly access the medicines you want to keep track of.
+          </Text>
+        </div>
+
+        <div className="favorites-count">
+          <HeartFilled />
+          <span>
+            {favorites.length}
+          </span>
+        </div>
+
+      </section>
+
+
+      {/* EMPTY */}
       {favorites.length === 0 ? (
-        <Empty description="No favorite medicines" />
+
+        <div className="favorites-empty">
+
+          <div className="favorites-empty-icon">
+            <HeartFilled />
+          </div>
+
+          <Title level={3}>
+            No favorite medicines
+          </Title>
+
+          <Text>
+            Medicines you save will appear here for quick access.
+          </Text>
+
+          <Button
+            type="primary"
+            onClick={() => navigate("/medicines")}
+          >
+            Browse Medicines
+          </Button>
+
+        </div>
+
       ) : (
-        <Row gutter={[20, 20]}>
+
+        <div className="favorites-grid">
+
           {favorites.map((favorite) => {
-            const medicine =
-              favorite.medicine;
+
+            const medicine = favorite.medicine;
+
+            if (!medicine) return null;
 
             return (
-              <Col
-                xs={24}
-                sm={12}
-                lg={8}
+              <div
+                className="favorite-medicine-card"
                 key={favorite.id}
               >
-                <Card
-                  title={medicine?.name}
-                >
-                  <p>
+
+                {/* CARD ICON */}
+                <div className="favorite-card-image">
+
+                  <MedicineBoxOutlined />
+
+                  <div className="favorite-heart">
+                    <HeartFilled />
+                  </div>
+
+                </div>
+
+
+                {/* INFORMATION */}
+                <div className="favorite-card-body">
+
+                  <Title level={4}>
+                    {medicine.name}
+                  </Title>
+
+                  <Text className="generic-name">
+                    {medicine.genericName ||
+                      "Generic name unavailable"}
+                  </Text>
+
+
+                  <div className="medicine-strength">
+                    <span>Strength</span>
                     <strong>
-                      Generic Name:
-                    </strong>{" "}
-                    {medicine?.genericName}
-                  </p>
+                      {medicine.strength || "Not specified"}
+                    </strong>
+                  </div>
 
-                  <p>
-                    <strong>
-                      Strength:
-                    </strong>{" "}
-                    {medicine?.strength}
-                  </p>
 
-                  <Button
-                    type="primary"
-                    icon={<EyeOutlined />}
-                    onClick={() =>
-                      navigate(
-                        `/medicines/${medicine?.id}`
-                      )
-                    }
-                    style={{
-                      marginRight: "10px",
-                    }}
-                  >
-                    View Details
-                  </Button>
+                  <div className="favorite-actions">
 
-                  <Button
-                    danger
-                    icon={<DeleteOutlined />}
-                    onClick={() =>
-                      removeFavorite(
-                        favorite.id
-                      )
-                    }
-                  >
-                    Remove
-                  </Button>
-                </Card>
-              </Col>
+                    <Button
+                      type="primary"
+                      icon={<EyeOutlined />}
+                      onClick={() =>
+                        navigate(
+                          `/medicines/${medicine.id}`
+                        )
+                      }
+                    >
+                      View Details
+                    </Button>
+
+                    <Button
+                      danger
+                      icon={<DeleteOutlined />}
+                      onClick={() =>
+                        removeFavorite(favorite.id)
+                      }
+                    >
+                      Remove
+                    </Button>
+
+                  </div>
+
+                </div>
+
+              </div>
             );
           })}
-        </Row>
+
+        </div>
+
       )}
+
     </div>
   );
 }

@@ -4,18 +4,23 @@ import {
   Modal,
   Form,
   Input,
-  Table,
-  Popconfirm,
+  Empty,
+  Spin,
   Typography,
   message,
 } from "antd";
 import {
   PlusOutlined,
   DeleteOutlined,
+  FileTextOutlined,
+  EyeOutlined,
+  CalendarOutlined,
+  FilePdfOutlined,
 } from "@ant-design/icons";
 import api from "../services/api";
+import "./Prescriptions.css";
 
-const { Title } = Typography;
+const { Title, Text } = Typography;
 
 function Prescriptions() {
   const [prescriptions, setPrescriptions] = useState([]);
@@ -24,23 +29,14 @@ function Prescriptions() {
 
   const [form] = Form.useForm();
 
-  // --------------------------------------------------
-  // LOAD PRESCRIPTIONS
-  // --------------------------------------------------
-
   const loadPrescriptions = async () => {
     setLoading(true);
 
     try {
       const response = await api.get("/prescriptions");
-
-      console.log("Prescriptions loaded:", response.data);
-
       setPrescriptions(response.data || []);
     } catch (error) {
       console.error("Failed to load prescriptions:", error);
-      console.error("Status:", error.response?.status);
-      console.error("Response:", error.response?.data);
 
       message.error(
         error.response?.data?.message ||
@@ -51,61 +47,27 @@ function Prescriptions() {
     }
   };
 
-  // Load prescriptions when page opens
   useEffect(() => {
     loadPrescriptions();
   }, []);
 
-  // --------------------------------------------------
-  // UPLOAD PRESCRIPTION
-  // --------------------------------------------------
-
   const handleSubmit = async (values) => {
-    console.log("Prescription form submitted:", values);
-
     try {
-      const response = await api.post(
-        "/prescriptions",
-        null,
-        {
-          params: {
-            fileUrl: values.fileUrl,
-            notes: values.notes || "",
-          },
-        }
-      );
+      await api.post("/prescriptions", null, {
+        params: {
+          fileUrl: values.fileUrl,
+          notes: values.notes || "",
+        },
+      });
 
-      console.log(
-        "Prescription upload response:",
-        response.data
-      );
-
-      message.success(
-        "Prescription uploaded successfully"
-      );
+      message.success("Prescription uploaded successfully");
 
       setModalOpen(false);
-
       form.resetFields();
 
-      // Reload table
       await loadPrescriptions();
-
     } catch (error) {
-      console.error(
-        "Prescription upload error:",
-        error
-      );
-
-      console.error(
-        "Status:",
-        error.response?.status
-      );
-
-      console.error(
-        "Response:",
-        error.response?.data
-      );
+      console.error("Prescription upload error:", error);
 
       message.error(
         error.response?.data?.message ||
@@ -115,25 +77,15 @@ function Prescriptions() {
     }
   };
 
-  // --------------------------------------------------
-  // DELETE PRESCRIPTION
-  // --------------------------------------------------
-
   const handleDelete = async (id) => {
     try {
       await api.delete(`/prescriptions/${id}`);
 
-      message.success(
-        "Prescription deleted successfully"
-      );
+      message.success("Prescription deleted successfully");
 
       await loadPrescriptions();
-
     } catch (error) {
-      console.error(
-        "Delete prescription error:",
-        error
-      );
+      console.error("Delete prescription error:", error);
 
       message.error(
         error.response?.data?.message ||
@@ -142,101 +94,48 @@ function Prescriptions() {
     }
   };
 
-  // --------------------------------------------------
-  // TABLE COLUMNS
-  // --------------------------------------------------
+  const formatDate = (date) => {
+    if (!date) return "Date unavailable";
 
-  const columns = [
-    {
-      title: "Upload Date",
-      dataIndex: "uploadDate",
-      key: "uploadDate",
-
-      render: (date) =>
-        date
-          ? new Date(date).toLocaleDateString()
-          : "-",
-    },
-
-    {
-      title: "Notes",
-      dataIndex: "notes",
-      key: "notes",
-
-      render: (notes) =>
-        notes || "-",
-    },
-
-    {
-      title: "File",
-      dataIndex: "fileUrl",
-      key: "fileUrl",
-
-      render: (url) =>
-        url ? (
-          <a
-            href={url}
-            target="_blank"
-            rel="noreferrer"
-          >
-            View Document
-          </a>
-        ) : (
-          "-"
-        ),
-    },
-
-    {
-      title: "Action",
-      key: "action",
-
-      render: (_, record) => (
-        <Popconfirm
-          title="Delete prescription?"
-          description="Are you sure you want to delete this prescription?"
-          okText="Yes"
-          cancelText="No"
-          onConfirm={() =>
-            handleDelete(record.id)
-          }
-        >
-          <Button
-            danger
-            icon={<DeleteOutlined />}
-          >
-            Delete
-          </Button>
-        </Popconfirm>
-      ),
-    },
-  ];
-
-  // --------------------------------------------------
-  // UI
-  // --------------------------------------------------
+    return new Date(date).toLocaleDateString("en-IN", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    });
+  };
 
   return (
-    <div>
-      {/* PAGE HEADER */}
+    <div className="prescriptions-page">
 
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          marginBottom: "20px",
-        }}
-      >
-        <Title
-          level={2}
-          style={{ margin: 0 }}
-        >
-          Prescriptions
-        </Title>
+      {/* HERO */}
+      <section className="prescriptions-hero">
+        <div className="prescriptions-hero-content">
+
+          <div className="prescriptions-hero-icon">
+            <FileTextOutlined />
+          </div>
+
+          <div>
+            <Text className="prescriptions-eyebrow">
+              PERSONAL HEALTH RECORDS
+            </Text>
+
+            <Title className="prescriptions-title">
+              My Prescriptions
+            </Title>
+
+            <Text className="prescriptions-subtitle">
+              Keep your prescriptions organized and easily accessible
+              whenever you need them.
+            </Text>
+          </div>
+
+        </div>
 
         <Button
           type="primary"
           icon={<PlusOutlined />}
+          className="upload-prescription-btn"
           onClick={() => {
             form.resetFields();
             setModalOpen(true);
@@ -244,77 +143,233 @@ function Prescriptions() {
         >
           Upload Prescription
         </Button>
-      </div>
+      </section>
 
-      {/* PRESCRIPTION TABLE */}
 
-      <Table
-        loading={loading}
-        columns={columns}
-        dataSource={prescriptions}
-        rowKey="id"
-        locale={{
-          emptyText:
-            "No prescriptions uploaded yet",
-        }}
-      />
+      {/* CONTENT */}
+      <section className="prescriptions-content">
+
+        <div className="prescriptions-section-heading">
+          <div>
+            <Title level={3}>Your Documents</Title>
+
+            <Text>
+              {prescriptions.length}{" "}
+              {prescriptions.length === 1
+                ? "prescription"
+                : "prescriptions"}{" "}
+              saved
+            </Text>
+          </div>
+        </div>
+
+
+        {/* LOADING */}
+        {loading ? (
+          <div className="prescriptions-loading">
+            <Spin size="large" />
+            <Text>Loading your prescriptions...</Text>
+          </div>
+        ) : prescriptions.length === 0 ? (
+
+          /* EMPTY STATE */
+          <div className="prescriptions-empty">
+            <Empty
+              image={
+                <div className="empty-prescription-icon">
+                  <FileTextOutlined />
+                </div>
+              }
+              description={
+                <div>
+                  <Title level={4}>
+                    No prescriptions yet
+                  </Title>
+
+                  <Text>
+                    Upload your first prescription to keep
+                    your medical documents in one place.
+                  </Text>
+                </div>
+              }
+            />
+
+            <Button
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={() => {
+                form.resetFields();
+                setModalOpen(true);
+              }}
+            >
+              Upload Prescription
+            </Button>
+          </div>
+
+        ) : (
+
+          /* PRESCRIPTION CARDS */
+          <div className="prescription-grid">
+
+            {prescriptions.map((prescription) => (
+              <div
+                className="prescription-card"
+                key={prescription.id}
+              >
+
+                <div className="prescription-card-top">
+
+                  <div className="prescription-file-icon">
+                    <FilePdfOutlined />
+                  </div>
+
+                  <div className="prescription-card-title">
+                    <Text strong>
+                      Prescription Document
+                    </Text>
+
+                    <span>
+                      <CalendarOutlined />
+                      {formatDate(prescription.uploadDate)}
+                    </span>
+                  </div>
+
+                </div>
+
+
+                <div className="prescription-notes">
+
+                  <Text className="notes-label">
+                    NOTES
+                  </Text>
+
+                  <Text className="notes-value">
+                    {prescription.notes ||
+                      "No additional notes added."}
+                  </Text>
+
+                </div>
+
+
+                <div className="prescription-card-actions">
+
+                  {prescription.fileUrl && (
+                    <Button
+                      type="primary"
+                      icon={<EyeOutlined />}
+                      href={prescription.fileUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      View Document
+                    </Button>
+                  )}
+
+                  <Button
+                    danger
+                    icon={<DeleteOutlined />}
+                    onClick={() => {
+                      Modal.confirm({
+                        title: "Delete prescription?",
+                        content:
+                          "This prescription will be permanently removed.",
+                        okText: "Delete",
+                        cancelText: "Cancel",
+                        okButtonProps: {
+                          danger: true,
+                        },
+                        onOk: () =>
+                          handleDelete(prescription.id),
+                      });
+                    }}
+                  >
+                    Delete
+                  </Button>
+
+                </div>
+
+              </div>
+            ))}
+
+          </div>
+        )}
+
+      </section>
+
 
       {/* UPLOAD MODAL */}
-
       <Modal
-        title="Upload Prescription"
+        title={
+          <div className="upload-modal-title">
+            <div className="upload-modal-icon">
+              <FileTextOutlined />
+            </div>
+
+            <div>
+              <div>Upload Prescription</div>
+
+              <span>
+                Add a prescription document to your records
+              </span>
+            </div>
+          </div>
+        }
         open={modalOpen}
         onCancel={() => {
           setModalOpen(false);
           form.resetFields();
         }}
-        onOk={() => {
-          form.submit();
-        }}
+        onOk={() => form.submit()}
         okText="Upload"
         cancelText="Cancel"
+        centered
+        className="prescription-modal"
       >
+
         <Form
           form={form}
           layout="vertical"
           onFinish={handleSubmit}
         >
-          {/* FILE URL */}
 
           <Form.Item
-            label="File URL"
+            label="Prescription File URL"
             name="fileUrl"
             rules={[
               {
                 required: true,
-                message:
-                  "Please input the file URL!",
+                message: "Please enter the file URL",
               },
               {
                 type: "url",
-                message:
-                  "Please enter a valid URL!",
+                message: "Please enter a valid URL",
               },
             ]}
           >
             <Input
+              size="large"
+              prefix={<FileTextOutlined />}
               placeholder="https://example.com/prescription.pdf"
             />
           </Form.Item>
 
-          {/* NOTES */}
 
           <Form.Item
             label="Description / Notes"
             name="notes"
           >
             <Input.TextArea
-              placeholder="Add prescription details or notes..."
-              rows={4}
+              rows={5}
+              placeholder="Add any useful information about this prescription..."
+              showCount
+              maxLength={500}
             />
           </Form.Item>
+
         </Form>
+
       </Modal>
+
     </div>
   );
 }
