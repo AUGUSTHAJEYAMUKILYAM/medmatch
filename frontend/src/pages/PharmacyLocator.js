@@ -794,7 +794,9 @@ function MapUpdater({ center, zoom }) {
   const map = useMap();
 
   useEffect(() => {
-    map.setView(center, zoom);
+    map.flyTo(center, zoom, {
+      duration: 1.2,
+    });
   }, [center, zoom, map]);
 
   return null;
@@ -833,21 +835,29 @@ function PharmacyLocator() {
       );
 
       if (firstValidPharmacy) {
-        const coordinates = getCoordinates(firstValidPharmacy);
+        const coordinates = getCoordinates(
+          firstValidPharmacy
+        );
 
         setCenter(coordinates);
         setZoom(13);
       }
     } catch (error) {
-      console.error("Failed to load pharmacies:", error);
-      message.error("Failed to load pharmacies");
+      console.error(
+        "Failed to load pharmacies:",
+        error
+      );
+
+      message.error(
+        "Failed to load pharmacies"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   /* =========================================
-     SEARCH
+     SEARCH PHARMACIES
   ========================================= */
 
   const searchPharmacies = async (value) => {
@@ -864,15 +874,23 @@ function PharmacyLocator() {
       setLoading(true);
 
       const response = await api.get(
-        `/pharmacies/search/${encodeURIComponent(query)}`
+        `/pharmacies/search/${encodeURIComponent(
+          query
+        )}`
       );
 
       const data = response.data || [];
 
+      console.log("Search results:", data);
+
       setPharmacies(data);
 
+      /* NO RESULTS */
+
       if (data.length === 0) {
-        message.info("No pharmacies found");
+        message.info(
+          "No pharmacies found"
+        );
 
         setCenter(defaultCenter);
         setZoom(defaultZoom);
@@ -880,37 +898,57 @@ function PharmacyLocator() {
         return;
       }
 
+      /* FIND FIRST PHARMACY WITH VALID LOCATION */
+
       const firstValidPharmacy = data.find(
-        (pharmacy) => getCoordinates(pharmacy) !== null
+        (pharmacy) =>
+          getCoordinates(pharmacy) !== null
       );
 
-      if (firstValidPharmacy) {
-        const coordinates = getCoordinates(firstValidPharmacy);
-
-        setCenter(coordinates);
-        setZoom(13);
-      } else {
+      if (!firstValidPharmacy) {
         message.warning(
           "Pharmacies found, but location coordinates are unavailable."
         );
 
-        setCenter(defaultCenter);
-        setZoom(defaultZoom);
+        return;
       }
+
+      const coordinates =
+        getCoordinates(
+          firstValidPharmacy
+        );
+
+      console.log(
+        "Moving map to:",
+        coordinates
+      );
+
+      /* MOVE MAP */
+
+      setCenter(coordinates);
+      setZoom(13);
+
     } catch (error) {
-      console.error("Search failed:", error);
-      message.error("Search failed");
+      console.error(
+        "Search failed:",
+        error
+      );
+
+      message.error(
+        "Search failed"
+      );
     } finally {
       setLoading(false);
     }
   };
 
   /* =========================================
-     SHOW ON MAP
+     SHOW PARTICULAR PHARMACY ON MAP
   ========================================= */
 
   const showOnMap = (pharmacy) => {
-    const coordinates = getCoordinates(pharmacy);
+    const coordinates =
+      getCoordinates(pharmacy);
 
     if (!coordinates) {
       message.warning(
@@ -968,10 +1006,14 @@ function PharmacyLocator() {
             <Input
               value={searchQuery}
               onChange={(e) =>
-                setSearchQuery(e.target.value)
+                setSearchQuery(
+                  e.target.value
+                )
               }
               onPressEnter={() =>
-                searchPharmacies(searchQuery)
+                searchPharmacies(
+                  searchQuery
+                )
               }
               placeholder="Search by city or pincode..."
               bordered={false}
@@ -982,7 +1024,9 @@ function PharmacyLocator() {
               type="primary"
               loading={loading}
               onClick={() =>
-                searchPharmacies(searchQuery)
+                searchPharmacies(
+                  searchQuery
+                )
               }
             >
               Search
@@ -1075,10 +1119,14 @@ function PharmacyLocator() {
               zoom={zoom}
             />
 
+            {/* PHARMACY MARKERS */}
+
             {pharmacies.map((pharmacy) => {
 
               const coordinates =
-                getCoordinates(pharmacy);
+                getCoordinates(
+                  pharmacy
+                );
 
               if (!coordinates) {
                 return null;
@@ -1114,12 +1162,14 @@ function PharmacyLocator() {
 
                         <span>
                           <PhoneOutlined />
+
                           {pharmacy.phone ||
                             "Not available"}
                         </span>
 
                         <span>
                           <ClockCircleOutlined />
+
                           {pharmacy.openingHours ||
                             "Not available"}
                         </span>
@@ -1156,112 +1206,119 @@ function PharmacyLocator() {
 
           <div className="pharmacy-grid">
 
-            {pharmacies.map((pharmacy) => (
+            {pharmacies.map(
+              (pharmacy) => (
 
-              <div
-                className="pharmacy-card"
-                key={pharmacy.id}
-              >
+                <div
+                  className="pharmacy-card"
+                  key={pharmacy.id}
+                >
 
-                {/* CARD TOP */}
+                  {/* CARD TOP */}
 
-                <div className="pharmacy-card-top">
+                  <div className="pharmacy-card-top">
 
-                  <div className="pharmacy-card-icon">
-                    <MedicineBoxOutlined />
+                    <div className="pharmacy-card-icon">
+                      <MedicineBoxOutlined />
+                    </div>
+
+                    <div className="pharmacy-status">
+
+                      <span></span>
+
+                      Location available
+
+                    </div>
+
                   </div>
 
-                  <div className="pharmacy-status">
-                    <span></span>
-                    Location available
-                  </div>
+                  {/* NAME */}
 
-                </div>
+                  <h3>
+                    {pharmacy.name}
+                  </h3>
 
-                {/* NAME */}
-
-                <h3>
-                  {pharmacy.name}
-                </h3>
-
-                <div className="pharmacy-city">
-
-                  <EnvironmentOutlined />
-
-                  <span>
-                    {pharmacy.city}
-                  </span>
-
-                </div>
-
-                {/* DETAILS */}
-
-                <div className="pharmacy-details">
-
-                  <div className="detail-row">
+                  <div className="pharmacy-city">
 
                     <EnvironmentOutlined />
 
                     <span>
-                      {pharmacy.address}
+                      {pharmacy.city}
                     </span>
 
                   </div>
 
-                  <div className="detail-row">
+                  {/* DETAILS */}
 
-                    <PhoneOutlined />
+                  <div className="pharmacy-details">
 
-                    <span>
-                      {pharmacy.phone ||
-                        "Phone not available"}
-                    </span>
+                    <div className="detail-row">
+
+                      <EnvironmentOutlined />
+
+                      <span>
+                        {pharmacy.address}
+                      </span>
+
+                    </div>
+
+                    <div className="detail-row">
+
+                      <PhoneOutlined />
+
+                      <span>
+                        {pharmacy.phone ||
+                          "Phone not available"}
+                      </span>
+
+                    </div>
+
+                    <div className="detail-row">
+
+                      <ClockCircleOutlined />
+
+                      <span>
+                        {pharmacy.openingHours ||
+                          "Opening hours not available"}
+                      </span>
+
+                    </div>
+
+                    <div className="detail-row">
+
+                      <span className="pincode-label">
+                        PIN
+                      </span>
+
+                      <span>
+                        {pharmacy.pincode ||
+                          "Not available"}
+                      </span>
+
+                    </div>
 
                   </div>
 
-                  <div className="detail-row">
+                  {/* ACTION */}
 
-                    <ClockCircleOutlined />
-
-                    <span>
-                      {pharmacy.openingHours ||
-                        "Opening hours not available"}
-                    </span>
-
-                  </div>
-
-                  <div className="detail-row">
-
-                    <span className="pincode-label">
-                      PIN
-                    </span>
-
-                    <span>
-                      {pharmacy.pincode ||
-                        "Not available"}
-                    </span>
-
-                  </div>
+                  <Button
+                    type="primary"
+                    icon={
+                      <EnvironmentOutlined />
+                    }
+                    onClick={() =>
+                      showOnMap(pharmacy)
+                    }
+                    block
+                    className="view-map-button"
+                  >
+                    View on Map
+                  </Button>
 
                 </div>
 
-                {/* ACTION */}
-
-                <Button
-                  type="primary"
-                  icon={<EnvironmentOutlined />}
-                  onClick={() =>
-                    showOnMap(pharmacy)
-                  }
-                  block
-                  className="view-map-button"
-                >
-                  View on Map
-                </Button>
-
-              </div>
-
-            ))}
+              )
+            )}
 
           </div>
 
