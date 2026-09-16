@@ -1,3 +1,4 @@
+
 // package com.example.demo.service;
 
 // import com.example.demo.model.Pharmacy;
@@ -18,23 +19,31 @@
 //     public List<Pharmacy> getAllPharmacies() {
 //         return repository.findAll();
 //     }
+
 //     public Pharmacy getPharmacyById(Long id) {
-//     return repository.findById(id)
-//             .orElseThrow(() -> new RuntimeException("Pharmacy not found"));
-// }
+//         return repository.findById(id)
+//                 .orElseThrow(() ->
+//                         new RuntimeException("Pharmacy not found"));
+//     }
 
 //     public List<Pharmacy> searchPharmacies(String keyword) {
-//         return repository.findByCityContainingIgnoreCaseOrPincode(keyword, keyword);
+//         return repository.findByCityContainingIgnoreCaseOrPincode(
+//                 keyword,
+//                 keyword
+//         );
 //     }
 
 //     public Pharmacy savePharmacy(Pharmacy pharmacy) {
 //         return repository.save(pharmacy);
 //     }
 
-//     public Pharmacy updatePharmacy(Long id, Pharmacy details) {
+//     public Pharmacy updatePharmacy(
+//             Long id,
+//             Pharmacy details) {
 
 //         Pharmacy pharmacy = repository.findById(id)
-//                 .orElseThrow(() -> new RuntimeException("Pharmacy not found"));
+//                 .orElseThrow(() ->
+//                         new RuntimeException("Pharmacy not found"));
 
 //         pharmacy.setName(details.getName());
 //         pharmacy.setAddress(details.getAddress());
