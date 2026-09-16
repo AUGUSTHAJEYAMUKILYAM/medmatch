@@ -1,709 +1,709 @@
-import React, { useEffect, useState } from "react";
-import {
-  Input,
-  Empty,
-  Typography,
-  message,
-  Button,
-} from "antd";
+// import React, { useEffect, useState } from "react";
+// import {
+//   Input,
+//   Empty,
+//   Typography,
+//   message,
+//   Button,
+// } from "antd";
 
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  useMap,
-} from "react-leaflet";
+// import {
+//   MapContainer,
+//   TileLayer,
+//   Marker,
+//   Popup,
+//   useMap,
+// } from "react-leaflet";
 
-import {
-  EnvironmentOutlined,
-  SearchOutlined,
-  PhoneOutlined,
-  ClockCircleOutlined,
-  CompassOutlined,
-  MedicineBoxOutlined,
-} from "@ant-design/icons";
+// import {
+//   EnvironmentOutlined,
+//   SearchOutlined,
+//   PhoneOutlined,
+//   ClockCircleOutlined,
+//   CompassOutlined,
+//   MedicineBoxOutlined,
+// } from "@ant-design/icons";
 
-import L from "leaflet";
+// import L from "leaflet";
 
-import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
-import markerIcon from "leaflet/dist/images/marker-icon.png";
-import markerShadow from "leaflet/dist/images/marker-shadow.png";
+// import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+// import markerIcon from "leaflet/dist/images/marker-icon.png";
+// import markerShadow from "leaflet/dist/images/marker-shadow.png";
 
-import "leaflet/dist/leaflet.css";
+// import "leaflet/dist/leaflet.css";
 
-import api from "../services/api";
-import "./PharmacyLocator.css";
+// import api from "../services/api";
+// import "./PharmacyLocator.css";
 
-const { Title } = Typography;
+// const { Title } = Typography;
 
 
-/* =========================================
-   FIX LEAFLET MARKER
-========================================= */
+// /* =========================================
+//    FIX LEAFLET MARKER
+// ========================================= */
 
-delete L.Icon.Default.prototype._getIconUrl;
+// delete L.Icon.Default.prototype._getIconUrl;
 
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-});
+// L.Icon.Default.mergeOptions({
+//   iconRetinaUrl: markerIcon2x,
+//   iconUrl: markerIcon,
+//   shadowUrl: markerShadow,
+// });
 
 
-/* =========================================
-   DEFAULT MAP
-========================================= */
+// /* =========================================
+//    DEFAULT MAP
+// ========================================= */
 
-const defaultCenter = [20.5937, 78.9629];
-const defaultZoom = 5;
+// const defaultCenter = [20.5937, 78.9629];
+// const defaultZoom = 5;
 
 
-/* =========================================
-   UPDATE MAP
-========================================= */
+// /* =========================================
+//    UPDATE MAP
+// ========================================= */
 
-function MapUpdater({ center, zoom }) {
-  const map = useMap();
+// function MapUpdater({ center, zoom }) {
+//   const map = useMap();
 
-  useEffect(() => {
-    map.setView(center, zoom);
-  }, [center, zoom, map]);
+//   useEffect(() => {
+//     map.setView(center, zoom);
+//   }, [center, zoom, map]);
 
-  return null;
-}
+//   return null;
+// }
 
 
-/* =========================================
-   PHARMACY LOCATOR
-========================================= */
+// /* =========================================
+//    PHARMACY LOCATOR
+// ========================================= */
 
-function PharmacyLocator() {
+// function PharmacyLocator() {
 
-  const [pharmacies, setPharmacies] = useState([]);
+//   const [pharmacies, setPharmacies] = useState([]);
 
-  const [searchQuery, setSearchQuery] = useState("");
+//   const [searchQuery, setSearchQuery] = useState("");
 
-  const [center, setCenter] =
-    useState(defaultCenter);
+//   const [center, setCenter] =
+//     useState(defaultCenter);
 
-  const [zoom, setZoom] =
-    useState(defaultZoom);
+//   const [zoom, setZoom] =
+//     useState(defaultZoom);
 
-  const [loading, setLoading] =
-    useState(false);
+//   const [loading, setLoading] =
+//     useState(false);
 
 
-  /* =========================================
-     LOAD PHARMACIES
-  ========================================= */
+//   /* =========================================
+//      LOAD PHARMACIES
+//   ========================================= */
 
-  useEffect(() => {
-    loadPharmacies();
-  }, []);
+//   useEffect(() => {
+//     loadPharmacies();
+//   }, []);
 
 
-  const loadPharmacies = async () => {
+//   const loadPharmacies = async () => {
 
-    try {
+//     try {
 
-      setLoading(true);
+//       setLoading(true);
 
-      const response =
-        await api.get("/pharmacies");
+//       const response =
+//         await api.get("/pharmacies");
 
-      const data =
-        response.data || [];
+//       const data =
+//         response.data || [];
 
-      setPharmacies(data);
+//       setPharmacies(data);
 
 
-      const firstValidPharmacy =
-        data.find(
-          (pharmacy) =>
-            typeof pharmacy.latitude ===
-              "number" &&
-            typeof pharmacy.longitude ===
-              "number" &&
-            pharmacy.latitude !== 0 &&
-            pharmacy.longitude !== 0
-        );
+//       const firstValidPharmacy =
+//         data.find(
+//           (pharmacy) =>
+//             typeof pharmacy.latitude ===
+//               "number" &&
+//             typeof pharmacy.longitude ===
+//               "number" &&
+//             pharmacy.latitude !== 0 &&
+//             pharmacy.longitude !== 0
+//         );
 
 
-      if (firstValidPharmacy) {
+//       if (firstValidPharmacy) {
 
-        setCenter([
-          firstValidPharmacy.latitude,
-          firstValidPharmacy.longitude,
-        ]);
+//         setCenter([
+//           firstValidPharmacy.latitude,
+//           firstValidPharmacy.longitude,
+//         ]);
 
-        setZoom(13);
-      }
+//         setZoom(13);
+//       }
 
-    } catch (error) {
+//     } catch (error) {
 
-      console.error(
-        "Failed to load pharmacies:",
-        error
-      );
+//       console.error(
+//         "Failed to load pharmacies:",
+//         error
+//       );
 
-      message.error(
-        "Failed to load pharmacies"
-      );
+//       message.error(
+//         "Failed to load pharmacies"
+//       );
 
-    } finally {
+//     } finally {
 
-      setLoading(false);
+//       setLoading(false);
 
-    }
-  };
+//     }
+//   };
 
 
-  /* =========================================
-     SEARCH
-  ========================================= */
+//   /* =========================================
+//      SEARCH
+//   ========================================= */
 
-  const searchPharmacies = async (value) => {
+//   const searchPharmacies = async (value) => {
 
-    const query =
-      value.trim();
+//     const query =
+//       value.trim();
 
-    setSearchQuery(value);
+//     setSearchQuery(value);
 
 
-    if (!query) {
+//     if (!query) {
 
-      loadPharmacies();
+//       loadPharmacies();
 
-      return;
-    }
+//       return;
+//     }
 
 
-    try {
+//     try {
 
-      setLoading(true);
+//       setLoading(true);
 
-      const response =
-        await api.get(
-          `/pharmacies/search/${encodeURIComponent(
-            query
-          )}`
-        );
+//       const response =
+//         await api.get(
+//           `/pharmacies/search/${encodeURIComponent(
+//             query
+//           )}`
+//         );
 
-      const data =
-        response.data || [];
+//       const data =
+//         response.data || [];
 
-      setPharmacies(data);
+//       setPharmacies(data);
 
 
-      if (data.length === 0) {
+//       if (data.length === 0) {
 
-        message.info(
-          "No pharmacies found"
-        );
+//         message.info(
+//           "No pharmacies found"
+//         );
 
-        setCenter(defaultCenter);
+//         setCenter(defaultCenter);
 
-        setZoom(defaultZoom);
+//         setZoom(defaultZoom);
 
-        return;
-      }
+//         return;
+//       }
 
 
-      const firstValidPharmacy =
-        data.find(
-          (pharmacy) =>
-            typeof pharmacy.latitude ===
-              "number" &&
-            typeof pharmacy.longitude ===
-              "number" &&
-            pharmacy.latitude !== 0 &&
-            pharmacy.longitude !== 0
-        );
+//       const firstValidPharmacy =
+//         data.find(
+//           (pharmacy) =>
+//             typeof pharmacy.latitude ===
+//               "number" &&
+//             typeof pharmacy.longitude ===
+//               "number" &&
+//             pharmacy.latitude !== 0 &&
+//             pharmacy.longitude !== 0
+//         );
 
 
-      if (firstValidPharmacy) {
+//       if (firstValidPharmacy) {
 
-        setCenter([
-          firstValidPharmacy.latitude,
-          firstValidPharmacy.longitude,
-        ]);
+//         setCenter([
+//           firstValidPharmacy.latitude,
+//           firstValidPharmacy.longitude,
+//         ]);
 
-        setZoom(13);
-      }
+//         setZoom(13);
+//       }
 
-    } catch (error) {
+//     } catch (error) {
 
-      console.error(
-        "Search failed:",
-        error
-      );
+//       console.error(
+//         "Search failed:",
+//         error
+//       );
 
-      message.error(
-        "Search failed"
-      );
+//       message.error(
+//         "Search failed"
+//       );
 
-    } finally {
+//     } finally {
 
-      setLoading(false);
+//       setLoading(false);
 
-    }
-  };
+//     }
+//   };
 
 
-  /* =========================================
-     SHOW ON MAP
-  ========================================= */
+//   /* =========================================
+//      SHOW ON MAP
+//   ========================================= */
 
-  const showOnMap = (pharmacy) => {
+//   const showOnMap = (pharmacy) => {
 
-    if (
-      typeof pharmacy.latitude !==
-        "number" ||
-      typeof pharmacy.longitude !==
-        "number" ||
-      pharmacy.latitude === 0 ||
-      pharmacy.longitude === 0
-    ) {
+//     if (
+//       typeof pharmacy.latitude !==
+//         "number" ||
+//       typeof pharmacy.longitude !==
+//         "number" ||
+//       pharmacy.latitude === 0 ||
+//       pharmacy.longitude === 0
+//     ) {
 
-      message.warning(
-        "Location is not available for this pharmacy"
-      );
+//       message.warning(
+//         "Location is not available for this pharmacy"
+//       );
 
-      return;
-    }
+//       return;
+//     }
 
 
-    setCenter([
-      pharmacy.latitude,
-      pharmacy.longitude,
-    ]);
+//     setCenter([
+//       pharmacy.latitude,
+//       pharmacy.longitude,
+//     ]);
 
-    setZoom(15);
-  };
+//     setZoom(15);
+//   };
 
 
-  /* =========================================
-     UI
-  ========================================= */
+//   /* =========================================
+//      UI
+//   ========================================= */
 
-  return (
-    <div className="pharmacy-page">
+//   return (
+//     <div className="pharmacy-page">
 
 
-      {/* =====================================
-          HERO
-      ===================================== */}
+//       {/* =====================================
+//           HERO
+//       ===================================== */}
 
-      <section className="pharmacy-hero">
+//       <section className="pharmacy-hero">
 
-        <div className="pharmacy-hero-content">
+//         <div className="pharmacy-hero-content">
 
-          <div className="pharmacy-badge">
-            <EnvironmentOutlined />
+//           <div className="pharmacy-badge">
+//             <EnvironmentOutlined />
 
-            <span>
-              PHARMACY LOCATOR
-            </span>
-          </div>
+//             <span>
+//               PHARMACY LOCATOR
+//             </span>
+//           </div>
 
 
-          <Title>
-            Find a pharmacy
-            <br />
-            <span>near you.</span>
-          </Title>
+//           <Title>
+//             Find a pharmacy
+//             <br />
+//             <span>near you.</span>
+//           </Title>
 
 
-          <p>
-            Search pharmacies by city or pincode
-            and find their location, opening hours
-            and contact information.
-          </p>
+//           <p>
+//             Search pharmacies by city or pincode
+//             and find their location, opening hours
+//             and contact information.
+//           </p>
 
 
-          {/* HERO SEARCH */}
+//           {/* HERO SEARCH */}
 
-          <div className="pharmacy-search">
+//           <div className="pharmacy-search">
 
-            <SearchOutlined />
+//             <SearchOutlined />
 
-            <Input
-              value={searchQuery}
-              onChange={(e) =>
-                setSearchQuery(
-                  e.target.value
-                )
-              }
-              onPressEnter={() =>
-                searchPharmacies(
-                  searchQuery
-                )
-              }
-              placeholder="Search by city or pincode..."
-              bordered={false}
-              allowClear
-            />
+//             <Input
+//               value={searchQuery}
+//               onChange={(e) =>
+//                 setSearchQuery(
+//                   e.target.value
+//                 )
+//               }
+//               onPressEnter={() =>
+//                 searchPharmacies(
+//                   searchQuery
+//                 )
+//               }
+//               placeholder="Search by city or pincode..."
+//               bordered={false}
+//               allowClear
+//             />
 
-            <Button
-              type="primary"
-              loading={loading}
-              onClick={() =>
-                searchPharmacies(
-                  searchQuery
-                )
-              }
-            >
-              Search
-            </Button>
+//             <Button
+//               type="primary"
+//               loading={loading}
+//               onClick={() =>
+//                 searchPharmacies(
+//                   searchQuery
+//                 )
+//               }
+//             >
+//               Search
+//             </Button>
 
-          </div>
+//           </div>
 
-        </div>
+//         </div>
 
 
-        <div className="pharmacy-hero-icon">
+//         <div className="pharmacy-hero-icon">
 
-          <EnvironmentOutlined />
+//           <EnvironmentOutlined />
 
-        </div>
+//         </div>
 
-      </section>
+//       </section>
 
 
-      {/* =====================================
-          MAIN CONTENT
-      ===================================== */}
+//       {/* =====================================
+//           MAIN CONTENT
+//       ===================================== */}
 
-      <section className="pharmacy-content">
+//       <section className="pharmacy-content">
 
 
-        {/* SECTION HEADER */}
+//         {/* SECTION HEADER */}
 
-        <div className="pharmacy-section-heading">
+//         <div className="pharmacy-section-heading">
 
-          <div>
+//           <div>
 
-            <span className="section-label">
-              PHARMACY NETWORK
-            </span>
+//             <span className="section-label">
+//               PHARMACY NETWORK
+//             </span>
 
-            <h2>
-              Pharmacies near you
-            </h2>
+//             <h2>
+//               Pharmacies near you
+//             </h2>
 
-          </div>
+//           </div>
 
 
-          <div className="location-count">
+//           <div className="location-count">
 
-            <EnvironmentOutlined />
+//             <EnvironmentOutlined />
 
-            <span>
-              {pharmacies.length}{" "}
-              {pharmacies.length === 1
-                ? "location"
-                : "locations"}
-            </span>
+//             <span>
+//               {pharmacies.length}{" "}
+//               {pharmacies.length === 1
+//                 ? "location"
+//                 : "locations"}
+//             </span>
 
-          </div>
+//           </div>
 
-        </div>
+//         </div>
 
 
-        {/* =====================================
-            MAP
-        ===================================== */}
+//         {/* =====================================
+//             MAP
+//         ===================================== */}
 
-        <div className="map-wrapper">
+//         <div className="map-wrapper">
 
-          <div className="map-header">
+//           <div className="map-header">
 
-            <div>
+//             <div>
 
-              <CompassOutlined />
+//               <CompassOutlined />
 
-              <span>
-                Explore pharmacy locations
-              </span>
+//               <span>
+//                 Explore pharmacy locations
+//               </span>
 
-            </div>
+//             </div>
 
-            <span>
-              Click a marker for details
-            </span>
+//             <span>
+//               Click a marker for details
+//             </span>
 
-          </div>
+//           </div>
 
 
-          <MapContainer
-            center={center}
-            zoom={zoom}
-            className="pharmacy-map"
-          >
+//           <MapContainer
+//             center={center}
+//             zoom={zoom}
+//             className="pharmacy-map"
+//           >
 
-            <TileLayer
-              attribution="&copy; OpenStreetMap contributors"
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
+//             <TileLayer
+//               attribution="&copy; OpenStreetMap contributors"
+//               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+//             />
 
 
-            <MapUpdater
-              center={center}
-              zoom={zoom}
-            />
+//             <MapUpdater
+//               center={center}
+//               zoom={zoom}
+//             />
 
 
-            {pharmacies.map(
-              (pharmacy) => {
+//             {pharmacies.map(
+//               (pharmacy) => {
 
-                if (
-                  typeof pharmacy.latitude !==
-                    "number" ||
-                  typeof pharmacy.longitude !==
-                    "number" ||
-                  pharmacy.latitude === 0 ||
-                  pharmacy.longitude === 0
-                ) {
-                  return null;
-                }
+//                 if (
+//                   typeof pharmacy.latitude !==
+//                     "number" ||
+//                   typeof pharmacy.longitude !==
+//                     "number" ||
+//                   pharmacy.latitude === 0 ||
+//                   pharmacy.longitude === 0
+//                 ) {
+//                   return null;
+//                 }
 
 
-                return (
+//                 return (
 
-                  <Marker
-                    key={pharmacy.id}
-                    position={[
-                      pharmacy.latitude,
-                      pharmacy.longitude,
-                    ]}
-                  >
+//                   <Marker
+//                     key={pharmacy.id}
+//                     position={[
+//                       pharmacy.latitude,
+//                       pharmacy.longitude,
+//                     ]}
+//                   >
 
-                    <Popup>
+//                     <Popup>
 
-                      <div className="map-popup">
+//                       <div className="map-popup">
 
-                        <div className="popup-icon">
-                          <MedicineBoxOutlined />
-                        </div>
+//                         <div className="popup-icon">
+//                           <MedicineBoxOutlined />
+//                         </div>
 
-                        <strong>
-                          {pharmacy.name}
-                        </strong>
+//                         <strong>
+//                           {pharmacy.name}
+//                         </strong>
 
-                        <span>
-                          {pharmacy.address}
-                        </span>
+//                         <span>
+//                           {pharmacy.address}
+//                         </span>
 
-                        <span>
-                          {pharmacy.city}
-                        </span>
+//                         <span>
+//                           {pharmacy.city}
+//                         </span>
 
-                        <div className="popup-info">
+//                         <div className="popup-info">
 
-                          <span>
-                            <PhoneOutlined />
-                            {pharmacy.phone ||
-                              "Not available"}
-                          </span>
+//                           <span>
+//                             <PhoneOutlined />
+//                             {pharmacy.phone ||
+//                               "Not available"}
+//                           </span>
 
-                          <span>
-                            <ClockCircleOutlined />
-                            {pharmacy.openingHours ||
-                              "Not available"}
-                          </span>
+//                           <span>
+//                             <ClockCircleOutlined />
+//                             {pharmacy.openingHours ||
+//                               "Not available"}
+//                           </span>
 
-                        </div>
+//                         </div>
 
-                      </div>
+//                       </div>
 
-                    </Popup>
+//                     </Popup>
 
-                  </Marker>
+//                   </Marker>
 
-                );
-              }
-            )}
+//                 );
+//               }
+//             )}
 
-          </MapContainer>
+//           </MapContainer>
 
-        </div>
+//         </div>
 
 
-        {/* =====================================
-            PHARMACY LIST
-        ===================================== */}
+//         {/* =====================================
+//             PHARMACY LIST
+//         ===================================== */}
 
-        {pharmacies.length === 0 ? (
+//         {pharmacies.length === 0 ? (
 
-          <div className="pharmacy-empty">
+//           <div className="pharmacy-empty">
 
-            <Empty
-              description="No pharmacies found"
-            />
+//             <Empty
+//               description="No pharmacies found"
+//             />
 
-          </div>
+//           </div>
 
-        ) : (
+//         ) : (
 
-          <div className="pharmacy-grid">
+//           <div className="pharmacy-grid">
 
-            {pharmacies.map(
-              (pharmacy) => (
+//             {pharmacies.map(
+//               (pharmacy) => (
 
-                <div
-                  className="pharmacy-card"
-                  key={pharmacy.id}
-                >
+//                 <div
+//                   className="pharmacy-card"
+//                   key={pharmacy.id}
+//                 >
 
-                  {/* CARD TOP */}
+//                   {/* CARD TOP */}
 
-                  <div className="pharmacy-card-top">
+//                   <div className="pharmacy-card-top">
 
-                    <div className="pharmacy-card-icon">
+//                     <div className="pharmacy-card-icon">
 
-                      <MedicineBoxOutlined />
+//                       <MedicineBoxOutlined />
 
-                    </div>
+//                     </div>
 
 
-                    <div className="pharmacy-status">
-                      <span></span>
-                      Location available
-                    </div>
+//                     <div className="pharmacy-status">
+//                       <span></span>
+//                       Location available
+//                     </div>
 
-                  </div>
+//                   </div>
 
 
-                  {/* NAME */}
+//                   {/* NAME */}
 
-                  <h3>
-                    {pharmacy.name}
-                  </h3>
+//                   <h3>
+//                     {pharmacy.name}
+//                   </h3>
 
 
-                  <div className="pharmacy-city">
+//                   <div className="pharmacy-city">
 
-                    <EnvironmentOutlined />
+//                     <EnvironmentOutlined />
 
-                    <span>
-                      {pharmacy.city}
-                    </span>
+//                     <span>
+//                       {pharmacy.city}
+//                     </span>
 
-                  </div>
+//                   </div>
 
 
-                  {/* DETAILS */}
+//                   {/* DETAILS */}
 
-                  <div className="pharmacy-details">
+//                   <div className="pharmacy-details">
 
-                    <div className="detail-row">
+//                     <div className="detail-row">
 
-                      <EnvironmentOutlined />
+//                       <EnvironmentOutlined />
 
-                      <span>
-                        {pharmacy.address}
-                      </span>
+//                       <span>
+//                         {pharmacy.address}
+//                       </span>
 
-                    </div>
+//                     </div>
 
 
-                    <div className="detail-row">
+//                     <div className="detail-row">
 
-                      <PhoneOutlined />
+//                       <PhoneOutlined />
 
-                      <span>
-                        {pharmacy.phone ||
-                          "Phone not available"}
-                      </span>
+//                       <span>
+//                         {pharmacy.phone ||
+//                           "Phone not available"}
+//                       </span>
 
-                    </div>
+//                     </div>
 
 
-                    <div className="detail-row">
+//                     <div className="detail-row">
 
-                      <ClockCircleOutlined />
+//                       <ClockCircleOutlined />
 
-                      <span>
-                        {pharmacy.openingHours ||
-                          "Opening hours not available"}
-                      </span>
+//                       <span>
+//                         {pharmacy.openingHours ||
+//                           "Opening hours not available"}
+//                       </span>
 
-                    </div>
+//                     </div>
 
 
-                    <div className="detail-row">
+//                     <div className="detail-row">
 
-                      <span className="pincode-label">
-                        PIN
-                      </span>
+//                       <span className="pincode-label">
+//                         PIN
+//                       </span>
 
-                      <span>
-                        {pharmacy.pincode ||
-                          "Not available"}
-                      </span>
+//                       <span>
+//                         {pharmacy.pincode ||
+//                           "Not available"}
+//                       </span>
 
-                    </div>
+//                     </div>
 
-                  </div>
+//                   </div>
 
 
-                  {/* ACTION */}
+//                   {/* ACTION */}
 
-                  <Button
-                    type="primary"
-                    icon={
-                      <EnvironmentOutlined />
-                    }
-                    onClick={() =>
-                      showOnMap(pharmacy)
-                    }
-                    block
-                    className="view-map-button"
-                  >
-                    View on Map
-                  </Button>
+//                   <Button
+//                     type="primary"
+//                     icon={
+//                       <EnvironmentOutlined />
+//                     }
+//                     onClick={() =>
+//                       showOnMap(pharmacy)
+//                     }
+//                     block
+//                     className="view-map-button"
+//                   >
+//                     View on Map
+//                   </Button>
 
-                </div>
+//                 </div>
 
-              )
-            )}
+//               )
+//             )}
 
-          </div>
+//           </div>
 
-        )}
+//         )}
 
-      </section>
+//       </section>
 
 
-      {/* =====================================
-          BOTTOM NOTE
-      ===================================== */}
+//       {/* =====================================
+//           BOTTOM NOTE
+//       ===================================== */}
 
-      <section className="pharmacy-note">
+//       <section className="pharmacy-note">
 
-        <div className="pharmacy-note-icon">
-          <EnvironmentOutlined />
-        </div>
+//         <div className="pharmacy-note-icon">
+//           <EnvironmentOutlined />
+//         </div>
 
-        <div>
+//         <div>
 
-          <h3>
-            Need help finding a pharmacy?
-          </h3>
+//           <h3>
+//             Need help finding a pharmacy?
+//           </h3>
 
-          <p>
-            Search using a city name or pincode
-            to quickly find available pharmacy
-            locations in the MedMatch network.
-          </p>
+//           <p>
+//             Search using a city name or pincode
+//             to quickly find available pharmacy
+//             locations in the MedMatch network.
+//           </p>
 
-        </div>
+//         </div>
 
-      </section>
+//       </section>
 
-    </div>
-  );
-}
+//     </div>
+//   );
+// }
 
-export default PharmacyLocator;
+// export default PharmacyLocator;
